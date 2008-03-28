@@ -1,0 +1,75 @@
+
+=head1 NAME
+
+pxe-kexec - Read PXE configuration file and kexec entries
+
+
+=head1 SYNOPSIS
+
+pxe-kexec [options] <tftp_server>
+
+
+=head1 DESCRIPTION
+
+B<pxe-kexec> is a tool that fetches PXE configuration from a TFTP server,
+reads that PXE configuration file, prompts the user for an boot entry,
+downloads the specified kernel and initrd and finally executes the both using
+B<kexec>.
+
+It's meant to be used in an environment where pre-defined PXE configurations
+exist but the user wants to use B<kexec> instead of rebooting.
+
+Normally, the I<tftp_server> must be specified as first argument. If there's
+no TFTP server specified, B<pxe-kexec> looks in the DHCP info file for the DHCP
+server and uses this one as TFTP server. This only works when the TFTP server
+is running on the same machine as the DHCP server.
+
+=head1 OPTIONS
+
+Following options can be specified:
+
+=over 7
+
+=item B<-h> | B<--help>
+
+Prints a short help.
+
+=item B<-v> | B<--version>
+
+Prints the version number to standard output.
+
+=item B<-i> | B<--interface> I<netif>
+
+Uses I<netif> instead of the first (non-loopback and up) interface that is
+found. Example: "eth5".
+
+=item B<-n> | B<--noconfirm>
+
+Don't ask the user for confirmation before booting an entry. Use that option
+with care!
+
+=item B<-D> | B<--debug>
+
+Enable debugging output. That's good for finding (and fixing!) bugs.
+
+=item B<-d> | B<--nodelete>
+
+Keep downloaded files.
+
+=back
+
+
+=head1 AUTHOR
+
+The B<pxe-kexec> program and documentation has been written by Bernhard Walle
+E<lt>bwalle@suse.deE<gt>.
+
+=head1 SEE ALSO
+
+kexec(8)
+
+
+
+=cut
+
+# vim: set spelllang=en_gb spell fdm=marker tw=78:

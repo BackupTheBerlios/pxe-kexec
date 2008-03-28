@@ -1,0 +1,14 @@
+pxe-kexec
+---------
+
+pxe-kexec reads a PXE Linux configuration file (kernel, initrd, command line)
+and uses kexec to boot an entry. It is meant to be a simple-to-use alternative
+to use kexec in an environment where pre-defined PXE configuration files exist,
+to safe some typing time.
+
+Read more information in the manpage, and remember to have fun!
+
+Author: 	Bernhard Walle <bwalle@suse.de>
+License: 	GPL v2 and later
+Bugs:		https://bugzilla.novell.com
+URL:		http://www.suse.de/~bwalle/pxe-kexec/

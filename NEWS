@@ -1,0 +1,14 @@
+0.1.2
+-----
+  - add 'nodelete' option
+  - implement completion for entries
+
+0.1.1
+-----
+  - implemented reading of the DHCP server (and use it for guessing the
+    TFTP server) from the /var/lib/dhcpcd/dhcpcd-<if>.info file
+  - add manpage
+
+0.1.0
+-----
+  - first release
