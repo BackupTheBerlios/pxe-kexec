@@ -115,7 +115,7 @@ void SimpleNotifier::finished()
 
 /* -------------------------------------------------------------------------- */
 PxeKexec::PxeKexec()
-    : m_noconfirm(false), m_nodelete(false)
+    : m_noconfirm(false), m_nodelete(false), m_protocol("tftp")
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
@@ -138,6 +138,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     op.addOption(Option("interface", 'i', OT_STRING, "Use the specified network interface"));
     op.addOption(Option("noconfirm", 'n', OT_FLAG, "Don't confirm the execution"));
     op.addOption(Option("nodelete", 'd', OT_FLAG, "Dont't delete the downloaded files"));
+    op.addOption(Option("ftp", 'F', OT_FLAG, "Use FTP instead of TFTP"));
 
     // do the parsing
     bool ret = op.parse(argc, argv);
@@ -157,6 +158,8 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_nodelete = true;
     if (op.getValue("interface").getType() != OT_INVALID)
         m_networkInterface = op.getValue("interface").getString();
+    if (op.getValue("ftp").getType() != OT_INVALID)
+        m_protocol = "ftp";
 
     vector<string> args = op.getArgs();
     if (args.size() > 1)
@@ -209,7 +212,7 @@ void PxeKexec::readPxeConfig()
     stringstream ss;
     SimpleNotifier notifier;
     for (int i = 0; i < 10; i++) {
-        string url = "tftp://" + m_pxeHost + "/pxelinux.cfg/" + names[i];
+        string url = m_protocol + "://" + m_pxeHost + "/pxelinux.cfg/" + names[i];
 
         Debug::debug()->trace("Trying to retrieve %s", url.c_str());
         cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
@@ -349,7 +352,7 @@ void PxeKexec::downloadStuff()
         cout << "Downloading kernel ";
         ofstream os(kernel.c_str(), ios::binary);
         Downloader dl(os);
-        url = "tftp://" + m_pxeHost + "/" + m_choice.getKernel();
+        url = m_protocol + "://" + m_pxeHost + "/" + m_choice.getKernel();
         dl.setUrl(url);
         dl.setProgress(&notifier);
         dl.download();
@@ -365,7 +368,7 @@ void PxeKexec::downloadStuff()
             cout << "Downloading initrd ";
             ofstream os(initrd.c_str(), ios::binary);
             Downloader dl(os);
-            url = "tftp://" + m_pxeHost + "/" + m_choice.getInitrd();
+            url = m_protocol + "://" + m_pxeHost + "/" + m_choice.getInitrd();
             dl.setUrl(url);
             dl.setProgress(&notifier);
             dl.download();

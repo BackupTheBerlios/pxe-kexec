@@ -56,6 +56,12 @@ Enable debugging output. That's good for finding (and fixing!) bugs.
 
 Keep downloaded files.
 
+=item B<-F> | B<--ftp>
+
+Always use FTP instead of TFTP. Useful for servers that share TFTP root and
+FTP root. (Passive) FTP has the advantage that it passes firewalls better
+than TFTP.
+
 =back
 
 
