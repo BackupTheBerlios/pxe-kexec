@@ -20,10 +20,6 @@
 #include <cstring>
 #include <cstdlib>
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
 #ifdef HAVE_LIBREADLINE
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -32,6 +28,7 @@
 #include "global.h"
 #include "io.h"
 #include "stringutil.h"
+#include "config.h"
 
 using std::string;
 using std::getline;

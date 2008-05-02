@@ -37,10 +37,7 @@
 #include "pxeparser.h"
 #include "io.h"
 #include "kexec.h"
-
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#include "config.h"
 
 using std::strcpy;
 using std::time;
