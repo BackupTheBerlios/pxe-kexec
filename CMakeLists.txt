@@ -15,6 +15,13 @@ configure_file(
 include_directories("${PROJECT_BINARY_DIR}")
 
 #
+# Directories
+#
+
+set(MANDIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE
+        STRING "Place where the manual page is installed.")
+
+#
 # Libraries
 #
 
