@@ -6,11 +6,7 @@ PROJECT(pxe-kexec CXX)
 
 set (PACKAGE_STRING "pxe-kexec")
 set (PACKAGE_VERSION "0.1.2")
-
-configure_file(
-    "${PROJECT_SOURCE_DIR}/config.h.in"
-    "${PROJECT_BINARY_DIR}/config.h"
-)
+set (HAVE_LIBREADLINE 0)
 
 include_directories("${PROJECT_BINARY_DIR}")
 
@@ -36,10 +32,15 @@ find_library(READLINE_LIBRARY readline
 mark_as_advanced(READLINE_LIBRARY)
 
 if (READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
-    link_directories( ${READLINE_LIBRARY} ${CURL_LIBRARIES} )
-    include_directories( ${READLINE_INCLUDE_DIR} ${CURL_INCLUDE_DIRS} )
+    include_directories( ${READLINE_INCLUDE_DIR} )
     set (EXTRA_LIBS ${EXTRA_LIBS} ${READLINE_LIBRARY})
+    set (HAVE_LIBREADLINE 1)
 endif (READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
+
+find_package(Curses REQUIRED)
+set (EXTRA_LIBS ${EXTRA_LIBS} ${CURSES_LIBRARIES})
+include_directories( ${CURSES_INCLUDE_DIR} )
+
 
 # CURL
 
@@ -47,6 +48,15 @@ set (CMAKE_LIBRARY_PATH /usr/lib64 ${CMAKE_LIBRARY_PATH})
 find_package(CURL REQUIRED)
 set (EXTRA_LIBS ${EXTRA_LIBS} ${CURL_LIBRARIES})
 include_directories(${CURL_INCLUDE_DIRS})
+
+#
+# Configure file
+#
+
+configure_file(
+    "${PROJECT_SOURCE_DIR}/config.h.in"
+    "${PROJECT_BINARY_DIR}/config.h"
+)
 
 
 #

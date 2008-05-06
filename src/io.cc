@@ -20,6 +20,8 @@
 #include <cstring>
 #include <cstdlib>
 
+#include "config.h"
+
 #ifdef HAVE_LIBREADLINE
 # include <readline/readline.h>
 # include <readline/history.h>
