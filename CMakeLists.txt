@@ -5,7 +5,7 @@ PROJECT(pxe-kexec CXX)
 #
 
 set (PACKAGE_STRING "pxe-kexec")
-set (PACKAGE_VERSION "0.1.2")
+set (PACKAGE_VERSION "0.1.3")
 set (HAVE_LIBREADLINE 0)
 
 include_directories("${PROJECT_BINARY_DIR}")
