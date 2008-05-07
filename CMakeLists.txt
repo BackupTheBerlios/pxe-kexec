@@ -21,6 +21,8 @@ set(MANDIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE
 # Libraries
 #
 
+set (CMAKE_LIBRARY_PATH /usr/lib64 ${CMAKE_LIBRARY_PATH})
+
 # Readline
 
 find_path(READLINE_INCLUDE_DIR readline/readline.h
@@ -44,7 +46,6 @@ include_directories( ${CURSES_INCLUDE_DIR} )
 
 # CURL
 
-set (CMAKE_LIBRARY_PATH /usr/lib64 ${CMAKE_LIBRARY_PATH})
 find_package(CURL REQUIRED)
 set (EXTRA_LIBS ${EXTRA_LIBS} ${CURL_LIBRARIES})
 include_directories(${CURL_INCLUDE_DIRS})
