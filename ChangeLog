@@ -1,3 +1,9 @@
+2008-05-07  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* Don't abort the program when a wrong input is encountered
+	  in the question that asks the user if he really wants to load
+	  the kernel or edit the commandline. Instead, just re-ask.
+
 2008-05-03  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* switch to cmake
