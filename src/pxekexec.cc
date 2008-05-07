@@ -310,6 +310,7 @@ begin:
         return true;
 
     cout << "Continue? [Y/n/e] ";
+again:
     cout.flush();
 
     string ret;
@@ -323,7 +324,19 @@ begin:
         goto begin;
     }
 
-    return rpmatch(ret.c_str()) == 1;
+    switch (rpmatch(ret.c_str())) {
+        case '0': /* no */
+            return false;
+
+        case '1': /* yes */
+            return true;
+
+        default: /* invalid */
+            cout << "Invalid input. Try again [Y/n/e] ";
+            goto again;
+    }
+
+    return false;
 }
 
 /* -------------------------------------------------------------------------- */
