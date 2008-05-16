@@ -4,6 +4,7 @@ PROJECT(pxe-kexec CXX)
 # Configuration
 #
 
+cmake_minimum_required(VERSION 2.4)
 set (PACKAGE_STRING "pxe-kexec")
 set (PACKAGE_VERSION "0.1.4")
 set (HAVE_LIBREADLINE 0)
