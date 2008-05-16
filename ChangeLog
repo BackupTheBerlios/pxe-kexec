@@ -1,3 +1,7 @@
+2008-05-16  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* Fix rpmatch() return code checking.
+
 2008-05-07  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* Don't abort the program when a wrong input is encountered
