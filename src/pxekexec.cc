@@ -325,10 +325,10 @@ again:
     }
 
     switch (rpmatch(ret.c_str())) {
-        case '0': /* no */
+        case 0: /* no */
             return false;
 
-        case '1': /* yes */
+        case 1: /* yes */
             return true;
 
         default: /* invalid */
