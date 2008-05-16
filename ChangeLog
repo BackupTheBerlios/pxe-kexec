@@ -1,6 +1,8 @@
 2008-05-16  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* Fix rpmatch() return code checking.
+	* Implement --dry-run.
+	* Change virtual terminal before kexec when executed from xterm or ssh.
 
 2008-05-07  Bernhard Walle <bernhard.walle@gmx.de>
 

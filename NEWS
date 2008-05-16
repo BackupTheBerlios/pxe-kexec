@@ -1,6 +1,8 @@
 0.1.4
 -----
   - Fix rpmatch() return code checking.
+  - Implement --dry-run.
+  - Change virtual terminal before kexec when executed from xterm or ssh.
 
 0.1.3
 -----
