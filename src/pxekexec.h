@@ -57,6 +57,7 @@ class PxeKexec : public Completor {
         bool        m_nodelete;
         std::string m_protocol;
         LineReader  *m_lineReader;
+        bool        m_dryRun;
 };
 
 

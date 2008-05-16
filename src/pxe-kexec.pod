@@ -48,6 +48,10 @@ found. Example: "eth5".
 Don't ask the user for confirmation before booting an entry. Use that option
 with care!
 
+=item B<-Y> | B<--dry-run>
+
+Don't run the final kexec -e.
+
 =item B<-D> | B<--debug>
 
 Enable debugging output. That's good for finding (and fixing!) bugs.

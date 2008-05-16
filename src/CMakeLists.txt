@@ -9,6 +9,7 @@ add_executable(pxe-kexec
         stringutil.cc
         io.cc
         networkhelper.cc
+	console.cc
         pxekexec.cc)
 target_link_libraries(pxe-kexec ${EXTRA_LIBS})
 

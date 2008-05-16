@@ -15,11 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <string>
+#include <iostream>
 
 #include "kexec.h"
 #include "process.h"
+#include "console.h"
+#include "global.h"
 
 using std::string;
+using std::cerr;
+using std::endl;
 
 /* -------------------------------------------------------------------------- */
 void Kexec::setKernel(const string &filename)
@@ -80,11 +85,26 @@ bool Kexec::load()
 bool Kexec::execute()
 {
     Process p("kexec");
-    
+
     p.addArg("-e");
 
     // only returns when != 0 ...
     return p.execute() == 0;
 }
 
+/* -------------------------------------------------------------------------- */
+bool Kexec::prepareConsole()
+{
+    try {
+        if (!Console::isRealTerminal())
+            Console::changeVirtualTerminal(1, true);
+    } catch (const ApplicationError &e) {
+        cerr << "Failed to change virtual terminal: " << e.what() << endl;
+        return false;
+    }
+
+    return true;
+}
+
 // vim: set sw=4 ts=4 fdm=marker et:
+// :mode=c++:

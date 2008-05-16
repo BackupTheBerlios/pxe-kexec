@@ -112,7 +112,7 @@ void SimpleNotifier::finished()
 
 /* -------------------------------------------------------------------------- */
 PxeKexec::PxeKexec()
-    : m_noconfirm(false), m_nodelete(false), m_protocol("tftp")
+    : m_noconfirm(false), m_nodelete(false), m_protocol("tftp"), m_dryRun(false)
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
@@ -136,6 +136,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     op.addOption(Option("noconfirm", 'n', OT_FLAG, "Don't confirm the execution"));
     op.addOption(Option("nodelete", 'd', OT_FLAG, "Dont't delete the downloaded files"));
     op.addOption(Option("ftp", 'F', OT_FLAG, "Use FTP instead of TFTP"));
+    op.addOption(Option("dry-run", 'Y', OT_FLAG, "Don't run the final kexec -e"));
 
     // do the parsing
     bool ret = op.parse(argc, argv);
@@ -157,13 +158,15 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_networkInterface = op.getValue("interface").getString();
     if (op.getValue("ftp").getType() != OT_INVALID)
         m_protocol = "ftp";
+    if (op.getValue("dry-run").getType() != OT_INVALID)
+        m_dryRun = true;
 
     vector<string> args = op.getArgs();
     if (args.size() > 1)
         throw ApplicationError("Too many arguments.");
     if (args.size() == 1)
         m_pxeHost = args[0];
-    
+
     return true;
 }
 
@@ -279,7 +282,7 @@ bool PxeKexec::chooseEntry()
 }
 
 /* -------------------------------------------------------------------------- */
-StringVector PxeKexec::complete(const string &text, const string &full_text, 
+StringVector PxeKexec::complete(const string &text, const string &full_text,
         size_t start_idx, ssize_t end_idx)
 {
     StringVector names = m_pxeConfig.getEntryNames();
@@ -367,7 +370,7 @@ void PxeKexec::downloadStuff()
         dl.setProgress(&notifier);
         dl.download();
         os.close();
-        m_downloadedKernel = kernel;  
+        m_downloadedKernel = kernel;
     } catch (const DownloadError &err) {
         throw ApplicationError("Downloading kernel "+ url
                 +" failed: " + string(err.what()));
@@ -432,10 +435,14 @@ void PxeKexec::execute()
     if (!loaded)
         throw ApplicationError("Loading kernel failed.");
 
+    /* try to change VT */
+    ke.prepareConsole();
+
+    if (m_dryRun)
+        return;
+
     if (!ke.execute())
         throw ApplicationError("Executing kernel failed");
 }
-
-
 
 // vim: set sw=4 ts=4 fdm=marker et:

@@ -14,33 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KEXEC_H
-#define KEXEC_H
+#ifndef CONSOLE_H
+#define CONSOLE_H
 
-class Kexec {
+class Console {
 
     public:
-        void setKernel(const std::string &filename);
-        std::string getKernel() const;
+        static bool isRealTerminal();
+        static void changeVirtualTerminal(int newTerminal, bool wait = true);
 
-        void setInitrd(const std::string &filename);
-        std::string getInitrd() const;
-
-        void setAppend(const std::string &filename);
-        void addAppend(const std::string &filename);
-        std::string getAppend() const;
-
-        bool load();
-        bool prepareConsole();
-        bool execute();
-
-    private:
-        std::string m_kernel;
-        std::string m_initrd;
-        std::string m_append;
+    protected:
+        static int openConsoleFd();
+        static bool isAConsole(int fd);
 };
 
-
-#endif /* KEXEC_H */
+#endif /* CONSOLE_H */
 
 // vim: set sw=4 ts=4 fdm=marker et:
