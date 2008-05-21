@@ -145,7 +145,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
 
     // evaluate options
     if (op.getValue("help").getFlag()) {
-        op.printHelp(cerr, PACKAGE_STRING);
+        op.printHelp(cerr, PACKAGE_STRING " " PACKAGE_VERSION);
         return false;
     }
     if (op.getValue("debug").getFlag())

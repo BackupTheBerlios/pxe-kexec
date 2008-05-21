@@ -1,3 +1,7 @@
+2008-05-21  Bernhard Walle <bernhard.walle@gmx.de>
+
+    * add version to '--help' output
+
 2008-05-16  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* Fix rpmatch() return code checking.
