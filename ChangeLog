@@ -1,3 +1,7 @@
+2008-24-05  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* improve error handling when the connection to the given host fails
+
 2008-05-21  Bernhard Walle <bernhard.walle@gmx.de>
 
     * add version to '--help' output
