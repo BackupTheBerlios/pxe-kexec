@@ -67,7 +67,7 @@ int Downloader::curl_progress_callback(void *clientp, double dltotal, double
 
 
 /* -------------------------------------------------------------------------- */
-Downloader::Downloader(ostream &output) throw (DownloadError)
+Downloader::Downloader(ostream &output, long timeout) throw (DownloadError)
     : m_notifier(NULL), m_output(output)
 {
     CURLcode err;
@@ -86,6 +86,18 @@ Downloader::Downloader(ostream &output) throw (DownloadError)
     err = curl_easy_setopt(m_curl, CURLOPT_ERRORBUFFER, m_curl_errorstring);
     if (err != CURLE_OK)
         throw DownloadError("CURLOPT_ERRORBUFFER failed");
+
+    // timeout
+    if (timeout != 0) {
+        err = curl_easy_setopt(m_curl, CURLOPT_TIMEOUT, 5);
+        if (err != CURLE_OK)
+            throw DownloadError("CURLOPT_TIMEOUT failed");
+
+        // disable signals
+        err = curl_easy_setopt(m_curl, CURLOPT_NOSIGNAL, 1);
+        if (err != CURLE_OK)
+            throw DownloadError("CURLOPT_NOSIGNAL failed");
+    }
 
     // write function
     err = curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION,
@@ -160,8 +172,16 @@ void Downloader::download() throw (DownloadError)
     err = curl_easy_perform(m_curl);
     if (m_notifier)
         m_notifier->finished();
-    if (err != CURLE_OK)
-        throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+
+    if (err != CURLE_OK) {
+        DownloadError error(string("CURL error: ") + m_curl_errorstring);
+
+        // timeout
+        if (err == CURLE_COULDNT_CONNECT)
+            error.setErrorcode(DownloadError::DEC_CONNECTION_FAILED);
+
+        throw error;
+    }
 }
 
 

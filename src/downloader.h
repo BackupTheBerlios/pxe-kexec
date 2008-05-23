@@ -29,8 +29,20 @@
 
 class DownloadError : public std::runtime_error {
     public:
+        enum DownloadErrorCode {
+            DEC_UNKNOWN,                    // don't know an exact reason, default
+            DEC_CONNECTION_FAILED           // connection failed in CURL, maybe timeout
+        };
+
+    public:
         DownloadError(const std::string& string)
-            : std::runtime_error(string) {}
+            : std::runtime_error(string), m_errorcode(DEC_UNKNOWN) {}
+
+        void setErrorcode(DownloadErrorCode error) { m_errorcode = error; }
+        DownloadErrorCode getErrorcode() const     { return m_errorcode;  }
+
+    private:
+        DownloadErrorCode m_errorcode;
 };
 
 /* ProgressNotifier {{{1 */
@@ -49,7 +61,7 @@ class ProgressNotifier {
 
 class Downloader {
     public:
-        Downloader(std::ostream &output) throw (DownloadError);
+        Downloader(std::ostream &output, long timeout = 0) throw (DownloadError);
         virtual ~Downloader();
 
     public:
@@ -58,6 +70,8 @@ class Downloader {
 
         void setProgress(ProgressNotifier *notifier);
         void download() throw (DownloadError);
+
+        bool hasTimedOut() const;
 
     protected:
         static int curl_progress_callback(void *clientp, double dltotal,

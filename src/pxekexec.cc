@@ -67,6 +67,7 @@ class SimpleNotifier : public ProgressNotifier {
         struct timeval m_lastDot;
 };
 
+#define CONNECTION_TIMEOUT 10
 
 /* SimpleNotifier implementation {{{1 */
 
@@ -218,13 +219,28 @@ void PxeKexec::readPxeConfig()
         cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
 
         try {
-            Downloader dl(ss);
+            Downloader dl(ss, CONNECTION_TIMEOUT);
             dl.setUrl(url);
             dl.setProgress(&notifier);
             dl.download();
             break;
         } catch (const DownloadError &err) {
             Debug::debug()->trace("DownloadError: %s", err.what());
+
+            if (err.getErrorcode() == DownloadError::DEC_CONNECTION_FAILED) {
+                cerr << "Connection to " << m_pxeHost << " with protocol " << m_protocol
+                     << " failed. Aborting." << endl;
+                if (m_protocol == "tftp") {
+                    cerr << endl;
+                    cerr << "HINT: This failure could be because of Firewall settings. "
+                            "Check your Firewall " << endl;
+                    cerr << "configuration. If your FTP server has the same directory layout "
+                         << "as your TFTP" << endl;
+                    cerr << "server, you may also consider the '-F' option." << endl;
+                    cerr << endl;
+                }
+                break;
+            }
         }
     }
 
