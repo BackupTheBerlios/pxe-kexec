@@ -71,8 +71,6 @@ class Downloader {
         void setProgress(ProgressNotifier *notifier);
         void download() throw (DownloadError);
 
-        bool hasTimedOut() const;
-
     protected:
         static int curl_progress_callback(void *clientp, double dltotal,
                 double dlnow, double ultotal, double ulnow);
