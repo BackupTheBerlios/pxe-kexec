@@ -1,3 +1,10 @@
+0.1.5
+-----
+  - implement "--quiet" option
+  - implement direct booting of label as 2nd argument without user invocation
+  - improve manpage
+  - improve error handling when the connection to the given host fails
+
 0.1.4
 -----
   - Fix rpmatch() return code checking.
