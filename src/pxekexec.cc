@@ -113,7 +113,8 @@ void SimpleNotifier::finished()
 
 /* -------------------------------------------------------------------------- */
 PxeKexec::PxeKexec()
-    : m_noconfirm(false), m_nodelete(false), m_protocol("tftp"), m_dryRun(false)
+    : m_noconfirm(false), m_nodelete(false), m_quiet(false),
+      m_protocol("tftp"), m_dryRun(false)
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
@@ -135,6 +136,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     op.addOption(Option("help", 'h', OT_FLAG, "Shows this help output"));
     op.addOption(Option("interface", 'i', OT_STRING, "Use the specified network interface"));
     op.addOption(Option("noconfirm", 'n', OT_FLAG, "Don't confirm the execution"));
+    op.addOption(Option("quiet", 'q', OT_FLAG, "Don't display PXE messages"));
     op.addOption(Option("nodelete", 'd', OT_FLAG, "Dont't delete the downloaded files"));
     op.addOption(Option("ftp", 'F', OT_FLAG, "Use FTP instead of TFTP"));
     op.addOption(Option("dry-run", 'Y', OT_FLAG, "Don't run the final kexec -e"));
@@ -161,6 +163,8 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_protocol = "ftp";
     if (op.getValue("dry-run").getType() != OT_INVALID)
         m_dryRun = true;
+    if (op.getValue("quiet").getType() != OT_INVALID)
+        m_quiet = true;
 
     vector<string> args = op.getArgs();
     if (args.size() > 1)
@@ -201,7 +205,7 @@ void PxeKexec::readPxeConfig()
         m_pxeHost = netif.getDHCPServerIP();
     if (m_pxeHost.size() == 0)
         throw ApplicationError("No TFTP server specified and also no "
-                "DHCP server in the DHCP info file (/var/lib/dhcpcd/dhcpcd-<if>.info).");
+                "DHCP server in the DHCP info file\n(/var/lib/dhcpcd/dhcpcd-<if>.info).");
 
     char names[10][25];
 
@@ -216,12 +220,14 @@ void PxeKexec::readPxeConfig()
         string url = m_protocol + "://" + m_pxeHost + "/pxelinux.cfg/" + names[i];
 
         Debug::debug()->trace("Trying to retrieve %s", url.c_str());
-        cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
+        if (!m_quiet)
+            cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
 
         try {
             Downloader dl(ss, CONNECTION_TIMEOUT);
             dl.setUrl(url);
-            dl.setProgress(&notifier);
+            if (!m_quiet)
+                dl.setProgress(&notifier);
             dl.download();
             break;
         } catch (const DownloadError &err) {
@@ -272,8 +278,10 @@ bool PxeKexec::checkEnv()
 /* -------------------------------------------------------------------------- */
 void PxeKexec::displayMessage()
 {
-    cout << "\e[2J\e[0;0H";
-    cout << m_pxeConfig.getMessage() << endl << endl << endl;
+    if (!m_quiet) {
+        cout << "\e[2J\e[0;0H";
+        cout << m_pxeConfig.getMessage() << endl << endl << endl;
+    }
 }
 
 /* -------------------------------------------------------------------------- */

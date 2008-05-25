@@ -52,6 +52,11 @@ with care!
 
 Don't run the final kexec -e.
 
+=item B<-q> | B<--quiet>
+
+Dont' display the PXE messages that are added in the PXE configuration with
+the I<say> keyword.
+
 =item B<-D> | B<--debug>
 
 Enable debugging output. That's good for finding (and fixing!) bugs.
@@ -72,7 +77,14 @@ than TFTP.
 =head1 AUTHOR
 
 The B<pxe-kexec> program and documentation has been written by Bernhard Walle
-E<lt>bwalle@suse.deE<gt>.
+E<lt>L<bwalle@suse.de>E<gt>.
+
+=head1 BUGS
+
+This program has no bugs. If you find a feature that should be removed,
+please report to L<https://bugzilla.novell.com> and assign directly
+to E<lt>L<bwalle@novell.com>E<gt> or via email at E<lt>L<bwalle@suse.de>E<gt>
+if you don't want to create an account.
 
 =head1 SEE ALSO
 

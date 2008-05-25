@@ -55,6 +55,7 @@ class PxeKexec : public Completor {
         std::string m_downloadedInitrd;
         bool        m_noconfirm;
         bool        m_nodelete;
+        bool        m_quiet;
         std::string m_protocol;
         LineReader  *m_lineReader;
         bool        m_dryRun;
