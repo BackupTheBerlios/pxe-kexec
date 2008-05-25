@@ -167,10 +167,14 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_quiet = true;
 
     vector<string> args = op.getArgs();
-    if (args.size() > 1)
+    if (args.size() > 2)
         throw ApplicationError("Too many arguments.");
-    if (args.size() == 1)
+    if ((args.size() == 1 || args.size() == 2) && args[0] != "-")
         m_pxeHost = args[0];
+    if (args.size() == 2) {
+        m_preChoice = args[1];
+        m_quiet = true;
+    }
 
     return true;
 }
@@ -289,6 +293,9 @@ bool PxeKexec::chooseEntry()
 {
     string choice;
 
+    if (m_preChoice.size() != 0)
+        m_choice = m_pxeConfig.getEntry(m_preChoice);
+
     m_lineReader->setCompletor(this);
     while (!m_lineReader->eof() && !m_choice.isValid()) {
         choice = m_lineReader->readLine();
@@ -327,11 +334,13 @@ StringVector PxeKexec::complete(const string &text, const string &full_text,
 bool PxeKexec::confirmBoot()
 {
 begin:
-    cout << "Booting following entry:" << endl;
-    cout << "Kernel   : " << m_choice.getKernel() << endl;
-    cout << "Initrd   : " << m_choice.getInitrd() << endl;
-    cout << "Append   : " << m_choice.getAppend() << endl;
-    cout << endl;
+    if (!(m_noconfirm && m_quiet)) {
+        cout << "Booting following entry:" << endl;
+        cout << "Kernel   : " << m_choice.getKernel() << endl;
+        cout << "Initrd   : " << m_choice.getInitrd() << endl;
+        cout << "Append   : " << m_choice.getAppend() << endl;
+        cout << endl;
+    }
 
     if (m_noconfirm)
         return true;
@@ -352,15 +361,15 @@ again:
     }
 
     switch (rpmatch(ret.c_str())) {
-        case 0: /* no */
-            return false;
+    case 0: /* no */
+        return false;
 
-        case 1: /* yes */
-            return true;
+    case 1: /* yes */
+        return true;
 
-        default: /* invalid */
-            cout << "Invalid input. Try again [Y/n/e] ";
-            goto again;
+    default: /* invalid */
+        cout << "Invalid input. Try again [Y/n/e] ";
+        goto again;
     }
 
     return false;

@@ -6,7 +6,7 @@ pxe-kexec - Read PXE configuration file and kexec entries
 
 =head1 SYNOPSIS
 
-pxe-kexec [options] <tftp_server>
+pxe-kexec [options] [I<tftp_server> [I<label>]]
 
 
 =head1 DESCRIPTION
@@ -20,9 +20,13 @@ It's meant to be used in an environment where pre-defined PXE configurations
 exist but the user wants to use B<kexec> instead of rebooting.
 
 Normally, the I<tftp_server> must be specified as first argument. If there's
-no TFTP server specified, B<pxe-kexec> looks in the DHCP info file for the DHCP
-server and uses this one as TFTP server. This only works when the TFTP server
-is running on the same machine as the DHCP server.
+no TFTP server specified, B<pxe-kexec> looks in the DHCP info file for the
+DHCP server and uses this one as TFTP server. This only works when the TFTP
+server is running on the same machine as the DHCP server.
+
+If you already know which I<label> you want to boot, you can specify it as the
+second argument. You can specify I<-> as I<tftp_server> if you want to use the
+default behaviour but also boot a I<label> directly.
 
 =head1 OPTIONS
 
@@ -54,8 +58,9 @@ Don't run the final kexec -e.
 
 =item B<-q> | B<--quiet>
 
-Dont' display the PXE messages that are added in the PXE configuration with
-the I<say> keyword.
+Don't display the PXE messages that are added in the PXE configuration with
+the I<say> keyword. Also don't display messages which PXE configuration files
+the downloader tries to fetch.
 
 =item B<-D> | B<--debug>
 
@@ -73,6 +78,32 @@ than TFTP.
 
 =back
 
+=head1   EXAMPLES
+
+=over 7
+
+=item B<pxe-kexec I<mydhcp.mydomain.com>>
+
+Try to fetch the PXE configuration from I<mydhcp.mydomain.com>, display
+the I<say> messages from that configuration, prompt for an entry, letting
+the user confirm that entry and finally boot that entry via kexec(8).
+
+=item B<pxe-kexec -n I<mydhcp.mydomain.com>>
+
+Same as the previous example, but omit the final confirmation step.
+
+=item B<pxe-kexec I<mydhcp.mydomain.com> I<SLES10-install-auto>>
+
+Same as the first example, but don't prompt the user for the label to boot.
+Directly boot the I<SLES10-install-auto> label, but letting the user confirm
+that he really wants to boot this!
+
+=item B<pxe-kexec -n I<mydhcp.mydomain.com> I<SLES10-install-auto>>
+
+Same as the previous example, but without confirmation.
+
+
+=back
 
 =head1 AUTHOR
 
