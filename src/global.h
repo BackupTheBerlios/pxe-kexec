@@ -20,12 +20,13 @@
 #include <vector>
 #include <stdexcept>
 
-/* typedefs {{{1 */
+/* typedefs {{{ */
 
 typedef std::vector<unsigned char> ByteVector;
 typedef std::vector<std::string> StringVector;
 
-/* ParseError {{{1 */
+/* }}} */
+/* ParseError {{{ */
 
 class ParseError : public std::runtime_error {
     public:
@@ -33,7 +34,8 @@ class ParseError : public std::runtime_error {
             : std::runtime_error(string) {}
 };
 
-/* ApplicationError {{{1 */
+/* }}} */
+/* ApplicationError {{{ */
 
 class ApplicationError : public std::runtime_error {
     public:
@@ -41,7 +43,8 @@ class ApplicationError : public std::runtime_error {
             : std::runtime_error(string) {}
 };
 
-/* IOError {{{1 */
+/* }}} */
+/* IOError {{{ */
 
 class IOError : public std::runtime_error {
     public:
@@ -49,7 +52,7 @@ class IOError : public std::runtime_error {
             : std::runtime_error(string) {}
 };
 
-
+/* }}} */
 
 #endif /* GLOBAL_H */
 

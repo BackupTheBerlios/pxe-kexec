@@ -20,7 +20,7 @@
 #include <cstdio>
 #include <cstdarg>
 
-/* Debugging {{{1 */
+/* Debugging {{{ */
 
 class Debug {
     public:
@@ -60,6 +60,7 @@ class Debug {
         FILE *m_handle;
 };
 
+/* }}} */
 
 #endif /* DEBUG_H */
 

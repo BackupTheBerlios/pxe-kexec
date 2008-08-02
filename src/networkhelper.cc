@@ -39,7 +39,7 @@ using std::bind2nd;
 using std::ptr_fun;
 using std::ifstream;
 
-/* NetworkInterface {{{1 */
+/* NetworkInterface {{{ */
 
 /* -------------------------------------------------------------------------- */
 NetworkInterface::NetworkInterface()
@@ -292,6 +292,6 @@ void NetworkHelper::detectDHCPServers()
     }
 }
 
-
+/* }}} */
 
 // vim: set sw=4 ts=4 fdm=marker et:

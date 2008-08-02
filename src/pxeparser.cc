@@ -29,7 +29,7 @@ using std::ptr_fun;
 using std::find_if;
 using std::istream;
 
-/* PxeEntry {{{1 */
+/* PxeEntry {{{ */
 
 /* -------------------------------------------------------------------------- */
 PxeEntry::PxeEntry()
@@ -99,7 +99,8 @@ void PxeEntry::setAppend(const std::string &append)
     m_initrdParsed = false;
 }
 
-/* PxeConfig {{{1 */
+/* }}} */
+/* PxeConfig {{{ */
 
 /* -------------------------------------------------------------------------- */
 string PxeConfig::getMessage() const
@@ -166,7 +167,8 @@ PxeEntry PxeConfig::getEntry(const string &label) const
     return it != m_entries.end() ? *it : PxeEntry();
 }
 
-/* PxeParser {{{1 */
+/* }}} */
+/* PxeParser {{{ */
 
 /* -------------------------------------------------------------------------- */
 PxeParser::PxeParser()
@@ -254,6 +256,8 @@ PxeConfig PxeParser::getConfig() const
 {
     return m_config;
 }
+
+/* }}} */
 
 // vim: set sw=4 ts=4 fdm=marker et:
 

@@ -22,7 +22,7 @@
 
 #include "global.h"
 
-/* NetworkInterface {{{1 */
+/* NetworkInterface {{{ */
 
 class NetworkInterface {
 
@@ -72,7 +72,8 @@ class NetworkInterface {
         int m_ip;
 };
 
-/* NetworkHelper {{{1 */
+/* }}} */
+/* NetworkHelper {{{ */
 
 class NetworkHelper {
 
@@ -94,6 +95,8 @@ class NetworkHelper {
         bool m_ifDiscovered;
         std::vector<NetworkInterface> m_interfaces;
 };
+
+/* }}} */
 
 
 #endif /* NETWORKHELPER_H */

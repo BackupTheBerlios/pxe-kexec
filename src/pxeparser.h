@@ -23,7 +23,7 @@
 
 #include "global.h"
 
-/* PxeEntry {{{1 */
+/* PxeEntry {{{ */
 
 class PxeEntry {
     public:
@@ -52,7 +52,8 @@ class PxeEntry {
         bool m_initrdParsed;
 };
 
-/* PxeConfig {{{1 */
+/* }}} */
+/* PxeConfig {{{ */
 
 class PxeConfig {
     public:
@@ -77,7 +78,8 @@ class PxeConfig {
         std::vector<PxeEntry> m_entries;
 };
 
-/* PxeParser {{{1 */
+/* }}} */
+/* PxeParser {{{ */
 
 class PxeParser {
     public:
@@ -102,6 +104,8 @@ class PxeParser {
         PxeEntry m_currentEntry;
         ParserState m_state;
 };
+
+/* }}} */
 
 #endif /* PXEPARSER_H */
 

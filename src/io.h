@@ -19,7 +19,7 @@
 
 #include "global.h"
 
-/* Interface for completors {{{1 */
+/* Interface for completors {{{ */
 class Completor {
     public:
         virtual ~Completor() {}
@@ -29,7 +29,9 @@ class Completor {
                 const std::string &full_text, size_t start_idx, ssize_t end_idx) = 0;
 };
 
-/* Interface for a linereader {{{1 */
+/* }}} */
+/* Interface for a linereader {{{ */
+
 class LineReader {
     public:
         virtual ~LineReader() {}
@@ -82,6 +84,8 @@ class AbstractLineReader : public LineReader {
         std::string m_prompt;
         bool m_eof;
 };
+
+/* }}} */
 
 #endif /* IO_H */
 

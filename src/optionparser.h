@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-/* OptionType {{{1 */
+/* OptionType {{{ */
 
 enum OptionType {
     OT_INVALID,
@@ -31,7 +31,8 @@ enum OptionType {
     OT_FLAG
 };
 
-/* OptionValue {{{1 */
+/* }}} */
+/* OptionValue {{{ */
 
 class OptionValue {
     public:
@@ -57,7 +58,8 @@ class OptionValue {
         bool            m_flag;
 };
 
-/* Option {{{1 */
+/* }}} */
+/* Option {{{ */
 
 class Option {
     public:
@@ -94,7 +96,8 @@ class Option {
         OptionValue m_value;
 };
 
-/* OptionParser {{{1 */
+/* }}} */
+/* OptionParser {{{ */
 
 class OptionParser {
     public:
@@ -115,6 +118,8 @@ class OptionParser {
         std::vector<Option> m_options;
         std::vector<std::string> m_args;
 };
+
+/* }}} */
 
 #endif /* OPTIONPARSER_H */
 

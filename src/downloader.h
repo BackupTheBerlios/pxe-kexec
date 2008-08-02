@@ -25,7 +25,7 @@
 
 #include "global.h"
 
-/* DownloadError {{{1 */
+/* DownloadError {{{ */
 
 class DownloadError : public std::runtime_error {
     public:
@@ -45,7 +45,8 @@ class DownloadError : public std::runtime_error {
         DownloadErrorCode m_errorcode;
 };
 
-/* ProgressNotifier {{{1 */
+/* }}} */
+/* ProgressNotifier {{{ */
 
 class ProgressNotifier {
     public:
@@ -56,8 +57,8 @@ class ProgressNotifier {
         virtual void finished() = 0;
 };
 
-
-/* Downloader {{{1 */
+/* }}} */
+/* Downloader {{{ */
 
 class Downloader {
     public:
@@ -86,6 +87,7 @@ class Downloader {
         static bool       m_firstCalled;
 };
 
+/* }}} */
 
 #endif /* DOWNLOADER_H */
 

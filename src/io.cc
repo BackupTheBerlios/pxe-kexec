@@ -40,7 +40,7 @@ using std::endl;
 using std::strerror;
 using std::free;
 
-/* class definitions {{{1 */
+/* class definitions {{{ */
 
 #ifdef HAVE_LIBREADLINE
 class ReadlineLineReader : public AbstractLineReader {
@@ -73,7 +73,8 @@ class SimpleLineReader : public AbstractLineReader {
         string readLine(const char *prompt = NULL);
 };
 
-/* LineReader {{{1 */
+/* }}} */
+/* LineReader {{{ */
 
 /* -------------------------------------------------------------------------- */
 LineReader *LineReader::defaultLineReader(const string &prompt)
@@ -85,7 +86,8 @@ LineReader *LineReader::defaultLineReader(const string &prompt)
 #endif
 }
 
-/* AbstractLineReader {{{1 */
+/* }}} */
+/* AbstractLineReader {{{ */
 
 /* -------------------------------------------------------------------------- */
 AbstractLineReader::AbstractLineReader(const string &prompt)
@@ -148,7 +150,8 @@ bool AbstractLineReader::haveCompletion() const
 void AbstractLineReader::setCompletor(Completor *comp)
 {}
 
-/* SimpleLineReader {{{1 */
+/* }}} */
+/* SimpleLineReader {{{ */
 
 /* -------------------------------------------------------------------------- */
 SimpleLineReader::SimpleLineReader(const string &prompt)
@@ -295,6 +298,8 @@ void ReadlineLineReader::setCompletor(Completor *comp)
     else
         rl_attempted_completion_function = NULL;
 }
+
+/* }}} */
 
 #endif
 
