@@ -19,6 +19,7 @@
 #include <cerrno>
 #include <cstring>
 #include <cstdlib>
+#include <algorithm>
 
 #include "config.h"
 
@@ -39,6 +40,7 @@ using std::cout;
 using std::endl;
 using std::strerror;
 using std::free;
+using std::min;
 
 /* class definitions {{{ */
 
@@ -191,8 +193,22 @@ char **readline_line_reader_complete(const char *text, int start, int end)
     if (completions.size() == 0)
         return NULL;
 
-    if (completions.size() > 1)
-        completions.insert(completions.begin(), text);
+    // the first entry is the string which replaces text, so it must be
+    // the largest string which is common to each entry in completions
+    string replacement = completions[0];
+    for (StringVector::const_iterator it = completions.begin();
+            it != completions.end(); ++it) {
+        size_t len = min(it->size(), replacement.size());
+        for (int mismatch = 0; mismatch < len; ++mismatch) {
+            if ((*it)[mismatch] != replacement[mismatch]) {
+                replacement = replacement.substr(0, mismatch);
+                break;
+            }
+        }
+    }
+
+    completions.insert(completions.begin(), replacement);
+
     return stringvector_to_array(completions);
 }
 
