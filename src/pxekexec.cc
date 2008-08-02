@@ -51,7 +51,7 @@ using std::string;
 using std::stringstream;
 using std::ofstream;
 
-/* SimpleNotifier definition {{{1 */
+/* SimpleNotifier definition {{{ */
 
 class SimpleNotifier : public ProgressNotifier {
 
@@ -69,6 +69,7 @@ class SimpleNotifier : public ProgressNotifier {
 
 #define CONNECTION_TIMEOUT 10
 
+/* }}} */
 /* SimpleNotifier implementation {{{1 */
 
 /* -------------------------------------------------------------------------- */
@@ -108,8 +109,8 @@ void SimpleNotifier::finished()
     cout << endl;
 }
 
-
-/* PxeKexec {{{1 */
+/* }}} */
+/* PxeKexec {{{ */
 
 /* -------------------------------------------------------------------------- */
 PxeKexec::PxeKexec()
@@ -477,5 +478,7 @@ void PxeKexec::execute()
     if (!ke.execute())
         throw ApplicationError("Executing kernel failed");
 }
+
+/* }}} */
 
 // vim: set sw=4 ts=4 fdm=marker et:
