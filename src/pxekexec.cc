@@ -38,6 +38,7 @@
 #include "io.h"
 #include "kexec.h"
 #include "config.h"
+#include "stringutil.h"
 
 using std::strcpy;
 using std::time;
@@ -299,7 +300,7 @@ bool PxeKexec::chooseEntry()
 
     m_lineReader->setCompletor(this);
     while (!m_lineReader->eof() && !m_choice.isValid()) {
-        choice = m_lineReader->readLine();
+        choice = strip(m_lineReader->readLine());
         if (choice.size() == 0 || choice == "quit" || choice == "exit") {
             m_lineReader->setCompletor(NULL);
             return false;
