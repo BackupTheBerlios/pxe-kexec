@@ -12,6 +12,11 @@ set (HAVE_LIBREADLINE 0)
 include_directories("${PROJECT_BINARY_DIR}")
 
 #
+# Executable
+#
+FIND_PROGRAM(POD2MAN_EXECUTABLE pod2man)
+
+#
 # Directories
 #
 
