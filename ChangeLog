@@ -1,3 +1,8 @@
+2008-08-02  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* fix tab completion
+    * strip trailing spaces in prompt
+
 2008-25-05  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* implement "--quiet" option
