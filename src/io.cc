@@ -172,7 +172,8 @@ string SimpleLineReader::readLine(const char *prompt)
     return ret;
 }
 
-/* ReadlineLineReader {{{1 */
+/* }}} */
+/* ReadlineLineReader {{{ */
 
 #ifdef HAVE_LIBREADLINE
 
