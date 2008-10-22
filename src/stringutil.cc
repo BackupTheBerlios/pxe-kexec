@@ -38,6 +38,28 @@ string strip(string a)
 }
 
 /* -------------------------------------------------------------------------- */
+string stripl(string a)
+{
+    if (a.length() == 0)
+        return a;
+
+    a.erase(0, a.find_first_not_of("\n \t", 0));
+
+    return a;
+}
+
+/* -------------------------------------------------------------------------- */
+string stripr(string a)
+{
+    if (a.length() == 0)
+        return a;
+
+    a.erase(a.find_last_not_of("\n \t")+1);
+
+    return a;
+}
+
+/* -------------------------------------------------------------------------- */
 bool startsWith(const string &str, const string &start)
 {
     size_t len = start.size();

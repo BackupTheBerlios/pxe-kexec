@@ -189,7 +189,10 @@ void PxeParser::feedLine(string line)
         case PS_GLOBAL:
             // parse "say"
             if (startsWith(line, "say ")) {
-                m_config.addMessage(strip(getRest(line, "say")));
+                printf("line=%s=\n", line.c_str());
+                printf("rest=%s=\n", getRest(line, "say").c_str());
+                printf("strip=%s\n", stripr(getRest(line, "say")).c_str());
+                m_config.addMessage(stripr(getRest(line, "say")));
                 return;
             }
 

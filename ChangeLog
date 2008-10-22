@@ -1,3 +1,7 @@
+2008-10-22  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* Don't trip start of message (say) lines.
+
 2008-08-02  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* fix tab completion

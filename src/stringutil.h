@@ -21,6 +21,8 @@
 #include <vector>
 
 std::string strip(std::string a);
+std::string stripr(std::string a);
+std::string stripl(std::string a);
 bool startsWith(const std::string &str, const std::string &start);
 std::string getRest(const std::string &str, const std::string &prefix);
 char **stringvector_to_array(const std::vector<std::string> &vec);

@@ -1,3 +1,7 @@
+0.1.7
+-----
+  - Don't trip start of message (say) lines.
+
 0.1.6
 -----
   - fix tab completion
