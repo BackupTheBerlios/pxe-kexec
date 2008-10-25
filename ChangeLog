@@ -1,3 +1,8 @@
+2008-10-25  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* Don't ignore lines where the keyword "say" or "label" is followed
+      by a tab instead of a space.
+
 2008-10-22  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* Don't trip start of message (say) lines.

@@ -1,3 +1,8 @@
+0.1.8
+-----
+  - Don't ignore lines where the keyword "say" or "label" is followed by a tab
+    instead of a space.
+
 0.1.7
 -----
   - Don't trip start of message (say) lines.

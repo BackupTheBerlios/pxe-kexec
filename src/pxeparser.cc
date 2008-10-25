@@ -188,13 +188,13 @@ void PxeParser::feedLine(string line)
     switch (m_state) {
         case PS_GLOBAL:
             // parse "say"
-            if (startsWith(line, "say ")) {
+            if (startsWith(line, "say ") || startsWith(line, "say\t")) {
                 m_config.addMessage(stripr(getRest(line, "say")));
                 return;
             }
 
             // parse "label"
-            if (startsWith(line, "label ")) {
+            if (startsWith(line, "label ") || startsWith(line, "label\t")) {
                 m_currentEntry = PxeEntry(strip(getRest(line, "label")));
                 m_state = PS_ENTRY;
                 return;
