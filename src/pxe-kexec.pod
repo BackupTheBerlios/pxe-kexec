@@ -108,13 +108,12 @@ Same as the previous example, but without confirmation.
 =head1 AUTHOR
 
 The B<pxe-kexec> program and documentation has been written by Bernhard Walle
-E<lt>L<bwalle@suse.de>E<gt>.
+E<lt>L<bernhard.walle@gmx.de>E<gt>.
 
 =head1 BUGS
 
 This program has no bugs. If you find a feature that should be removed,
-please report to L<https://bugzilla.novell.com> and assign directly
-to E<lt>L<bwalle@novell.com>E<gt> or via email at E<lt>L<bwalle@suse.de>E<gt>
+please report to E<lt>L<bernhard.walle@gmx.de>E<gt>
 if you don't want to create an account.
 
 =head1 SEE ALSO

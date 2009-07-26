@@ -8,7 +8,6 @@ to safe some typing time.
 
 Read more information in the manpage, and remember to have fun!
 
-Author: 	Bernhard Walle <bwalle@suse.de>
+Author: 	Bernhard Walle <bernhard.walle@gmx.de>
 License: 	GPL v2 and later
-Bugs:		https://bugzilla.novell.com
-URL:		http://www.suse.de/~bwalle/pxe-kexec/
+URL:		http://pxe-kexec.berlios.de/
