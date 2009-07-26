@@ -39,6 +39,7 @@
 #include "kexec.h"
 #include "config.h"
 #include "stringutil.h"
+#include "process.h"
 
 using std::strcpy;
 using std::time;
@@ -272,8 +273,7 @@ void PxeKexec::readPxeConfig()
 /* -------------------------------------------------------------------------- */
 bool PxeKexec::checkEnv()
 {
-    int ret = system("kexec -h &>/dev/null");
-    if (WEXITSTATUS(ret) != 0) {
+    if (!Process::isInPath("kexec")) {
         cout << "Error: kexec-tools are not installed." << endl;
         return false;
     }

@@ -3,6 +3,7 @@
 	* Parse the keywords case-insensitive (e.g. accept also 'SAY', not only
 	  'say').
 	* Add also the last entry to the list of entries.
+	* Don't clutter the screen when testing for the existence of 'kexec'.
 
 2008-10-25  Bernhard Walle <bernhard.walle@gmx.de>
 
