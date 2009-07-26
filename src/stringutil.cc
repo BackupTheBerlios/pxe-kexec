@@ -97,4 +97,25 @@ char **stringvector_to_array(const StringVector &vec)
     return ret;
 }
 
+/* -------------------------------------------------------------------------- */
+vector<string> stringsplit(const string &str, const string &pattern)
+{
+    vector<string> retval;
+    string s = str;
+
+    int pos;
+    while ((pos = s.find(pattern)) != string::npos) {
+        string item = s.substr(0, pos);
+        retval.push_back(item);
+
+        s = s.substr(pos + pattern.length());
+    }
+
+    if (s != "") {
+        retval.push_back(s);
+    }
+
+    return retval;
+}
+
 // vim: set sw=4 ts=4 fdm=marker et:

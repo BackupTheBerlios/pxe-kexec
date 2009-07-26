@@ -26,7 +26,7 @@ std::string stripl(std::string a);
 bool startsWith(const std::string &str, const std::string &start, bool casesensitive = true);
 std::string getRest(const std::string &str, const std::string &prefix);
 char **stringvector_to_array(const std::vector<std::string> &vec);
-
+std::vector<std::string> stringsplit(const std::string &str, const std::string &pattern);
 
 #endif /* STRINGUTIL_H */
 
