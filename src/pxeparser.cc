@@ -246,6 +246,8 @@ void PxeParser::parseStream(istream &stream)
 
     while (getline(stream, line))
         feedLine(line);
+
+    finishParsing();
 }
 
 /* -------------------------------------------------------------------------- */

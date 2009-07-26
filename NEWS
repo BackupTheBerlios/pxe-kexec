@@ -4,6 +4,7 @@
     instead of a space.
   - Parse the keywords case-insensitive (e.g. accept also 'SAY', not only
     'say').
+  - Add also the last entry to the list of entries.
 
 
 0.1.7
