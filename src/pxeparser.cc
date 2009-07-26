@@ -181,20 +181,24 @@ void PxeParser::feedLine(string line)
 {
     line = strip(line);
 
-    // skip comments
-    if (line[0] == '#')
+    // skip comments and empty lines
+    if (line.size() == 0 || line[0] == '#')
         return;
+
+    Debug::debug()->dbg("Line: %s (label:%d)\n", line.c_str(), startsWith(line, "label ", false) );
 
     switch (m_state) {
         case PS_GLOBAL:
             // parse "say"
-            if (startsWith(line, "say ") || startsWith(line, "say\t")) {
+            if (startsWith(line, "say ", false) ||
+                    startsWith(line, "say\t", false)) {
                 m_config.addMessage(stripr(getRest(line, "say")));
                 return;
             }
 
             // parse "label"
-            if (startsWith(line, "label ") || startsWith(line, "label\t")) {
+            if (startsWith(line, "label ", false) ||
+                    startsWith(line, "label\t", false)) {
                 m_currentEntry = PxeEntry(strip(getRest(line, "label")));
                 m_state = PS_ENTRY;
                 return;
@@ -204,7 +208,7 @@ void PxeParser::feedLine(string line)
 
         case PS_ENTRY:
             // parse "label"
-            if (startsWith(line, "label ")) {
+            if (startsWith(line, "label ", false)) {
                 Debug::debug()->trace("Adding entry with label=%s, "
                         "kernel=%s, initrd=%s, append=%s",
                         m_currentEntry.getLabel().c_str(),
@@ -219,13 +223,13 @@ void PxeParser::feedLine(string line)
             }
 
             // parse "kernel"
-            if (startsWith(line, "kernel ")) {
+            if (startsWith(line, "kernel ", false)) {
                 m_currentEntry.setKernel(strip(getRest(line, "kernel")));
                 return;
             }
 
             // parse "append"
-            if (startsWith(line, "append ")) {
+            if (startsWith(line, "append ", false)) {
                 m_currentEntry.setAppend(strip(getRest(line, "append")));
                 return;
             }
