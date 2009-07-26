@@ -60,10 +60,18 @@ string stripr(string a)
 }
 
 /* -------------------------------------------------------------------------- */
-bool startsWith(const string &str, const string &start)
+bool startsWith(const string &str, const string &start, bool casesensitive)
 {
     size_t len = start.size();
-    return (str.size() > len) && str.substr(0, len) == start;
+    if (str.size() < len) {
+        return false;
+    }
+
+    if (casesensitive) {
+        return str.substr(0, len) == start;
+    } else {
+        return strcasecmp(str.substr(0, len).c_str(), start.c_str()) == 0;
+    }
 }
 
 /* -------------------------------------------------------------------------- */
