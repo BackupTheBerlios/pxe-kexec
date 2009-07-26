@@ -1,3 +1,8 @@
+2009-07-26  Bernhard Walle <bernhard.walle@gmx.de>
+
+	* Parse the keywords case-insensitive (e.g. accept also 'SAY', not only
+	  'say').
+
 2008-10-25  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* Don't ignore lines where the keyword "say" or "label" is followed

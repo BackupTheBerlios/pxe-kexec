@@ -2,6 +2,9 @@
 -----
   - Don't ignore lines where the keyword "say" or "label" is followed by a tab
     instead of a space.
+  - Parse the keywords case-insensitive (e.g. accept also 'SAY', not only
+    'say').
+
 
 0.1.7
 -----
