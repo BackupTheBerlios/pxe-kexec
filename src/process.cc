@@ -22,14 +22,41 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 #include "process.h"
 #include "debug.h"
+#include "stringutil.h"
 
 using std::string;
 using std::exit;
 using std::vector;
 using std::stringstream;
+
+/* -------------------------------------------------------------------------- */
+bool Process::isInPath(const string &program)
+{
+    const char *path = getenv("PATH");
+    if (!path) {
+        return false;
+    }
+
+    vector<string> paths = stringsplit(path, ":");
+    for (vector<string>::const_iterator it = paths.begin();
+            it != paths.end(); ++it) {
+        string current_path = *it;
+        string binary = current_path + "/" + program;
+
+        Debug::debug()->dbg("Checking for program '%s'\n", binary.c_str());
+
+        // check if executable
+        if (access(binary.c_str(), X_OK)) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 /* -------------------------------------------------------------------------- */
 Process::Process(const string &name)

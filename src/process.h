@@ -23,6 +23,9 @@
 class Process {
 
     public:
+        static bool isInPath(const std::string &program);
+
+    public:
         Process(const std::string &name);
         virtual ~Process() { }
 
