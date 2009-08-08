@@ -8,7 +8,7 @@
 2008-10-25  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* Don't ignore lines where the keyword "say" or "label" is followed
-      by a tab instead of a space.
+	  by a tab instead of a space.
 
 2008-10-22  Bernhard Walle <bernhard.walle@gmx.de>
 
@@ -17,12 +17,12 @@
 2008-08-02  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* fix tab completion
-    * strip trailing spaces in prompt
+	* strip trailing spaces in prompt
 
 2008-25-05  Bernhard Walle <bernhard.walle@gmx.de>
 
 	* implement "--quiet" option
-    * implement direct booting of label as 2nd argument without user invocation
+	* implement direct booting of label as 2nd argument without user invocation
 
 2008-24-05  Bernhard Walle <bernhard.walle@gmx.de>
 
@@ -30,7 +30,7 @@
 
 2008-05-21  Bernhard Walle <bernhard.walle@gmx.de>
 
-    * add version to '--help' output
+	* add version to '--help' output
 
 2008-05-16  Bernhard Walle <bernhard.walle@gmx.de>
 
