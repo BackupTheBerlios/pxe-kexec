@@ -140,6 +140,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     OptionParser op;
     op.addOption(Option("debug", 'D', OT_FLAG, "Enable debugging output"));
     op.addOption(Option("help", 'h', OT_FLAG, "Shows this help output"));
+    op.addOption(Option("label", 'l', OT_STRING, "Boot the specified label without prompting"));
     op.addOption(Option("interface", 'i', OT_STRING, "Use the specified network interface"));
     op.addOption(Option("noconfirm", 'n', OT_FLAG, "Don't confirm the execution"));
     op.addOption(Option("quiet", 'q', OT_FLAG, "Don't display PXE messages"));
@@ -163,6 +164,10 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_noconfirm = true;
     if (op.getValue("nodelete").getFlag())
         m_nodelete = true;
+    if (op.getValue("label").getType() != OT_INVALID) {
+        m_preChoice = op.getValue("label").getString();
+        m_quiet = true;
+    }
     if (op.getValue("interface").getType() != OT_INVALID)
         m_networkInterface = op.getValue("interface").getString();
     if (op.getValue("ftp").getType() != OT_INVALID)
@@ -173,14 +178,10 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_quiet = true;
 
     vector<string> args = op.getArgs();
-    if (args.size() > 2)
+    if (args.size() > 1)
         throw ApplicationError("Too many arguments.");
-    if ((args.size() == 1 || args.size() == 2) && args[0] != "-")
+    if (args.size() == 1)
         m_pxeHost = args[0];
-    if (args.size() == 2) {
-        m_preChoice = args[1];
-        m_quiet = true;
-    }
 
     return true;
 }

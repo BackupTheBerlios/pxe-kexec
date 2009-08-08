@@ -6,7 +6,7 @@ pxe-kexec - Read PXE configuration file and kexec entries
 
 =head1 SYNOPSIS
 
-pxe-kexec [options] [I<tftp_server> [I<label>]]
+pxe-kexec [options] [I<tftp_server>]
 
 
 =head1 DESCRIPTION
@@ -24,9 +24,6 @@ no TFTP server specified, B<pxe-kexec> looks in the DHCP info file for the
 DHCP server and uses this one as TFTP server. This only works when the TFTP
 server is running on the same machine as the DHCP server.
 
-If you already know which I<label> you want to boot, you can specify it as the
-second argument. You can specify I<-> as I<tftp_server> if you want to use the
-default behaviour but also boot a I<label> directly.
 
 =head1 OPTIONS
 
@@ -41,6 +38,11 @@ Prints a short help.
 =item B<-v> | B<--version>
 
 Prints the version number to standard output.
+
+=item B<-l> I<label> | B<--label> I<label>
+
+Specifies the label that should be booted. Use that option if you already know
+which I<label> you want to boot. This option implies B<--quiet>.
 
 =item B<-i> | B<--interface> I<netif>
 
