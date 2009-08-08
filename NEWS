@@ -6,7 +6,7 @@
     'say').
   - Add also the last entry to the list of entries.
   - Don't clutter the screen when testing for the existence of 'kexec'.
-
+  - Specify the default label with '-l <label>' instead of an argument.
 
 0.1.7
 -----
