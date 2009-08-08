@@ -116,8 +116,11 @@ void SimpleNotifier::finished()
 
 /* -------------------------------------------------------------------------- */
 PxeKexec::PxeKexec()
-    : m_noconfirm(false), m_nodelete(false), m_quiet(false),
-      m_protocol("tftp"), m_dryRun(false)
+    : m_noconfirm(false)
+    , m_nodelete(false)
+    , m_quiet(false)
+    , m_protocol("tftp")
+    , m_dryRun(false)
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
