@@ -33,12 +33,15 @@ using std::istream;
 
 /* -------------------------------------------------------------------------- */
 PxeEntry::PxeEntry()
-    : m_valid(false), m_initrdParsed(false)
+    : m_valid(false)
+    , m_initrdParsed(false)
 {}
 
 /* -------------------------------------------------------------------------- */
 PxeEntry::PxeEntry(const std::string &label)
-    : m_valid(true), m_label(label), m_initrdParsed(false)
+    : m_valid(true)
+    , m_label(label)
+    , m_initrdParsed(false)
 {}
 
 /* -------------------------------------------------------------------------- */
