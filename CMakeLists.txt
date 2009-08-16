@@ -85,4 +85,14 @@ SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${PACKAGE_STRING}-${PACKAGE_VERSION}")
 SET(CPACK_SOURCE_IGNORE_FILES "${CPACK_SOURCE_IGNORE_FILES};/.git;build")
 INCLUDE(CPack)
 
+#
+# Documentation
+#
+
+
+ADD_CUSTOM_TARGET(apidoc
+    doxygen
+    WORKING_DIRECTORY ${pxe-kexec_SOURCE_DIR}
+)
+
 # vim: set sw=4 ts=4 et:
