@@ -14,6 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @file main.cc
+ * @brief Entry-point
+ *
+ * Defines the entry point of the application.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
+
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -33,7 +43,14 @@ using std::cerr;
 using std::runtime_error;
 using std::vector;
 
-/* -------------------------------------------------------------------------- */
+/**
+ * @brief The entry point of the application.
+ *
+ * This is the main() function.
+ *
+ * @param[in] argc the argument number
+ * @param[in] argv the arguments to the program
+ */
 int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");

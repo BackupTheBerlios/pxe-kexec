@@ -55,14 +55,40 @@ using std::ofstream;
 
 /* SimpleNotifier definition {{{ */
 
+/**
+ * @brief Simple notifier implementation
+ *
+ * Implements the ProgressNotifier interface, providing a simple progress
+ * bar on console.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
 class SimpleNotifier : public ProgressNotifier {
 
     public:
+        /**
+         * @brief Default Constructor
+         *
+         * Creates a new instance of SimpleNotifier.
+         */
         SimpleNotifier();
+
+        /**
+         * @brief Destructor
+         *
+         * Deletes a SimpleNotifier
+         */
         virtual ~SimpleNotifier() { }
 
     public:
+        /**
+         * @copydoc ProgressNotifier::progressed(double, double)
+         */
         int progressed(double total, double now);
+
+        /**
+         * @copydoc ProgressNotifier::finished()
+         */
         void finished();
 
     private:

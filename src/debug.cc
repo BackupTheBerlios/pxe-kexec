@@ -127,7 +127,7 @@ void Debug::msg(Debug::Level level, const char *msg, ...)
 }
 
 /* -------------------------------------------------------------------------- */
-void Debug::vmsg(Debug::Level level, const char *msg, va_list list)
+void Debug::vmsg(Debug::Level level, const char *msg, std::va_list args)
 {
     // if the global debug level is too small, then just do nothing
     if (level < m_debuglevel)
@@ -165,7 +165,7 @@ void Debug::vmsg(Debug::Level level, const char *msg, va_list list)
         newmsg[len] = '\0';
     }
 
-    vfprintf(m_handle, newmsg, list);
+    vfprintf(m_handle, newmsg, args);
 
     delete[] newmsg;
 }

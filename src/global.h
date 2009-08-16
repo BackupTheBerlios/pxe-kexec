@@ -17,19 +17,52 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+/**
+ * @file global.h
+ * @brief Global definitions
+ *
+ * This file contains everything that is global and didn't fit in another
+ * file.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
+
 #include <vector>
 #include <stdexcept>
 
 /* typedefs {{{ */
 
+/**
+ * @brief A simple byte vector.
+ */
 typedef std::vector<unsigned char> ByteVector;
+
+/**
+ * @brief A simple string vector.
+ */
 typedef std::vector<std::string> StringVector;
 
 /* }}} */
 /* ParseError {{{ */
 
+/**
+ * @brief Error when parsing a file
+ *
+ * This exception class is thrown when parsing failed. Use the
+ * std::runtime_error::what() method to retrieve the error message in your
+ * exception handler.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
 class ParseError : public std::runtime_error {
     public:
+        /**
+         * @brief Constructor
+         *
+         * Creates a new ParseError.
+         *
+         * @param[in] string the error string
+         */
         ParseError(const std::string& string)
             : std::runtime_error(string) {}
 };
@@ -37,8 +70,24 @@ class ParseError : public std::runtime_error {
 /* }}} */
 /* ApplicationError {{{ */
 
+/**
+ * @brief General application error
+ *
+ * This exception class is thrown as general application error. Use the
+ * std::runtime_error::what() method to retrieve the error message in your
+ * exception handler.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
 class ApplicationError : public std::runtime_error {
     public:
+        /**
+         * @brief Constructor
+         *
+         * Creates a new ApplicationError.
+         *
+         * @param[in] string the error string
+         */
         ApplicationError(const std::string& string)
             : std::runtime_error(string) {}
 };
@@ -46,8 +95,24 @@ class ApplicationError : public std::runtime_error {
 /* }}} */
 /* IOError {{{ */
 
+/**
+ * @brief Input/Output error
+ *
+ * This exception class is thrown when an Input/Output error occurred. Use the
+ * std::runtime_error::what() method to retrieve the error message in your
+ * exception handler.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
 class IOError : public std::runtime_error {
     public:
+        /**
+         * @brief Constructor
+         *
+         * Creates a new IOError.
+         *
+         * @param[in] string the error string
+         */
         IOError(const std::string& string)
             : std::runtime_error(string) {}
 };

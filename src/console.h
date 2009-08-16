@@ -17,14 +17,72 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
+/**
+ * @file console.h
+ * @brief Terminal abstractions
+ *
+ * Some static helper functions for dealing with virtual terminals on Linux.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
+
+/**
+ * @brief Terminal abstraction functions
+ *
+ * This class contains only static functions.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
 class Console {
 
     public:
+        /**
+         * @brief Checks if the current terminal is a VT
+         *
+         * Checks if the current terminal is a real Linux terminal of just a
+         * virtual terminal like a X Window terminal emulator (@c xterm).
+         *
+         * @return @c true if the current terminal is a real terminal, 
+         *         @c false otherwise
+         */
         static bool isRealTerminal();
+        
+        /**
+         * @brief Switch to another virtual console
+         *
+         * Switch to another virtual Linux console. This function does the
+         * same like when the user presses <tt>Alt-NUMBER</tt>.
+         *
+         * @param[in] newTerminal the number of the new terminal, starting
+         *            from @c 1
+         * @param[in] wait if set to @c true, then we wait until the switch is
+         *            done
+         */
         static void changeVirtualTerminal(int newTerminal, bool wait = true);
 
     protected:
+        /**
+         * @brief Opens the file descriptor of a console
+         *
+         * Tries to get a file descriptor from a real console. Tries that devices
+         * in that order:
+         *
+         *  - @c /dev/tty"
+         *  - @c /dev/tty0
+         *  - @c /dev/vc/0
+         *  - @c /dev/console
+         *
+         * @return the device descriptor of the console
+         */
         static int openConsoleFd();
+
+        /**
+         * @brief Checks if a given file descriptor is a console
+         *
+         * Checks if the given @p fd is a console.
+         *
+         * @return @c true if it's a console, @c  false otherwise
+         */
         static bool isAConsole(int fd);
 };
 

@@ -67,11 +67,29 @@ class ReadlineLineReader : public AbstractLineReader {
 };
 #endif
 
+/**
+ * @brief Simple line reader without history and completion
+ *
+ * This line reader implementation is simple: You cannot use the cursor keys, it has
+ * no history and also no completion.
+ *
+ * @author Bernhard Walle <bernhard.walle@gmx.de>
+ */
 class SimpleLineReader : public AbstractLineReader {
     public:
+        /**
+         * @brief Constructor
+         *
+         * Creates a new instance of a SimpleLineReader.
+         *
+         * @param[in] prompt the prompt of the line reader
+         */
         SimpleLineReader(const string &prompt);
 
     public:
+        /**
+         * @copydoc LineReader::readLine()
+         */
         string readLine(const char *prompt = NULL);
 };
 
