@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
 # include <readline/readline.h>
 # include <readline/history.h>
 #endif
@@ -44,7 +44,7 @@ using std::min;
 
 /* class definitions {{{ */
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
 class ReadlineLineReader : public AbstractLineReader {
     public:
         ReadlineLineReader(const string &prompt);
@@ -99,7 +99,7 @@ class SimpleLineReader : public AbstractLineReader {
 /* -------------------------------------------------------------------------- */
 LineReader *LineReader::defaultLineReader(const string &prompt)
 {
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
     return new ReadlineLineReader(prompt);
 #else
     return new SimpleLineReader(prompt);
@@ -195,7 +195,7 @@ string SimpleLineReader::readLine(const char *prompt)
 /* }}} */
 /* ReadlineLineReader {{{ */
 
-#ifdef HAVE_LIBREADLINE
+#if HAVE_LIBREADLINE
 
 /* completion stuff, not really object oriented :-( */
 
