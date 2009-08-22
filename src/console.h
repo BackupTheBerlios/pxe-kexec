@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
  *
  * Some static helper functions for dealing with virtual terminals on Linux.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 /**
@@ -31,7 +31,7 @@
  *
  * This class contains only static functions.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class Console {
 
@@ -42,11 +42,11 @@ class Console {
          * Checks if the current terminal is a real Linux terminal of just a
          * virtual terminal like a X Window terminal emulator (@c xterm).
          *
-         * @return @c true if the current terminal is a real terminal, 
+         * @return @c true if the current terminal is a real terminal,
          *         @c false otherwise
          */
         static bool isRealTerminal();
-        
+
         /**
          * @brief Switch to another virtual console
          *

@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *
  * Defines the entry point of the application.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <iostream>

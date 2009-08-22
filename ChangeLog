@@ -1,54 +1,54 @@
-2009-08-09  Bernhard Walle <bernhard.walle@gmx.de>
+2009-08-09  Bernhard Walle <bernhard@bwalle.de>
 
 	* Specify the default label with '-l <label>' instead of an argument.
 
-2009-07-26  Bernhard Walle <bernhard.walle@gmx.de>
+2009-07-26  Bernhard Walle <bernhard@bwalle.de>
 
 	* Parse the keywords case-insensitive (e.g. accept also 'SAY', not only
 	  'say').
 	* Add also the last entry to the list of entries.
 	* Don't clutter the screen when testing for the existence of 'kexec'.
 
-2008-10-25  Bernhard Walle <bernhard.walle@gmx.de>
+2008-10-25  Bernhard Walle <bernhard@bwalle.de>
 
 	* Don't ignore lines where the keyword "say" or "label" is followed
 	  by a tab instead of a space.
 
-2008-10-22  Bernhard Walle <bernhard.walle@gmx.de>
+2008-10-22  Bernhard Walle <bernhard@bwalle.de>
 
 	* Don't trip start of message (say) lines.
 
-2008-08-02  Bernhard Walle <bernhard.walle@gmx.de>
+2008-08-02  Bernhard Walle <bernhard@bwalle.de>
 
 	* fix tab completion
 	* strip trailing spaces in prompt
 
-2008-25-05  Bernhard Walle <bernhard.walle@gmx.de>
+2008-25-05  Bernhard Walle <bernhard@bwalle.de>
 
 	* implement "--quiet" option
 	* implement direct booting of label as 2nd argument without user invocation
 
-2008-24-05  Bernhard Walle <bernhard.walle@gmx.de>
+2008-24-05  Bernhard Walle <bernhard@bwalle.de>
 
 	* improve error handling when the connection to the given host fails
 
-2008-05-21  Bernhard Walle <bernhard.walle@gmx.de>
+2008-05-21  Bernhard Walle <bernhard@bwalle.de>
 
 	* add version to '--help' output
 
-2008-05-16  Bernhard Walle <bernhard.walle@gmx.de>
+2008-05-16  Bernhard Walle <bernhard@bwalle.de>
 
 	* Fix rpmatch() return code checking.
 	* Implement --dry-run.
 	* Change virtual terminal before kexec when executed from xterm or ssh.
 
-2008-05-07  Bernhard Walle <bernhard.walle@gmx.de>
+2008-05-07  Bernhard Walle <bernhard@bwalle.de>
 
 	* Don't abort the program when a wrong input is encountered
 	  in the question that asks the user if he really wants to load
 	  the kernel or edit the commandline. Instead, just re-ask.
 
-2008-05-03  Bernhard Walle <bernhard.walle@gmx.de>
+2008-05-03  Bernhard Walle <bernhard@bwalle.de>
 
 	* switch to cmake
 
@@ -62,7 +62,7 @@
 
 	* add manpage
 
-2008-01-19  Bernhard Walle <bernhard.walle@gmx.de>
+2008-01-19  Bernhard Walle <bernhard@bwalle.de>
 
 	* implemented reading of the DHCP server (and use it for guessing the
 	  TFTP server) from the /var/lib/dhcpcd/dhcpcd-<if>.info file

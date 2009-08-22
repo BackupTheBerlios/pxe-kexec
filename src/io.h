@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
  *
  * This file contains a shell-like command reader with completion.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include "global.h"
@@ -36,7 +36,7 @@
  * This class represents an interface that one must implement to get
  * auto-completion.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class Completor {
     public:
@@ -73,7 +73,7 @@ class Completor {
  * class that reads lines like a shell, including tab-complection. Completion
  * is optional.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class LineReader {
     public:
@@ -219,7 +219,7 @@ class LineReader {
  *
  * This is a abstract base class for line reader implementations.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class AbstractLineReader : public LineReader {
     public:

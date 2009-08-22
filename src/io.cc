@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ class ReadlineLineReader : public AbstractLineReader {
  * This line reader implementation is simple: You cannot use the cursor keys, it has
  * no history and also no completion.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class SimpleLineReader : public AbstractLineReader {
     public:

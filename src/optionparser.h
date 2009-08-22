@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
  * Python @c optparse package, but doesn't contain all functionality and also
  * needs a union type like OptionValue because C++ is not Python.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <list>
@@ -60,7 +60,7 @@ enum OptionType {
  * This is a union-type that represents the value of a option. It's used as
  * return value in OptionParser.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class OptionValue {
     public:
@@ -173,7 +173,7 @@ class OptionValue {
  * See the description of OptionParser to get an idea how to use an Option to
  * parse arguments.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class Option {
     public:
@@ -253,7 +253,7 @@ class Option {
          * @param[in] type the option type
          */
         void setType(OptionType type);
-        
+
         /**
          * @brief Return the option type
          *
@@ -274,7 +274,7 @@ class Option {
          * @param[in] description the option description
          */
         void setDescription(const std::string &description);
-        
+
         /**
          * @brief Returns the description
          *
@@ -381,7 +381,7 @@ class Option {
  * }
  * @endcode
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class OptionParser {
     public:
@@ -448,7 +448,7 @@ class OptionParser {
          *
          * For option @p name (this is the long name), returns the option
          * value argument. If the option value did not occur in the command
-         * line parsed with parse(), the option value with OptionType::OT_INVALID 
+         * line parsed with parse(), the option value with OptionType::OT_INVALID
          * is returned.
          *
          * @return the option value

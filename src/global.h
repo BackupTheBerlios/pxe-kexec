@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  * This file contains everything that is global and didn't fit in another
  * file.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <vector>
@@ -52,7 +52,7 @@ typedef std::vector<std::string> StringVector;
  * std::runtime_error::what() method to retrieve the error message in your
  * exception handler.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class ParseError : public std::runtime_error {
     public:
@@ -77,7 +77,7 @@ class ParseError : public std::runtime_error {
  * std::runtime_error::what() method to retrieve the error message in your
  * exception handler.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class ApplicationError : public std::runtime_error {
     public:
@@ -102,7 +102,7 @@ class ApplicationError : public std::runtime_error {
  * std::runtime_error::what() method to retrieve the error message in your
  * exception handler.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class IOError : public std::runtime_error {
     public:

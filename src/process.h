@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
  *
  * Defines a process that can be executed.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <string>
@@ -53,7 +53,7 @@
  * but the big advantage is that there's no shell involved, so we don't need any
  * quoting.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class Process {
 
@@ -61,7 +61,7 @@ class Process {
         /**
          * @brief Checks if a process is in path and executable
          *
-         * Checks if a process in in system's <tt>$PATH</tt> and if we are 
+         * Checks if a process in in system's <tt>$PATH</tt> and if we are
          * allowed to execute the process.
          *
          * @param[in] program the name of the process, e.g. @c ls
@@ -114,7 +114,7 @@ class Process {
          *
          * Executes the process with all arguments added with addArg().
          *
-         * @return the process status code, that means 0 on success and any 
+         * @return the process status code, that means 0 on success and any
          *         other value on failure. For readers familiar with Unix,
          *         we return only the @c WEXITSTATUS part of it.
          */

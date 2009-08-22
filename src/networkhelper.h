@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
  *
  * This file contains classes for network interface descriptions on Linux.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <string>
@@ -39,7 +39,7 @@
  * This class describes a Ethernet network interface. A network interface has
  * an IP address, a MAC address and a name (like @c eth0).
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class NetworkInterface {
 
@@ -74,7 +74,7 @@ class NetworkInterface {
          * Creates a new instance of NetworkInterface without a name.
          */
         NetworkInterface();
-        
+
         /**
          * @brief Constructor
          *
@@ -234,7 +234,7 @@ class NetworkInterface {
  * This object is responsible to getrieve NetworkInterface objects from system
  * information.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  * @bug only 30 network interfaces can currently be managed by a NetworkHelper
  */
 class NetworkHelper {
@@ -265,7 +265,7 @@ class NetworkHelper {
          */
         std::vector<NetworkInterface> getInterfaces()
             throw (ApplicationError);
-        
+
         /**
          * @brief Returns the NetworkInterface object for a specific interface
          *

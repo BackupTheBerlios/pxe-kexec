@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  * This file contains the main class which performs all tasks and is called
  * from main().
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <string>
@@ -39,7 +39,7 @@
  * This is the main class of the program. It contains all functions needed and
  * is called from main().
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class PxeKexec : public Completor {
 
@@ -50,7 +50,7 @@ class PxeKexec : public Completor {
          * Creates a new instance of PxeKexec().
          */
         PxeKexec();
-        
+
         /**
          * @brief Destructor
          *
@@ -84,7 +84,7 @@ class PxeKexec : public Completor {
          */
         void readPxeConfig()
             throw (ApplicationError);
-        
+
         /**
          * @brief Checks the environment
          *
@@ -106,7 +106,7 @@ class PxeKexec : public Completor {
          * @brief Displays a prompt and chooses the entry
          *
          * This method is used to choose the entry for the PXE boot. Normally
-         * it is called after displayMessage(), but it can also be called 
+         * it is called after displayMessage(), but it can also be called
          * after readPxeConfig().
          *
          * @return @c true if the user has chosen a valid entry, @c false

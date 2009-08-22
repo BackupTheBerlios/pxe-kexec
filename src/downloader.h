@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * supported protocol depends on the CURL version that is available on the
  * system.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <stdexcept>
@@ -45,7 +45,7 @@
  * exception is derived from std::runtime_error, so you can use the
  * std::runtime_error::what() method to determine the cause of the failure.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class DownloadError : public std::runtime_error {
     public:
@@ -103,12 +103,12 @@ class DownloadError : public std::runtime_error {
  * This is an interface that must be implemented in order to display the
  * progress of a download performed by Downloader to the user. The
  * implementation could be a simple status bar on console or update a GUI
- * progress bar. 
+ * progress bar.
  *
  * Please note that in multi-thread environments, the synchronisation must be
  * done by the implementation of ProgressNotifier.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class ProgressNotifier {
     public:
@@ -181,7 +181,7 @@ class ProgressNotifier {
  * @endcode
  *
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class Downloader {
     public:
@@ -236,7 +236,7 @@ class Downloader {
          *
          * Sets a progress notification object. See the documentation about
          * ProgressNotifier how to implement such a download progress
-         * notification properly. 
+         * notification properly.
          *
          * The memory where @p notifier points to is not managed by the
          * Downloader. That means that you have to delete @p notifier yourself
@@ -247,7 +247,7 @@ class Downloader {
          * @param[in] notifier a pointer to the progress notification object
          */
         void setProgress(ProgressNotifier *notifier);
-        
+
         /**
          * @brief Performs the download
          *

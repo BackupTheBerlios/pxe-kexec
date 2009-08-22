@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard.walle@gmx.de>
+ * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
  *
  * This file contains all classes related to PXE parsing.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 
 #include <string>
@@ -39,7 +39,7 @@
  *
  * This class represents an entry in a PXE configuration file.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class PxeEntry {
     public:
@@ -53,12 +53,12 @@ class PxeEntry {
         /**
          * @brief Constructor
          *
-         * Creates a new instance of a PxeEntry. 
+         * Creates a new instance of a PxeEntry.
          *
          * @param[in] label the label for the PXE entry
          */
         PxeEntry(const std::string &label);
-        
+
         /**
          * @brief Destructor
          *
@@ -153,7 +153,7 @@ class PxeEntry {
  * parameters like the message or the default entry. And it has a number of
  * PxeEntry entries.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class PxeConfig {
     public:
@@ -173,7 +173,7 @@ class PxeConfig {
          * @return the PXE message
          */
         std::string getMessage() const;
-        
+
         /**
          * @brief Adds a PXE string
          *
@@ -212,7 +212,7 @@ class PxeConfig {
          * @param[in] entry the entry to add
          */
         void addEntry(PxeEntry entry);
-        
+
         /**
          * @brief Returns a list of entries
          *
@@ -256,7 +256,7 @@ class PxeConfig {
  *
  * Parses a PXE configuration file.
  *
- * @author Bernhard Walle <bernhard.walle@gmx.de>
+ * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class PxeParser {
     public:
