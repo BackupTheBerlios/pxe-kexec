@@ -149,7 +149,8 @@ string NetworkInterface::getDHCPServerIP() const
     return m_dhcpServerIP;
 }
 
-/* NetworkHelper {{{1 */
+/* }}} */
+/* NetworkHelper {{{ */
 
 /* -------------------------------------------------------------------------- */
 NetworkHelper::NetworkHelper()

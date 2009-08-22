@@ -98,7 +98,7 @@ class SimpleNotifier : public ProgressNotifier {
 #define CONNECTION_TIMEOUT 10
 
 /* }}} */
-/* SimpleNotifier implementation {{{1 */
+/* SimpleNotifier implementation {{{ */
 
 /* -------------------------------------------------------------------------- */
 SimpleNotifier::SimpleNotifier()
