@@ -70,6 +70,31 @@ class Process {
          */
         static bool isInPath(const std::string &program);
 
+        /**
+         * @brief Globally enables the dry-run mode
+         *
+         * If that static method is called, every Process::execute()
+         * call does nothing besides printing a message what would be
+         * executed.
+         *
+         * This function is not directly thread-safe. You have to serialize
+         * all calls to Process::enableDryRunMode(),
+         * Process::disableDryRunMode() and Process::execute().
+         *
+         * Use Process::disableDryRunMode() to disable dry-run mode.
+         */
+        static void enableDryRunMode()
+        throw ();
+
+        /**
+         * @brief Globally disables the dry-run mode
+         *
+         * If that static method is called, every Process::execute() call
+         * behaves normally. This is the opposite of Process::enableDryRunMode().
+         */
+        static void disableDryRunMode()
+        throw ();
+
     public:
         /**
          * @brief Constructor
@@ -123,6 +148,7 @@ class Process {
     private:
         std::string m_name;
         std::vector<std::string> m_args;
+        static bool m_dryRunMode;
 };
 
 #endif /* PROCESS_H */

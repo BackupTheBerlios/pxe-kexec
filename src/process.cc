@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -28,10 +29,31 @@
 #include "debug.h"
 #include "stringutil.h"
 
+using std::cerr;
+using std::endl;
 using std::string;
 using std::exit;
 using std::vector;
 using std::stringstream;
+
+/* -------------------------------------------------------------------------- */
+bool Process::m_dryRunMode = false;
+
+/* -------------------------------------------------------------------------- */
+void Process::enableDryRunMode()
+    throw ()
+{
+    Debug::debug()->dbg("enableDryRunMode");
+    m_dryRunMode = true;
+}
+
+/* -------------------------------------------------------------------------- */
+void Process::disableDryRunMode()
+    throw ()
+{
+    Debug::debug()->dbg("disableDryRunMode");
+    m_dryRunMode = false;
+}
 
 /* -------------------------------------------------------------------------- */
 bool Process::isInPath(const string &program)
@@ -101,30 +123,35 @@ int Process::execute()
     ss << "]";
     Debug::debug()->dbg(ss.str().c_str());
 
-    // now fork and exec
-    pid_t pid = fork();
-    if (pid == 0) {
-        // child, should run exec
-        execvp(m_name.c_str(), vector);
-        exit(-1);
-    } else if (pid > 0) {
-        int status;
-        pid_t ret = waitpid(pid, &status, 0);
-        if (ret < 0) {
-            perror("Process::execute(): waitpid() failed");
-            returncode = -1;
-        }
-        returncode = WEXITSTATUS(status);
-    } else
-        perror("Process::execute(): fork() failed");
+    if (m_dryRunMode) {
+        cerr << ss.str() << endl;
+        return 0;
+    } else {
+        // now fork and exec
+        pid_t pid = fork();
+        if (pid == 0) {
+            // child, should run exec
+            execvp(m_name.c_str(), vector);
+            exit(-1);
+        } else if (pid > 0) {
+            int status;
+            pid_t ret = waitpid(pid, &status, 0);
+            if (ret < 0) {
+                perror("Process::execute(): waitpid() failed");
+                returncode = -1;
+            }
+            returncode = WEXITSTATUS(status);
+        } else
+            perror("Process::execute(): fork() failed");
 
-    // free allocated C-strings
-    for (unsigned int i = 0; i < m_args.size() + 2; i++)
-        free(vector[i]);
+        // free allocated C-strings
+        for (unsigned int i = 0; i < m_args.size() + 2; i++)
+            free(vector[i]);
 
-    delete[] vector;
+        delete[] vector;
 
-    return returncode;
+        return returncode;
+    }
 }
 
 
