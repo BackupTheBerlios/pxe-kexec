@@ -114,7 +114,7 @@ int Process::execute()
 
     // debug string
     stringstream ss;
-    ss << "Executing " << m_name << "[";
+    ss << "Executing " << m_name << " [";
     for (unsigned int i = 0; i < m_args.size(); i++) {
         ss << "'" << m_args[i] << "'";
         if (i != m_args.size() - 1)
