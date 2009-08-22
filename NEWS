@@ -11,6 +11,7 @@
     stderr. Previously, just the final 'kexec -e' was not executed. Also don't
     switch the virtual terminal and just print a message that this would be
     done.
+  - Print an error message if the effective user ID does not belong root.
 
 0.1.7
 -----

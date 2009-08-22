@@ -309,6 +309,10 @@ bool PxeKexec::checkEnv()
         cerr << "Error: kexec-tools are not installed." << endl;
         return false;
     }
+    if (geteuid() != 0) {
+        cerr << "You have to be root to successfully use that program." << endl;
+        return false;
+    }
 
     return true;
 }
