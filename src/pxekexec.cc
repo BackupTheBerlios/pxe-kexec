@@ -306,7 +306,7 @@ void PxeKexec::readPxeConfig()
 bool PxeKexec::checkEnv()
 {
     if (!Process::isInPath("kexec")) {
-        cout << "Error: kexec-tools are not installed." << endl;
+        cerr << "Error: kexec-tools are not installed." << endl;
         return false;
     }
 
