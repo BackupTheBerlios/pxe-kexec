@@ -114,17 +114,15 @@ int Process::execute()
 
     // debug string
     stringstream ss;
-    ss << "Executing " << m_name << " [";
+    ss << "Executing " << m_name << " ";
     for (unsigned int i = 0; i < m_args.size(); i++) {
-        ss << "'" << m_args[i] << "'";
-        if (i != m_args.size() - 1)
-            ss << ", ";
+        ss << "'" << m_args[i] << "' ";
     }
     ss << "]";
     Debug::debug()->dbg(ss.str().c_str());
 
     if (m_dryRunMode) {
-        cerr << ss.str() << endl;
+        cerr << "(dry run) " << ss.str() << endl;
         return 0;
     } else {
         // now fork and exec
