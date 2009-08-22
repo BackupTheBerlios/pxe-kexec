@@ -52,13 +52,13 @@
 
 	* switch to cmake
 
-2008-03-20  Bernhard Walle <bwalle@suse.de>
+2008-03-20  Bernhard Walle <bernhard@bwalle.de>
 
 	* bump version to 0.1.2
 	* add 'nodelete' option
 	* implement completion for entries
 
-2008-01-21  Bernhard Walle <bwalle@suse.de>
+2008-01-21  Bernhard Walle <bernhard@bwalle.de>
 
 	* add manpage
 
@@ -68,6 +68,6 @@
 	  TFTP server) from the /var/lib/dhcpcd/dhcpcd-<if>.info file
 	* add NEWS file
 
-2008-01-18  Bernhard Walle <bwalle@suse.de>
+2008-01-18  Bernhard Walle <bernhard@bwalle.de>
 
 	* started ChangeLog
