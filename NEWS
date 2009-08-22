@@ -7,6 +7,10 @@
   - Add also the last entry to the list of entries.
   - Don't clutter the screen when testing for the existence of 'kexec'.
   - Specify the default label with '-l <label>' instead of an argument.
+  - Change the behaviour of '--dry-run' to just print every call to kexec on
+    stderr. Previously, just the final 'kexec -e' was not executed. Also don't
+    switch the virtual terminal and just print a message that this would be
+    done.
 
 0.1.7
 -----

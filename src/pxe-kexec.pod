@@ -56,7 +56,9 @@ with care!
 
 =item B<-Y> | B<--dry-run>
 
-Don't run the final kexec -e.
+Don't execute call to kexec and don't switch the virtual console before
+running "kexec -e". Instead, print the information which program would
+be executed with which arguments to standard error.
 
 =item B<-q> | B<--quiet>
 

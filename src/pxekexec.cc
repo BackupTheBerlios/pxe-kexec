@@ -198,8 +198,10 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_networkInterface = op.getValue("interface").getString();
     if (op.getValue("ftp").getType() != OT_INVALID)
         m_protocol = "ftp";
-    if (op.getValue("dry-run").getType() != OT_INVALID)
+    if (op.getValue("dry-run").getType() != OT_INVALID) {
+        Process::enableDryRunMode();
         m_dryRun = true;
+    }
     if (op.getValue("quiet").getType() != OT_INVALID)
         m_quiet = true;
 
@@ -501,10 +503,11 @@ void PxeKexec::execute()
         throw ApplicationError("Loading kernel failed.");
 
     /* try to change VT */
-    ke.prepareConsole();
-
-    if (m_dryRun)
-        return;
+    if (m_dryRun) {
+        cerr << "Switching to virtual terminal 0 in real world" << endl;
+    } else {
+        ke.prepareConsole();
+    }
 
     if (!ke.execute())
         throw ApplicationError("Executing kernel failed");

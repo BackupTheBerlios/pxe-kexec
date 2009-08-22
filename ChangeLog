@@ -1,3 +1,10 @@
+2009-08-22  Bernhard Walle <bernhard@bwalle.de>
+
+	* Change the behaviour of '--dry-run' to just print every call to
+	  kexec on stderr. Previously, just the final 'kexec -e' was not executed.
+	  Also don't switch the virtual terminal and just print a message that
+	  this would be done.
+
 2009-08-09  Bernhard Walle <bernhard@bwalle.de>
 
 	* Specify the default label with '-l <label>' instead of an argument.
