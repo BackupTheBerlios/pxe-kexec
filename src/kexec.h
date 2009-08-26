@@ -102,6 +102,16 @@ class Kexec {
         std::string getAppend() const;
 
         /**
+         * @brief Reboots the system
+         *
+         * Reboots the system. The idea is that the scripts of the distribution
+         * invoke <tt>kexec -e</tt>.
+         *
+         * @return @c true if
+         */
+        bool reboot() const;
+
+        /**
          * @brief Loads the kernel
          *
          * Loads the kernel that has been specified with setKernel(), together

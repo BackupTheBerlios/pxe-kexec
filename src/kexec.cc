@@ -69,6 +69,13 @@ string Kexec::getAppend() const
 }
 
 /* -------------------------------------------------------------------------- */
+bool Kexec::reboot() const
+{
+    Process p("reboot");
+    return p.execute() == 0;
+}
+
+/* -------------------------------------------------------------------------- */
 bool Kexec::load()
 {
     Process p("kexec");
