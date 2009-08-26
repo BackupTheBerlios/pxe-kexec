@@ -1,3 +1,8 @@
+2009-08-26  Bernhard Walle <bernhard@bwalle.de>
+
+	* Change strip() in stringutil to take an optional argument that
+	  specifies which characters to strip.
+
 2009-08-22  Bernhard Walle <bernhard@bwalle.de>
 
 	* Change the behaviour of '--dry-run' to just print every call to

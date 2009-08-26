@@ -26,13 +26,13 @@ using std::vector;
 using std::malloc;
 
 /* -------------------------------------------------------------------------- */
-string strip(string a)
+string strip(string a, const string &chars_to_strip)
 {
     if (a.length() == 0)
         return a;
 
-    a.erase(0, a.find_first_not_of("\n \t", 0));
-    a.erase(a.find_last_not_of("\n \t")+1);
+    a.erase(0, a.find_first_not_of(chars_to_strip.c_str(), 0));
+    a.erase(a.find_last_not_of(chars_to_strip.c_str())+1);
 
     return a;
 }

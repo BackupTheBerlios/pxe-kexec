@@ -32,12 +32,13 @@
 /**
  * @brief Removes spaces from a string
  *
- * Removes trailing and leading spaces, tabs and newlines.
+ * Removes trailing and leading characters. All characters in @p chars_to_strip
+ * are removed. By default this are spaces, tabs and newlines.
  *
  * @param[in] a the string to strip (this string is not modified)
  * @return the stripped string
  */
-std::string strip(std::string a);
+std::string strip(std::string a, const std::string &chars_to_strip="\t \n");
 
 /**
  * @brief Removes spaces from a string on the right side
