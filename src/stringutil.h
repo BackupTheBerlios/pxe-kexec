@@ -36,6 +36,8 @@
  * are removed. By default this are spaces, tabs and newlines.
  *
  * @param[in] a the string to strip (this string is not modified)
+ * @param[in] chars_to_strip the characters that should be removed, defaults
+ *            to whitespace
  * @return the stripped string
  */
 std::string strip(std::string a, const std::string &chars_to_strip="\t \n");
