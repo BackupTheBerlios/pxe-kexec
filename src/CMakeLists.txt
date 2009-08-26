@@ -10,7 +10,9 @@ add_executable(pxe-kexec
         io.cc
         networkhelper.cc
         console.cc
-        pxekexec.cc)
+        pxekexec.cc
+        linuxdb.cc
+        ext/rpmvercmp.c)
 target_link_libraries(pxe-kexec ${EXTRA_LIBS})
 
 INSTALL(
