@@ -118,7 +118,6 @@ int Process::execute()
     for (unsigned int i = 0; i < m_args.size(); i++) {
         ss << "'" << m_args[i] << "' ";
     }
-    ss << "]";
     Debug::debug()->dbg(ss.str().c_str());
 
     if (m_dryRunMode) {
