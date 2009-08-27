@@ -103,6 +103,8 @@ This option is very useful if your distribution is not on the whitelist
 of Linux distributions that support kexec(8) in the reboot scripts and you
 want to create a bugreport.
 
+This command does not require root privileges.
+
 =item B<-D> | B<--debug>
 
 Enable debugging output. That's good for finding (and fixing!) bugs.
