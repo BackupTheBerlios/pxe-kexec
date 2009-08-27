@@ -3,6 +3,8 @@
 	* Implement option --ignore-whitelist.
 	* Implement '--force' option to have also the old behaviour ('kexec -e'
 	  at the end of pxe-kexec).
+	* Implement '--print-distribution' option that just prints out what
+	  Linux flavour we detected on the currently running system.
 
 2009-08-26  Bernhard Walle <bernhard@bwalle.de>
 
