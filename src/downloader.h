@@ -18,7 +18,7 @@
 #define DOWNLOADER_H
 
 /**
- * @file Downloader.h
+ * @file downloader.h
  * @brief CURL Download classes
  *
  * This files contains all files needed to download a file. The list of
