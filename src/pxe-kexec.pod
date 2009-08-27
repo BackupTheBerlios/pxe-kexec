@@ -89,6 +89,20 @@ Don't display the PXE messages that are added in the PXE configuration with
 the I<say> keyword. Also don't display messages which PXE configuration files
 the downloader tries to fetch.
 
+=item B<-p> | B<--print-distribution>
+
+Only prints the detected Linux distribution and exits. For example:
+
+    Type        : Ubuntu
+    Name        : Ubuntu
+    Release     : 9.04
+    Codename    : jaunty
+    Description : Ubuntu 9.04
+
+This option is very useful if your distribution is not on the whitelist
+of Linux distributions that support kexec(8) in the reboot scripts and you
+want to create a bugreport.
+
 =item B<-D> | B<--debug>
 
 Enable debugging output. That's good for finding (and fixing!) bugs.
