@@ -36,6 +36,8 @@ using std::exit;
 using std::vector;
 using std::stringstream;
 
+/* Process {{{ */
+
 /* -------------------------------------------------------------------------- */
 bool Process::m_dryRunMode = false;
 
@@ -151,5 +153,6 @@ int Process::execute()
     }
 }
 
+/* }}} */
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

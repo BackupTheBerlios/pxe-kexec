@@ -118,5 +118,4 @@ std::vector<std::string> stringsplit(const std::string &str, const std::string &
 
 #endif /* STRINGUTIL_H */
 
-// vim: set sw=4 ts=4 fdm=marker et:
-
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

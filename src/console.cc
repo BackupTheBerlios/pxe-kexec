@@ -32,7 +32,7 @@
 using std::string;
 using std::strerror;
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 bool Console::isRealTerminal()
 {
     string terminal = ttyname(STDIN_FILENO);
@@ -40,7 +40,7 @@ bool Console::isRealTerminal()
     return startsWith(terminal, "/dev/tty");
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 bool Console::isAConsole(int fd)
 {
 	char arg;
@@ -50,7 +50,7 @@ bool Console::isAConsole(int fd)
 		&& ((arg == KB_101) || (arg == KB_84)));
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 int Console::openConsoleFd()
 {
     /* code taken from chvt.c in kbd package */
@@ -85,7 +85,7 @@ int Console::openConsoleFd()
     return -1;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 void Console::changeVirtualTerminal(int newTerminal, bool wait)
 {
     int fd = openConsoleFd();
@@ -108,4 +108,4 @@ void Console::changeVirtualTerminal(int newTerminal, bool wait)
     close(fd);
 }
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

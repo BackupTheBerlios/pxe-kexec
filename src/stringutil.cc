@@ -25,7 +25,7 @@ using std::string;
 using std::vector;
 using std::malloc;
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 string strip(string a, const string &chars_to_strip)
 {
     if (a.length() == 0)
@@ -37,7 +37,7 @@ string strip(string a, const string &chars_to_strip)
     return a;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 string stripl(string a)
 {
     if (a.length() == 0)
@@ -48,7 +48,7 @@ string stripl(string a)
     return a;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 string stripr(string a)
 {
     if (a.length() == 0)
@@ -59,7 +59,7 @@ string stripr(string a)
     return a;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 bool startsWith(const string &str, const string &start, bool casesensitive)
 {
     size_t len = start.size();
@@ -74,13 +74,13 @@ bool startsWith(const string &str, const string &start, bool casesensitive)
     }
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 string getRest(const string &str, const string &prefix)
 {
     return str.substr(prefix.size(), str.size() - prefix.size());
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 char **stringvector_to_array(const StringVector &vec)
 {
     if (vec.size() == 0)
@@ -97,7 +97,7 @@ char **stringvector_to_array(const StringVector &vec)
     return ret;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 vector<string> stringsplit(const string &str, const string &pattern)
 {
     vector<string> retval;
@@ -118,4 +118,4 @@ vector<string> stringsplit(const string &str, const string &pattern)
     return retval;
 }
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

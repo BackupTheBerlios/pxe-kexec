@@ -277,4 +277,4 @@ class Downloader {
 
 #endif /* DOWNLOADER_H */
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

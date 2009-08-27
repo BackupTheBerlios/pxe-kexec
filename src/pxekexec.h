@@ -33,6 +33,8 @@
 #include "global.h"
 #include "pxeparser.h"
 
+/* PxeKexec {{{ */
+
 /**
  * @brief Main class
  *
@@ -185,7 +187,8 @@ class PxeKexec : public Completor {
         bool        m_ignoreWhitelist;
 };
 
+/* }}} */
 
 #endif /* PXEKEXEC_H */
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

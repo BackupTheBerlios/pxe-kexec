@@ -72,7 +72,8 @@ class Debug {
         enum Level {
             DL_TRACE    = 0,            /**< tracing, very verbose */
             DL_DEBUG    = 10,           /**< debugging statements */
-            DL_INFO     = 20,           /**< informational messages that can be presented to the average user */
+            DL_INFO     = 20,           /**< informational messages that can be presented to
+                                             the average user */
             DL_NONE     = 100           /**< no debugging at all, be silent */
         };
 
@@ -243,4 +244,4 @@ class Debug {
 
 #endif /* DEBUG_H */
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

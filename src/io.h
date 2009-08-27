@@ -212,7 +212,8 @@ class LineReader {
         virtual std::string editLine(const char *oldLine) = 0;
 };
 
-/* Abstract base class for line readers {{{1 */
+/* }}} */
+/* Abstract base class for line readers {{{ */
 
 /**
  * @brief Abstract base class for LineReader implementations
@@ -318,4 +319,4 @@ class AbstractLineReader : public LineReader {
 
 #endif /* IO_H */
 
-// vim: set sw=4 ts=4 fdm=marker et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

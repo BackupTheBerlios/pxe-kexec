@@ -33,7 +33,7 @@ bool Downloader::m_firstCalled = true;
 #  define CURL_GLOBAL_FLAGS   0
 #endif
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 size_t Downloader::curl_write_callback(void *buffer, size_t size,
         size_t nmemb, void *userp)
 {
@@ -50,7 +50,7 @@ size_t Downloader::curl_write_callback(void *buffer, size_t size,
 }
 
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 int Downloader::curl_progress_callback(void *clientp, double dltotal, double
         dlnow, double ultotal, double ulnow)
 {
@@ -66,7 +66,7 @@ int Downloader::curl_progress_callback(void *clientp, double dltotal, double
 }
 
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 Downloader::Downloader(ostream &output, long timeout) throw (DownloadError)
     : m_notifier(NULL), m_output(output)
 {
@@ -111,14 +111,14 @@ Downloader::Downloader(ostream &output, long timeout) throw (DownloadError)
         throw DownloadError(string("CURL error: ") + m_curl_errorstring);
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 Downloader::~Downloader()
 {
     if (m_curl)
         curl_easy_cleanup(m_curl);
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 void Downloader::setUrl(const string &url) throw (DownloadError)
 {
     CURLcode err;
@@ -131,13 +131,13 @@ void Downloader::setUrl(const string &url) throw (DownloadError)
         throw DownloadError(string("CURL error: ") + m_curl_errorstring);
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 string Downloader::getUrl() const
 {
     return m_url;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 void Downloader::setProgress(ProgressNotifier *notifier)
 {
     CURLcode err;
@@ -163,7 +163,7 @@ void Downloader::setProgress(ProgressNotifier *notifier)
     }
 }
 
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 void Downloader::download() throw (DownloadError)
 {
     CURLcode err;
@@ -185,4 +185,4 @@ void Downloader::download() throw (DownloadError)
 }
 
 
-// vim: set sw=4 ts=4 et:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

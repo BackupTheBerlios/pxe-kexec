@@ -174,4 +174,4 @@ bool LSBLinuxDistDetector::detect()
 
 /* }}} */
 
-// :tabSize=4:indentSize=4:noTabs=true:maxLineLen=100:folding=explicit:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

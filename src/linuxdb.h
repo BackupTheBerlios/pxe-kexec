@@ -290,4 +290,4 @@ class LSBLinuxDistDetector : public AbstractLinuxDistDetector
 
 #endif /* LINUXDB_H */
 
-// :tabSize=4:indentSize=4:noTabs=true:maxLineLen=100:collapseFolds=1:folding=explicit:
+// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:
