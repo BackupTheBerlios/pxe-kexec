@@ -31,6 +31,25 @@ using std::ifstream;
 /* LinuxDistDetector {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
+string LinuxDistDetector::distTypeToString(DistType type)
+{
+    switch (type) {
+        case DT_UNKNOWN:
+            return "Unknown";
+        case DT_UBUNTU:
+            return "Ubuntu";
+        case DT_SUSE:
+            return "SUSE";
+        case DT_DEBIAN:
+            return "Debian";
+        case DT_REDHAT:
+            return "Red Hat";
+        default:
+            return "(invalid)";
+    }
+}
+
+/* ---------------------------------------------------------------------------------------------- */
 LinuxDistDetector *LinuxDistDetector::getDetector()
     throw ()
 {
@@ -68,6 +87,13 @@ LinuxDistDetector::DistType AbstractLinuxDistDetector::getType() const
     throw ()
 {
     return m_type;
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+string AbstractLinuxDistDetector::getTypeAsString() const
+    throw ()
+{
+    return distTypeToString(getType());
 }
 
 /* ---------------------------------------------------------------------------------------------- */

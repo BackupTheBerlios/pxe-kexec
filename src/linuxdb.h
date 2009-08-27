@@ -76,6 +76,13 @@ class LinuxDistDetector
             DT_REDHAT       /**< Red Hat (the old ones), Red Hat Enterprise Linux and Fedora */
         };
 
+        /**
+         * @brief Returns the string representation of a DistType
+         *
+         * @return the representation of a LinuxDistDetector::DistType as string
+         */
+        static std::string distTypeToString(DistType type);
+
     public:
 
         /**
@@ -103,6 +110,17 @@ class LinuxDistDetector
          * @return the type or LinuxDistDetector::DT_UNKNOWN if the type was not detected
          */
         virtual DistType getType() const
+        throw () = 0;
+
+        /**
+         * @brief Returns the type as string
+         *
+         * Convenience method that just combines the LinuxDistDetector::getType() call with
+         * LinuxDistDetector::distTypeToString().
+         *
+         * @return the dist type as string
+         */
+        virtual std::string getTypeAsString() const
         throw () = 0;
 
         /**
@@ -198,6 +216,12 @@ class AbstractLinuxDistDetector : public LinuxDistDetector
          * @copydoc LinuxDistDetector::getType()
          */
         virtual DistType getType() const
+        throw ();
+
+        /**
+         * @copydoc LinuxDistDetector::getTypeAsString()
+         */
+        virtual std::string getTypeAsString() const
         throw ();
 
         /**
