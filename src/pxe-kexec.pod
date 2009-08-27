@@ -22,7 +22,7 @@ then executes I<kexec -e> at the very end. That is not implemented everywhere.
 Therefore, B<pxe-kexec> has a whitelist of Linux distributions that support
 reboot with kexec. If the distribution is not on that whitelist, the
 program quits with a warning. To bypass that warning, please use the
-I<--igore-whitelsit> parameter. You can also use the I<--force> parameter
+I<--igore-whitelist> parameter. You can also use the I<--force> parameter
 to execute I<kexec -e> to immediately boot the selected kernel, without
 invoking shutdown(8).
 
