@@ -13,11 +13,21 @@ pxe-kexec [options] [I<tftp_server>]
 
 B<pxe-kexec> is a tool that fetches PXE configuration from a TFTP server,
 reads that PXE configuration file, prompts the user for an boot entry,
-downloads the specified kernel and initrd and finally executes the both using
-B<kexec>.
+downloads the specified kernel and initrd and finally tries to boot the
+kernel.
 
-It's meant to be used in an environment where pre-defined PXE configurations
-exist but the user wants to use B<kexec> instead of rebooting.
+The normal process to boot with kexec(8) is that B<pxe-kexec> loads the
+kernel and invokes reboot(8). The shutdown script of the Linux distribution
+then executes I<kexec -e> at the very end. That is not implemented everywhere.
+Therefore, B<pxe-kexec> has a whitelist of Linux distributions that support
+reboot with kexec. If the distribution is not on that whitelist, the
+program quits with a warning. To bypass that warning, please use the
+I<--igore-whitelsit> parameter. You can also use the I<--force> parameter
+to execute I<kexec -e> to immediately boot the selected kernel, without
+invoking shutdown(8).
+
+B<pxe-kexec> meant to be used in an environment where pre-defined PXE
+configurations exist but the user wants to use B<kexec> instead of rebooting.
 
 Normally, the I<tftp_server> must be specified as first argument. If there's
 no TFTP server specified, B<pxe-kexec> looks in the DHCP info file for the
@@ -38,6 +48,19 @@ Prints a short help.
 =item B<-v> | B<--version>
 
 Prints the version number to standard output.
+
+=item B<-f> | B<--force>
+
+Immediately load the kernel without invoking reboot(8). This does not execute
+shutdown scripts, i.e. does not terminate daemons, network connections etc.
+
+=item B<-w> | B<--ignore-whitelist>
+
+Don't check if the detected Linux distribution is on the whitelist of
+distributions that have kexec(8) in their shutdown script. Please don't
+use that parameter without letting the author know which distribution
+you use and how to detect that distribution. Then the distribution can be
+added to the whitelist and other users profit from that experience.
 
 =item B<-l> I<label> | B<--label> I<label>
 
@@ -123,7 +146,6 @@ if you don't want to create an account.
 =head1 SEE ALSO
 
 kexec(8)
-
 
 
 =cut

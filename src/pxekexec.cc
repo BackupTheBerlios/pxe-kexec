@@ -147,6 +147,8 @@ PxeKexec::PxeKexec()
     , m_quiet(false)
     , m_protocol("tftp")
     , m_dryRun(false)
+    , m_force(false)
+    , m_ignoreWhitelist(false)
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
@@ -164,16 +166,29 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
 {
     // repare the parser
     OptionParser op;
-    op.addOption(Option("debug", 'D', OT_FLAG, "Enable debugging output"));
-    op.addOption(Option("help", 'h', OT_FLAG, "Shows this help output"));
-    op.addOption(Option("label", 'l', OT_STRING, "Boot the specified label without prompting"));
-    op.addOption(Option("interface", 'i', OT_STRING, "Use the specified network interface"));
-    op.addOption(Option("noconfirm", 'n', OT_FLAG, "Don't confirm the execution"));
-    op.addOption(Option("quiet", 'q', OT_FLAG, "Don't display PXE messages"));
-    op.addOption(Option("nodelete", 'd', OT_FLAG, "Dont't delete the downloaded files"));
-    op.addOption(Option("ftp", 'F', OT_FLAG, "Use FTP instead of TFTP"));
-    op.addOption(Option("dry-run", 'Y', OT_FLAG, "Don't run the final kexec -e"));
-
+    op.addOption(Option("debug",
+                        'D', OT_FLAG,   "Enable debugging output"));
+    op.addOption(Option("help",             'h', OT_FLAG,
+                        "Shows this help output"));
+    op.addOption(Option("label",            'l', OT_STRING,
+                        "Boot the specified label without prompting"));
+    op.addOption(Option("interface",        'i', OT_STRING,
+    	                "Use the specified network interface"));
+    op.addOption(Option("noconfirm",        'n', OT_FLAG,
+    	                "Don't confirm the execution"));
+    op.addOption(Option("quiet",            'q', OT_FLAG,
+    	                "Don't display PXE messages"));
+    op.addOption(Option("nodelete",         'd', OT_FLAG,
+    	                "Dont't delete the downloaded files"));
+    op.addOption(Option("ftp",              'F', OT_FLAG,
+    	                "Use FTP instead of TFTP"));
+    op.addOption(Option("dry-run",          'Y', OT_FLAG,
+    	                "Don't run the final kexec -e"));
+    op.addOption(Option("force",            'f', OT_FLAG,
+    	                "Immediately reboot without shutdown(8)"));
+    op.addOption(Option("ignore-whitelist", 'w', OT_FLAG,
+    	                "Ignore whitelist of Linux distributions that support "
+    	                "kexec in their reboot scripts"));
     // do the parsing
     bool ret = op.parse(argc, argv);
     if (!ret)
@@ -190,6 +205,10 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_noconfirm = true;
     if (op.getValue("nodelete").getFlag())
         m_nodelete = true;
+    if (op.getValue("force").getFlag())
+        m_force = true;
+    if (op.getValue("ignore-whitelist").getFlag())
+    	m_ignoreWhitelist = true;
     if (op.getValue("label").getType() != OT_INVALID) {
         m_preChoice = op.getValue("label").getString();
         m_quiet = true;
@@ -506,15 +525,21 @@ void PxeKexec::execute()
     if (!loaded)
         throw ApplicationError("Loading kernel failed.");
 
-    /* try to change VT */
-    if (m_dryRun) {
-        cerr << "Switching to virtual terminal 0 in real world" << endl;
-    } else {
-        ke.prepareConsole();
-    }
+    if (m_force) {
+        /* try to change VT */
+        if (m_dryRun) {
+            cerr << "Switching to virtual terminal 0 in real world" << endl;
+        } else {
+            ke.prepareConsole();
+        }
 
-    if (!ke.execute())
-        throw ApplicationError("Executing kernel failed");
+        // this never returns on success
+        if (!ke.execute()) {
+            throw ApplicationError("Executing kernel failed");
+        }
+    } else {
+        ke.reboot();
+    }
 }
 
 /* }}} */

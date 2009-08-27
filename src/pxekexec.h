@@ -181,6 +181,8 @@ class PxeKexec : public Completor {
         std::string m_protocol;
         LineReader  *m_lineReader;
         bool        m_dryRun;
+        bool        m_force;
+        bool        m_ignoreWhitelist;
 };
 
 
