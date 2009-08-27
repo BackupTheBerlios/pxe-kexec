@@ -61,6 +61,11 @@ int main(int argc, char *argv[])
         if (!pe.parseCmdLine(argc, argv))
             return EXIT_SUCCESS;
 
+        if (pe.getPrintLinuxDistributionOnly()) {
+            pe.printLinuxDistribution();
+            return EXIT_SUCCESS;
+        }
+
         if (!pe.checkEnv())
             return EXIT_FAILURE;
 

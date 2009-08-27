@@ -166,8 +166,22 @@ class PxeKexec : public Completor {
          * @param[in] end_idx the end index
          * @return the list of possible compltions
          */
-        std::vector<std::string> complete(const std::string &text,
-                const std::string &full_text, size_t start_idx, ssize_t end_idx);
+        std::vector<std::string> complete(const std::string     &text,
+                                          const std::string     &full_text,
+                                          size_t                start_idx,
+                                          ssize_t               end_idx);
+
+        /**
+         * @brief Checks if we should only print the Linux distribution and exit
+         *
+         * @return the value of the detectDistOnly flag
+         */
+        bool getPrintLinuxDistributionOnly() const;
+
+        /**
+         * @brief Prints the Linux distribution
+         */
+        void printLinuxDistribution();
 
     private:
         std::string m_pxeHost;
@@ -185,6 +199,7 @@ class PxeKexec : public Completor {
         bool        m_dryRun;
         bool        m_force;
         bool        m_ignoreWhitelist;
+        bool        m_detectDistOnly;
 };
 
 /* }}} */

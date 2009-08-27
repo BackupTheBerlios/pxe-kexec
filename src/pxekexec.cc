@@ -23,6 +23,7 @@
 #include <cmath>
 #include <cstring>
 #include <cstring>
+#include <memory>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -40,6 +41,7 @@
 #include "config.h"
 #include "stringutil.h"
 #include "process.h"
+#include "linuxdb.h"
 
 using std::strcpy;
 using std::time;
@@ -52,6 +54,7 @@ using std::vector;
 using std::string;
 using std::stringstream;
 using std::ofstream;
+using std::auto_ptr;
 
 /* SimpleNotifier definition {{{ */
 
@@ -149,6 +152,7 @@ PxeKexec::PxeKexec()
     , m_dryRun(false)
     , m_force(false)
     , m_ignoreWhitelist(false)
+    , m_detectDistOnly(false)
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
@@ -189,6 +193,9 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     op.addOption(Option("ignore-whitelist", 'w', OT_FLAG,
     	                "Ignore whitelist of Linux distributions that support "
     	                "kexec in their reboot scripts"));
+    op.addOption(Option("print-distribution", 'p', OT_FLAG,
+                        "Only print the detected Linux distribution and exit"));
+
     // do the parsing
     bool ret = op.parse(argc, argv);
     if (!ret)
@@ -199,6 +206,9 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         op.printHelp(cerr, PACKAGE_STRING " " PACKAGE_VERSION);
         return false;
     }
+
+    if (op.getValue("print-distribution").getFlag())
+        m_detectDistOnly = true;
     if (op.getValue("debug").getFlag())
         Debug::debug()->setLevel(Debug::DL_TRACE);
     if (op.getValue("noconfirm").getFlag())
@@ -540,6 +550,28 @@ void PxeKexec::execute()
     } else {
         ke.reboot();
     }
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+bool PxeKexec::getPrintLinuxDistributionOnly() const
+{
+    return m_detectDistOnly;
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+void PxeKexec::printLinuxDistribution()
+{
+    LinuxDistDetector *detector_ptr = LinuxDistDetector::getDetector();
+    if (!detector_ptr) {
+        cout << "Could not detect Linux distribution" << endl;
+    }
+    std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
+
+    cout << "Type        : " << detector->getTypeAsString() << endl;
+    cout << "Name        : " << detector->getDistribution() << endl;
+    cout << "Release     : " << detector->getRelease()      << endl;
+    cout << "Codename    : " << detector->getCodename()     << endl;
+    cout << "Description : " << detector->getDescription()  << endl;
 }
 
 /* }}} */
