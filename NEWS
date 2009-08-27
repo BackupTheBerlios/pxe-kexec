@@ -12,6 +12,11 @@
     switch the virtual terminal and just print a message that this would be
     done.
   - Print an error message if the effective user ID does not belong root.
+  - Implement whitelist for distributions that have kexec in their reboot
+    scripts and add option '--ignore-whitelist' to ignore that whitelist and
+    force a kexec-based reboot.
+  - Implement '--force' option to have also the old behaviour ('kexec -e' at
+    the end of pxe-kexec).
 
 0.1.7
 -----

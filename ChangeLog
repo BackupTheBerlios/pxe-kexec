@@ -1,3 +1,9 @@
+2009-08-27  Bernhard Walle <bernhard@bwalle.de>
+
+	* Implement option --ignore-whitelist.
+	* Implement '--force' option to have also the old behaviour ('kexec -e'
+	  at the end of pxe-kexec).
+
 2009-08-26  Bernhard Walle <bernhard@bwalle.de>
 
 	* Change strip() in stringutil to take an optional argument that
