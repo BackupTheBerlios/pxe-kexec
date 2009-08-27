@@ -297,6 +297,26 @@ class LSBLinuxDistDetector : public AbstractLinuxDistDetector
 };
 
 /* }}} */
+/* SUSELinuxDistDetector {{{ */
+
+/**
+ * @brief Detector for SUSE distributions
+ *
+ * Reads <tt>/etc/SuSE-release</tt> to detect the Linux distribution.
+ *
+ * @author Bernhard Walle <bernhard@bwalle.de>
+ */
+class SUSELinuxDistDetector : public AbstractLinuxDistDetector
+{
+    public:
+        /**
+         * @copydoc LinuxDistDetector::detect()
+         */
+        bool detect()
+        throw ();
+};
+
+/* }}} */
 
 #endif /* LINUXDB_H */
 

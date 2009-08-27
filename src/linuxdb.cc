@@ -43,6 +43,13 @@ LinuxDistDetector *LinuxDistDetector::getDetector()
     }
     delete detector;
 
+    // and then SUSE
+    detector = new SUSELinuxDistDetector();
+    if (detector->detect()) {
+        return detector;
+    }
+    delete detector;
+
     return NULL;
 }
 
@@ -168,6 +175,51 @@ bool LSBLinuxDistDetector::detect()
     if (getDistribution() == "Ubuntu") {
         setType(DT_UBUNTU);
     }
+
+    return true;
+}
+
+/* }}} */
+/* SUSELinuxDistDetector {{{ */
+
+/* ---------------------------------------------------------------------------------------------- */
+bool SUSELinuxDistDetector::detect()
+    throw ()
+{
+    const string SUSE_FILENAME("/etc/SuSE-release");
+    ifstream fin(SUSE_FILENAME.c_str());
+    if (!fin.is_open()) {
+        return false;
+    }
+
+    string line;
+    bool first_line = true;
+    while (getline(fin, line)) {
+        // ignore comment lines
+        if (startsWith(line, "#")) {
+            continue;
+        }
+
+        if (first_line) {
+            string::size_type first_digit = line.find_first_of("0123456789");
+            if (first_digit != string::npos && first_digit > 1) {
+                string first_part = line.substr(0, first_digit);
+                first_part = stripl(first_part);
+                setDistribution(line);
+            } else {
+                // that's an error
+                setDistribution(line);
+            }
+            setDescription(line);
+
+            first_line = false;
+        } else  if (startsWith(line, "VERSION = ")) {
+            string version = getRest(line, "VERSION = ");
+            setRelease(version);
+        }
+    }
+
+    setType(DT_SUSE);
 
     return true;
 }
