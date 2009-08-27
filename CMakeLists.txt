@@ -1,4 +1,4 @@
-PROJECT(pxe-kexec CXX)
+PROJECT(pxe-kexec CXX C)
 
 #
 # Configuration
