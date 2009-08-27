@@ -1,4 +1,4 @@
-0.1.8
+0.2.0
 -----
   - Don't ignore lines where the keyword "say" or "label" is followed by a tab
     instead of a space.
