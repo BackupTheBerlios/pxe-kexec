@@ -95,6 +95,16 @@ class LinuxDistDetector
          */
         virtual ~LinuxDistDetector() {}
 
+         /**
+         * @brief Returns the type of the Linux distribution
+         *
+         * The type is one of the values in LinuxDistDetector::DistType.
+         *
+         * @return the type or LinuxDistDetector::DT_UNKNOWN if the type was not detected
+         */
+        virtual DistType getType() const
+        throw () = 0;
+
         /**
          * @brief Actually does the detection work
          *
