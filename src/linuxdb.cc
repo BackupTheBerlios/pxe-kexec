@@ -230,8 +230,8 @@ bool SUSELinuxDistDetector::detect()
             string::size_type first_digit = line.find_first_of("0123456789");
             if (first_digit != string::npos && first_digit > 1) {
                 string first_part = line.substr(0, first_digit);
-                first_part = stripl(first_part);
-                setDistribution(line);
+                first_part = stripr(first_part);
+                setDistribution(first_part);
             } else {
                 // that's an error
                 setDistribution(line);
