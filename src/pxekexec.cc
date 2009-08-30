@@ -42,6 +42,7 @@
 #include "stringutil.h"
 #include "process.h"
 #include "linuxdb.h"
+#include "ext/rpmvercmp.h"
 
 using std::strcpy;
 using std::time;
@@ -341,6 +342,36 @@ bool PxeKexec::checkEnv()
     if (geteuid() != 0) {
         cerr << "You have to be root to successfully use that program." << endl;
         return false;
+    }
+
+    //
+    // check distribution
+    //
+    if (!m_ignoreWhitelist) {
+
+        LinuxDistDetector *detector_ptr = LinuxDistDetector::getDetector();
+        if (!detector_ptr) {
+            cout << "Could not detect Linux distribution" << endl;
+        }
+        std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
+
+        string dist = detector->getDistribution();
+        const char *detected_version = detector->getRelease().c_str();
+
+        bool suitable_dist = false;
+        if ((dist == "Ubuntu"       && rpmvercmp(detected_version, "9.04") >= 0) ||
+            (dist == "openSUSE"     && rpmvercmp(detected_version, "11.0") >= 0)) {
+            suitable_dist = true;
+        }
+
+        if (!suitable_dist) {
+            cerr << "You Linux distribution '" << dist << "' in version '" << detected_version
+                 << "'" << " doesn't have kexec" << endl;
+            cerr << "in the reboot script. Please read pxe-kexec(8) for more information. You"
+                 << endl
+                 << "can overwrite the check with '--ignore-whitelist'." << endl;
+            return false;
+        }
     }
 
     return true;
