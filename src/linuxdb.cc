@@ -274,6 +274,7 @@ bool ArchDistDetector::detect()
 
     setType(DT_ARCH);
     setDistribution("ARCH Linux");
+    setDescription("ARCH Linux");
 
     return true;
 }
