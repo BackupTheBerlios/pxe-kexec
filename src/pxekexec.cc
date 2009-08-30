@@ -358,12 +358,14 @@ bool PxeKexec::checkEnv()
         }
         std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
 
+        LinuxDistDetector::DistType type = detector->getType();
         string dist = detector->getDistribution();
         const char *detected_version = detector->getRelease().c_str();
 
         bool suitable_dist = false;
-        if ((dist == "Ubuntu"       && rpmvercmp(detected_version, "9.04") >= 0) ||
-            (dist == "openSUSE"     && rpmvercmp(detected_version, "11.0") >= 0)) {
+        if ((dist == "Ubuntu"       && rpmvercmp(detected_version, "9.04") >= 0)  ||
+            (dist == "openSUSE"     && rpmvercmp(detected_version, "11.0") >= 0)  ||
+            (type == LinuxDistDetector::DT_ARCH)) {
             suitable_dist = true;
         }
 

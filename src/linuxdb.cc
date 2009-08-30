@@ -44,6 +44,8 @@ string LinuxDistDetector::distTypeToString(DistType type)
             return "Debian";
         case DT_REDHAT:
             return "Red Hat";
+        case DT_ARCH:
+            return "ARCH Linux";
         default:
             return "(invalid)";
     }
@@ -64,6 +66,13 @@ LinuxDistDetector *LinuxDistDetector::getDetector()
 
     // and then SUSE
     detector = new SUSELinuxDistDetector();
+    if (detector->detect()) {
+        return detector;
+    }
+    delete detector;
+
+    // and then ARCH
+    detector = new ArchDistDetector();
     if (detector->detect()) {
         return detector;
     }
@@ -246,6 +255,25 @@ bool SUSELinuxDistDetector::detect()
     }
 
     setType(DT_SUSE);
+
+    return true;
+}
+
+/* }}} */
+/* ArchDistDetector {{{ */
+
+/* ---------------------------------------------------------------------------------------------- */
+bool ArchDistDetector::detect()
+    throw ()
+{
+    const string SUSE_FILENAME("/etc/arch-release");
+    ifstream fin(SUSE_FILENAME.c_str());
+    if (!fin.is_open()) {
+        return false;
+    }
+
+    setType(DT_ARCH);
+    setDistribution("ARCH Linux");
 
     return true;
 }

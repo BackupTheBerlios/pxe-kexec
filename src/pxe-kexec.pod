@@ -54,6 +54,10 @@ openSUSE, starting with version 11.0
 
 Ubuntu, starting with version 9.04
 
+=item *
+
+ARCH Linux
+
 =back
 
 Don't hesitate to send the author an email to add the distribution to the

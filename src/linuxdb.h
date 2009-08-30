@@ -73,7 +73,8 @@ class LinuxDistDetector
             DT_SUSE,        /**< openSUSE, SUSE Linux Enterprise (Server/Desktop) and SUSE Linux */
             DT_DEBIAN,      /**< Debian GNU/Linux and some derivates, but not Ubuntu */
             DT_UBUNTU,      /**< Ubuntu */
-            DT_REDHAT       /**< Red Hat (the old ones), Red Hat Enterprise Linux and Fedora */
+            DT_REDHAT,      /**< Red Hat (the old ones), Red Hat Enterprise Linux and Fedora */
+            DT_ARCH         /**< ARCH Linux */
         };
 
         /**
@@ -331,6 +332,27 @@ class LSBLinuxDistDetector : public AbstractLinuxDistDetector
  * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class SUSELinuxDistDetector : public AbstractLinuxDistDetector
+{
+    public:
+        /**
+         * @copydoc LinuxDistDetector::detect()
+         */
+        bool detect()
+        throw ();
+};
+
+/* }}} */
+/* ArchDistDetector {{{ */
+
+/**
+ * @brief Detector for Arch distributions
+ *
+ * Reads <tt>/etc/arch-release</tt> to detect the Linux distribution. This distribution
+ * has no version information.
+ *
+ * @author Bernhard Walle <bernhard@bwalle.de>
+ */
+class ArchDistDetector : public AbstractLinuxDistDetector
 {
     public:
         /**
