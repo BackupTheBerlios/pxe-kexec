@@ -11,28 +11,55 @@ pxe-kexec [options] [I<tftp_server>]
 
 =head1 DESCRIPTION
 
+=head2 Overview
+
 B<pxe-kexec> is a tool that fetches PXE configuration from a TFTP server,
 reads that PXE configuration file, prompts the user for an boot entry,
 downloads the specified kernel and initrd and finally tries to boot the
 kernel.
 
-The normal process to boot with kexec(8) is that B<pxe-kexec> loads the
+The normal process to boot with kexec(8) is that pxe-kexec loads the
 kernel and invokes reboot(8). The shutdown script of the Linux distribution
-then executes I<kexec -e> at the very end. That is not implemented everywhere.
-Therefore, B<pxe-kexec> has a whitelist of Linux distributions that support
+then executes "kexec -e" at the very end. That is not implemented everywhere.
+Therefore, pxe-kexec has a whitelist of Linux distributions that support
 reboot with kexec. If the distribution is not on that whitelist, the
 program quits with a warning. To bypass that warning, please use the
-I<--igore-whitelist> parameter. You can also use the I<--force> parameter
-to execute I<kexec -e> to immediately boot the selected kernel, without
-invoking shutdown(8).
+"--igore-whitelist" parameter. You can also use the "--force" parameter
+to execute "kexec -e" to immediately boot the selected kernel, without
+invoking shutdown(8)/reboot(8).
 
-B<pxe-kexec> meant to be used in an environment where pre-defined PXE
-configurations exist but the user wants to use B<kexec> instead of rebooting.
+pxe-kexec meant to be used in an environment where pre-defined PXE
+configurations exist but the user wants to use kexec(8) instead of rebooting.
 
 Normally, the I<tftp_server> must be specified as first argument. If there's
-no TFTP server specified, B<pxe-kexec> looks in the DHCP info file for the
+no TFTP server specified, pxe-kexec looks in the DHCP info file for the
 DHCP server and uses this one as TFTP server. This only works when the TFTP
 server is running on the same machine as the DHCP server.
+
+B<==E<gt> Please also read the section called "Update Info" E<lt>==>
+
+=head2 Whitelist
+
+As mentioned previously, a whitelist of Linux distributions that support
+kexec-based rebooting is maintained. Currently following distributions
+are on the whitelist:
+
+=over 7
+
+=item *
+
+openSUSE, starting with version 11.0
+
+=item *
+
+Ubuntu, starting with version 9.04
+
+=back
+
+Don't hesitate to send the author an email to add the distribution to the
+whitelist. Please include the output of "pxe-kexec --print-distribution"
+in that mail.
+
 
 
 =head1 OPTIONS
@@ -65,7 +92,7 @@ added to the whitelist and other users profit from that experience.
 =item B<-l> I<label> | B<--label> I<label>
 
 Specifies the label that should be booted. Use that option if you already know
-which I<label> you want to boot. This option implies B<--quiet>.
+which I<label> you want to boot. This option implies "--quiet".
 
 =item B<-i> | B<--interface> I<netif>
 
@@ -121,6 +148,50 @@ than TFTP.
 
 =back
 
+=head1   UPDATE INFO
+
+=head2   Updating from 0.1.x to 0.2
+
+Compared to version 0.1.x, the syntax has changed:
+
+=over 7
+
+=item *
+
+The default label must now be set with the B<-l> I<label> option instead of
+the 2nd argument. Example:
+
+  % pxe-kexec mydhcp.mydomain.com SLES10-install-auto
+
+is now
+
+  % pxe-kexec -l SLES10-install-auto mydhcp.mydomain.com
+
+=item *
+
+pxe-kexec now uses the reboot mechanism by default: The kernel is loaded,
+then the reboot is triggered and the reboot script of the Linux distribution
+finally boots the kernel. This has the advantage of a clear shutdown.
+
+The program keeps a database of Linux distributions that support kexec-based
+reboot. If the currently active distribution is not on the whitelist, an
+error is printed. (That whitelist can be ignored with "--ignore-whitelist".)
+
+=item *
+
+To use the previous behaviour, i.e. just execute "kexec -e" in pxe-kexec
+at the end, you can still use the "--force" parameter. Example:
+
+  % pxe-kexec mydhcp.mydomain.com
+
+is now
+
+  % pxe-kexec --force mydhcp.mydomain.com
+
+
+=back
+
+
 =head1   EXAMPLES
 
 =over 7
@@ -129,21 +200,30 @@ than TFTP.
 
 Try to fetch the PXE configuration from I<mydhcp.mydomain.com>, display
 the I<say> messages from that configuration, prompt for an entry, letting
-the user confirm that entry and finally boot that entry via kexec(8).
+the user confirm that entry and finally load that entry via kexec(8)
+and reboot via reboot(8).
+
+This only works if you distribution supports kexec-based rebooting, i.e.
+it is in the internal whitelist.
 
 =item B<pxe-kexec -n I<mydhcp.mydomain.com>>
 
 Same as the previous example, but omit the final confirmation step.
 
-=item B<pxe-kexec I<mydhcp.mydomain.com> I<SLES10-install-auto>>
+=item B<pxe-kexec -l I<SLES10-install-auto> I<mydhcp.mydomain.com> >
 
 Same as the first example, but don't prompt the user for the label to boot.
 Directly boot the I<SLES10-install-auto> label, but letting the user confirm
 that he really wants to boot this!
 
-=item B<pxe-kexec -n I<mydhcp.mydomain.com> I<SLES10-install-auto>>
+=item B<pxe-kexec -n -l I<SLES10-install-auto> I<mydhcp.mydomain.com>>
 
 Same as the previous example, but without confirmation.
+
+=item B<pxe-kexec -f I<mydhcp.mydomain.com>>
+
+Same as the first example, but execute "kexec -e" at the end instead of
+invoking reboot(8).
 
 
 =back
