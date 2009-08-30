@@ -351,7 +351,10 @@ bool PxeKexec::checkEnv()
 
         LinuxDistDetector *detector_ptr = LinuxDistDetector::getDetector();
         if (!detector_ptr) {
-            cout << "Could not detect Linux distribution" << endl;
+            cerr << "Could not detect Linux distribution." << endl;
+            cerr << "Please read pxe-kexec(8) for more information. You "
+                 << "can overwrite the check with '--ignore-whitelist'." << endl;
+            return false;
         }
         std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
 
@@ -595,6 +598,7 @@ void PxeKexec::printLinuxDistribution()
     LinuxDistDetector *detector_ptr = LinuxDistDetector::getDetector();
     if (!detector_ptr) {
         cout << "Could not detect Linux distribution" << endl;
+        return;
     }
     std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
 
