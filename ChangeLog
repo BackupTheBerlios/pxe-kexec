@@ -1,3 +1,8 @@
+2009-08-30  Bernhard Walle <bernhard@bwalle.de>
+
+	* Add 'dist.sh' script to create releases.
+	* Adapt INSTALL to CMake.
+
 2009-08-27  Bernhard Walle <bernhard@bwalle.de>
 
 	* Implement option --ignore-whitelist.

@@ -19,6 +19,7 @@
     the end of pxe-kexec).
   - Implement '--print-distribution' option that just prints out what Linux
     flavour we detected on the currently running system.
+  - Document CMake in INSTALL.
 
 0.1.7
 -----
