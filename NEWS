@@ -4,6 +4,7 @@
   - Add Fedora >= 11 to the whitelist.
   - Implement 'load-only' option as replacement for the old "dry-run" option in
     version 0.1.x.
+  - Implement '--version'.
 
 0.2.0
 -----

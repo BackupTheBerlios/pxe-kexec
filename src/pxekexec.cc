@@ -180,6 +180,8 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
                         'D', OT_FLAG,   "Enable debugging output"));
     op.addOption(Option("help",             'h', OT_FLAG,
                         "Shows this help output"));
+    op.addOption(Option("version",          'v', OT_FLAG,
+                        "Shows the version and exits"));
     op.addOption(Option("label",            'l', OT_STRING,
                         "Boot the specified label without prompting"));
     op.addOption(Option("interface",        'i', OT_STRING,
@@ -212,6 +214,10 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     // evaluate options
     if (op.getValue("help").getFlag()) {
         op.printHelp(cerr, PACKAGE_STRING " " PACKAGE_VERSION);
+        return false;
+    }
+    if (op.getValue("version").getFlag()) {
+        printVersion();
         return false;
     }
 
@@ -630,6 +636,19 @@ void PxeKexec::printLinuxDistribution()
     cout << "Release     : " << detector->getRelease()      << endl;
     cout << "Codename    : " << detector->getCodename()     << endl;
     cout << "Description : " << detector->getDescription()  << endl;
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+void PxeKexec::printVersion()
+{
+    cerr << PACKAGE_STRING << " " << PACKAGE_VERSION << endl;
+    cerr << "Compiled "
+#if HAVE_LIBREADLINE
+             << "with"
+#else
+             << "without"
+#endif
+             << " readline support" << endl;
 }
 
 /* }}} */

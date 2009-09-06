@@ -183,6 +183,11 @@ class PxeKexec : public Completor {
          */
         void printLinuxDistribution();
 
+        /**
+         * @brief Prints the version to stdout
+         */
+        void printVersion();
+
     private:
         std::string m_pxeHost;
         std::string m_networkInterface;
