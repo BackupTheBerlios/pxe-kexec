@@ -24,11 +24,11 @@
 #include <cstring>
 #include <cstring>
 #include <memory>
+#include <cstdlib>
 
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <stdlib.h>
 
 #include "pxekexec.h"
 #include "optionparser.h"
@@ -44,7 +44,10 @@
 #include "linuxdb.h"
 #include "ext/rpmvercmp.h"
 
+/* Using directives {{{ */
+
 using std::strcpy;
+using std::getenv;
 using std::time;
 using std::cerr;
 using std::endl;
@@ -57,6 +60,7 @@ using std::stringstream;
 using std::ofstream;
 using std::auto_ptr;
 
+/* }}} */
 /* SimpleNotifier definition {{{ */
 
 /**
@@ -154,6 +158,7 @@ PxeKexec::PxeKexec()
     , m_force(false)
     , m_ignoreWhitelist(false)
     , m_detectDistOnly(false)
+    , m_loadOnly(false)
 {
     m_lineReader = LineReader::defaultLineReader("> ");
 }
@@ -185,12 +190,14 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     	                "Don't display PXE messages"));
     op.addOption(Option("nodelete",         'd', OT_FLAG,
     	                "Dont't delete the downloaded files"));
+    op.addOption(Option("load-only",        'L', OT_FLAG,
+                        "Only load the kernel, don't reboot or 'kexec -e'"));
+    op.addOption(Option("force",            'f', OT_FLAG,
+    	                "Immediately reboot without shutdown(8)"));
     op.addOption(Option("ftp",              'F', OT_FLAG,
     	                "Use FTP instead of TFTP"));
     op.addOption(Option("dry-run",          'Y', OT_FLAG,
     	                "Don't run the final kexec -e"));
-    op.addOption(Option("force",            'f', OT_FLAG,
-    	                "Immediately reboot without shutdown(8)"));
     op.addOption(Option("ignore-whitelist", 'w', OT_FLAG,
     	                "Ignore whitelist of Linux distributions that support "
     	                "kexec in their reboot scripts"));
@@ -218,6 +225,8 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_nodelete = true;
     if (op.getValue("force").getFlag())
         m_force = true;
+    if (op.getValue("load-only").getFlag())
+        m_loadOnly = true;
     if (op.getValue("ignore-whitelist").getFlag())
     	m_ignoreWhitelist = true;
     if (op.getValue("label").getType() != OT_INVALID) {
@@ -240,6 +249,9 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         throw ApplicationError("Too many arguments.");
     if (args.size() == 1)
         m_pxeHost = args[0];
+
+    Debug::debug()->dbg("load_only=%d, force=%d, nodelete=%d",
+                        int(m_loadOnly), int(m_force), int(m_nodelete));
 
     return true;
 }
@@ -575,20 +587,25 @@ void PxeKexec::execute()
     if (!loaded)
         throw ApplicationError("Loading kernel failed.");
 
-    if (m_force) {
-        /* try to change VT */
-        if (m_dryRun) {
-            cerr << "Switching to virtual terminal 0 in real world" << endl;
-        } else {
-            ke.prepareConsole();
-        }
-
-        // this never returns on success
-        if (!ke.execute()) {
-            throw ApplicationError("Executing kernel failed");
-        }
+    if (m_loadOnly) {
+        cerr << "Kernel loaded" << endl;
     } else {
-        ke.reboot();
+        if (m_force) {
+            /* try to change VT */
+            if (m_dryRun) {
+                cerr << "Switching to virtual terminal 0 in real world" << endl;
+            } else {
+                ke.prepareConsole();
+            }
+
+            // this never returns on success
+            if (!ke.execute()) {
+                throw ApplicationError("Executing kernel failed");
+            }
+        } else {
+            cerr << "Initiating reboot" << endl;
+            ke.reboot();
+        }
     }
 }
 

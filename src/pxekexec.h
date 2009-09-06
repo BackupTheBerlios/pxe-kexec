@@ -200,6 +200,7 @@ class PxeKexec : public Completor {
         bool        m_force;
         bool        m_ignoreWhitelist;
         bool        m_detectDistOnly;
+        bool        m_loadOnly;
 };
 
 /* }}} */
