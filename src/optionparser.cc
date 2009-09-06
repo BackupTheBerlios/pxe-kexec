@@ -35,9 +35,14 @@ using std::list;
 using std::ostream;
 using std::memset;
 
+/* OptionValue {{{ */
+
 /* ---------------------------------------------------------------------------------------------- */
 OptionValue::OptionValue()
-    : m_type(OT_INVALID), m_integer(0), m_string(""), m_flag(false)
+    : m_type(OT_INVALID)
+    , m_integer(0)
+    , m_string("")
+    , m_flag(false)
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -88,6 +93,9 @@ int OptionValue::getInteger() const
     return m_integer;
 }
 
+/* }}} */
+/* Option {{{ */
+
 /* ---------------------------------------------------------------------------------------------- */
 Option::Option()
     : m_type(OT_FLAG)
@@ -96,8 +104,10 @@ Option::Option()
 /* ---------------------------------------------------------------------------------------------- */
 Option::Option(const string &name, char letter, OptionType type,
                const std::string &description)
-    : m_longName(name), m_description(description),
-      m_letter(letter), m_type(type)
+    : m_longName(name)
+    , m_description(description)
+    , m_letter(letter)
+    , m_type(type)
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -129,6 +139,9 @@ void Option::setType(OptionType type)
 {
     m_type = type;
 }
+
+/* }}} */
+/* Option {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
 OptionType Option::getType() const
@@ -339,5 +352,7 @@ void OptionParser::printHelp(ostream &os, const string &name) const
         os << "     " << opt.getDescription() << endl;
     }
 }
+
+/* }}} */
 
 // :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:
