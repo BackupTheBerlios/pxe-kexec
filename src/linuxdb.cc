@@ -66,6 +66,13 @@ LinuxDistDetector *LinuxDistDetector::getDetector()
     }
     delete detector;
 
+    // then Debian
+    detector = new DebianDistDetector();
+    if (detector->detect()) {
+        return detector;
+    }
+    delete detector;
+
     // and then SUSE
     detector = new SUSELinuxDistDetector();
     if (detector->detect()) {
@@ -334,6 +341,33 @@ bool ArchDistDetector::detect()
     setType(DT_ARCH);
     setDistribution("ARCH Linux");
     setDescription("ARCH Linux");
+
+    return true;
+}
+
+/* }}} */
+/* DebianDistDetector {{{ */
+
+/* ---------------------------------------------------------------------------------------------- */
+bool DebianDistDetector::detect()
+    throw ()
+{
+    const string DEBIAN_FILENAME("/etc/debian_version");
+    ifstream fin(DEBIAN_FILENAME.c_str());
+    if (!fin.is_open()) {
+        return false;
+    }
+
+    // the file normally has only one line
+    string line;
+    if (!getline(fin, line)) {
+        return false;
+    }
+
+    setType(DT_DEBIAN);
+    setRelease(line);
+    setDistribution("Debian");
+    setDescription("Debian GNU/Linux " + line);
 
     return true;
 }

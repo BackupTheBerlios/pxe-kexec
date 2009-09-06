@@ -1,3 +1,7 @@
+0.2.2
+-----
+  - Add Debian >= 5.0 to the whitelist.
+
 0.2.1
 -----
   - Add RHEL/CentOS >= 5.3 to the whitelist.

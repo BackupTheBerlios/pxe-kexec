@@ -384,6 +384,26 @@ class ArchDistDetector : public AbstractLinuxDistDetector
 };
 
 /* }}} */
+/* DebianDistDetector {{{ */
+
+/**
+ * @brief Detector for Debian distributions
+ *
+ * Reads <tt>/etc/debian_version</tt> to detect the Linux distribution.
+ *
+ * @author Bernhard Walle <bernhard@bwalle.de>
+ */
+class DebianDistDetector : public AbstractLinuxDistDetector
+{
+    public:
+        /**
+         * @copydoc LinuxDistDetector::detect()
+         */
+        bool detect()
+        throw ();
+};
+
+/* }}} */
 
 #endif /* LINUXDB_H */
 

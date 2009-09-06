@@ -6,6 +6,7 @@
 	  option in version 0.1.x.
 	* Implement '--version'.
 	* Fix compile warnings on openSUSE Factory (11.2).
+	* Add Debian >= 5.0 to the whitelist.
 
 2009-08-30  Bernhard Walle <bernhard@bwalle.de>
 
