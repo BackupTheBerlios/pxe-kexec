@@ -176,8 +176,6 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
 {
     // repare the parser
     OptionParser op;
-    op.addOption(Option("debug",
-                        'D', OT_FLAG,   "Enable debugging output"));
     op.addOption(Option("help",             'h', OT_FLAG,
                         "Shows this help output"));
     op.addOption(Option("version",          'v', OT_FLAG,
@@ -200,6 +198,8 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     	                "Use FTP instead of TFTP"));
     op.addOption(Option("dry-run",          'Y', OT_FLAG,
     	                "Don't run the final kexec -e"));
+    op.addOption(Option("debug",
+                        'D', OT_FLAG,   "Enable debugging output"));
     op.addOption(Option("ignore-whitelist", 'w', OT_FLAG,
     	                "Ignore whitelist of Linux distributions that support "
     	                "kexec in their reboot scripts"));
