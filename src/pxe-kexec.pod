@@ -93,6 +93,11 @@ Prints the version number to standard output.
 Immediately load the kernel without invoking reboot(8). This does not execute
 shutdown scripts, i.e. does not terminate daemons, network connections etc.
 
+=item B<-L> | B<--load-only>
+
+When that option is specified, the new kernel is only loaded. No reboot is
+triggered and "kexec -e" is also not executed.
+
 =item B<-w> | B<--ignore-whitelist>
 
 Don't check if the detected Linux distribution is on the whitelist of
@@ -201,6 +206,18 @@ is now
   % pxe-kexec --force mydhcp.mydomain.com
 
 
+=item *
+
+If you want to have the old "dry-run" behaviour back, which in fact only
+missed the last "kexec -e" step, you can use the option "--load-only".
+Example:
+
+  % pxe-kexec --dry-run mydhcp.mydomain.com
+
+is now
+
+ % pxe-kexec --load-only mydhcp.mydomain.com
+
 =back
 
 
@@ -236,6 +253,13 @@ Same as the previous example, but without confirmation.
 
 Same as the first example, but execute "kexec -e" at the end instead of
 invoking reboot(8).
+
+=item B<pxe-kexec -l I<mydhcp.mydomain.com>>
+
+Same as the first example, but don't trigger a reboot. Instead, the kernel
+is just loaded. If your distribution supports kexec-based rebooting, the
+kernel will be loaded on next reboot. You can also run "kexec -e" manually
+at any time.
 
 
 =back
