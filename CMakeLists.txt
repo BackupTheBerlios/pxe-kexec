@@ -6,7 +6,7 @@ PROJECT(pxe-kexec CXX C)
 
 cmake_minimum_required(VERSION 2.4)
 set (PACKAGE_STRING "pxe-kexec")
-set (PACKAGE_VERSION "0.2.0")
+set (PACKAGE_VERSION "0.2.1")
 set (HAVE_LIBREADLINE 0)
 
 include_directories("${PROJECT_BINARY_DIR}")
