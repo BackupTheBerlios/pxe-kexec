@@ -235,12 +235,12 @@ invoking reboot(8).
 =head1 AUTHOR
 
 The B<pxe-kexec> program and documentation has been written by Bernhard Walle
-E<lt>L<bernhard@bwalle.de>E<gt>.
+E<lt>bernhard@bwalle.deE<gt>.
 
 =head1 BUGS
 
 This program has no bugs. If you find a feature that should be removed,
-please report to E<lt>L<bernhard@bwalle.de>E<gt>
+please report to E<lt>bernhard@bwalle.deE<gt>
 if you don't want to create an account.
 
 =head1 SEE ALSO
