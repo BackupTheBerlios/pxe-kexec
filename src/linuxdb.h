@@ -342,6 +342,27 @@ class SUSELinuxDistDetector : public AbstractLinuxDistDetector
 };
 
 /* }}} */
+/* RedHatDistDetector {{{ */
+
+/**
+ * @brief Detector for the Red Hat distributions
+ *
+ * Red Hat includes also CentOS and Fedora. Reads <tt>/etc/redhat-release</tt>. On Fedora,
+ * the file <tt>/etc/fedora-release</tt> is just a symbolic link to <tt>/etc/redhat-release</tt>.
+ *
+ * @author Bernhard Walle <bernhard@bwalle.de>
+ */
+class RedHatDistDetector : public AbstractLinuxDistDetector
+{
+    public:
+        /**
+         * @copydoc LinuxDistDetector::detect()
+         */
+        bool detect()
+        throw ();
+};
+
+/* }}} */
 /* ArchDistDetector {{{ */
 
 /**

@@ -18,6 +18,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstring>
 
 #include "linuxdb.h"
 #include "stringutil.h"
@@ -25,6 +26,7 @@
 using std::cerr;
 using std::endl;
 using std::string;
+using std::strlen;
 using std::vector;
 using std::ifstream;
 
@@ -66,6 +68,13 @@ LinuxDistDetector *LinuxDistDetector::getDetector()
 
     // and then SUSE
     detector = new SUSELinuxDistDetector();
+    if (detector->detect()) {
+        return detector;
+    }
+    delete detector;
+
+    // Fedora, Red Hat or CentOS
+    detector = new RedHatDistDetector();
     if (detector->detect()) {
         return detector;
     }
@@ -255,6 +264,56 @@ bool SUSELinuxDistDetector::detect()
     }
 
     setType(DT_SUSE);
+
+    return true;
+}
+
+/* }}} */
+/* RedHatDistDetector {{{ */
+
+/* ---------------------------------------------------------------------------------------------- */
+bool RedHatDistDetector::detect()
+    throw ()
+{
+    const string REDHAT_FILENAME("/etc/redhat-release");
+    ifstream fin(REDHAT_FILENAME.c_str());
+    if (!fin.is_open()) {
+        return false;
+    }
+
+    // the file normally has only one line
+    string line;
+    if (!getline(fin, line)) {
+        return false;
+    }
+
+    // search for the 'release' word
+    string::size_type release_pos = line.find("release");
+    if (release_pos == string::npos) {
+        return false;
+    }
+
+    // and search for the '(' and ')'
+    string::size_type open_bracket_pos = line.find("(");
+    string::size_type closing_bracket_pos = line.find(")");
+    if ((open_bracket_pos == string::npos) || (closing_bracket_pos == string::npos)) {
+        return false;
+    }
+    if (open_bracket_pos < release_pos) {
+        return false;
+    }
+    if (closing_bracket_pos < open_bracket_pos) {
+        return false;
+    }
+
+    setDistribution(line.substr(0, release_pos - 1));
+    setRelease(line.substr(release_pos + strlen("release") + 1,
+                           open_bracket_pos - release_pos - strlen("release") - 2));
+    setCodename(line.substr(open_bracket_pos + 1,
+                            closing_bracket_pos - open_bracket_pos - 1));
+    setDescription(line);
+
+    setType(DT_REDHAT);
 
     return true;
 }
