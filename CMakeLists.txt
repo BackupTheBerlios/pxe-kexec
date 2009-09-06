@@ -75,15 +75,6 @@ configure_file(
 
 ADD_SUBDIRECTORY(src)
 
-#
-# Source Packages
-#
-
-SET(CPACK_GENERATOR "TGZ;TBZ2") # This line is need for a CMake (Version 2.4.7) Bug - Fixed in CVS
-SET(CPACK_SOURCE_GENERATOR "TGZ;TBZ2")
-SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${PACKAGE_STRING}-${PACKAGE_VERSION}")
-SET(CPACK_SOURCE_IGNORE_FILES "${CPACK_SOURCE_IGNORE_FILES};/.git;build")
-INCLUDE(CPack)
 
 #
 # Documentation
