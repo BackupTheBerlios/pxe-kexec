@@ -63,7 +63,7 @@ int Console::openConsoleFd()
         "/dev/console"
     };
 
-    for (int i = 0; i < sizeof(terminals)/sizeof(terminals[0]); i++) {
+    for (unsigned int i = 0; i < sizeof(terminals)/sizeof(terminals[0]); i++) {
         fd = open(terminals[i], O_RDWR);
         if (fd < 0 && errno == EACCES)
             fd = open(terminals[i], O_WRONLY);

@@ -5,6 +5,7 @@
 	* Implement 'load-only' option as replacement for the old "dry-run"
 	  option in version 0.1.x.
 	* Implement '--version'.
+	* Fix compile warnings on openSUSE Factory (11.2).
 
 2009-08-30  Bernhard Walle <bernhard@bwalle.de>
 

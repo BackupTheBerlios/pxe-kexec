@@ -103,7 +103,7 @@ vector<string> stringsplit(const string &str, const string &pattern)
     vector<string> retval;
     string s = str;
 
-    int pos;
+    string::size_type pos;
     while ((pos = s.find(pattern)) != string::npos) {
         string item = s.substr(0, pos);
         retval.push_back(item);

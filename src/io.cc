@@ -217,7 +217,7 @@ char **readline_line_reader_complete(const char *text, int start, int end)
     for (StringVector::const_iterator it = completions.begin();
             it != completions.end(); ++it) {
         size_t len = min(it->size(), replacement.size());
-        for (int mismatch = 0; mismatch < len; ++mismatch) {
+        for (unsigned int mismatch = 0; mismatch < len; ++mismatch) {
             if ((*it)[mismatch] != replacement[mismatch]) {
                 replacement = replacement.substr(0, mismatch);
                 break;
