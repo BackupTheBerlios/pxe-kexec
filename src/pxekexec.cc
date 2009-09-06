@@ -365,6 +365,7 @@ bool PxeKexec::checkEnv()
         bool suitable_dist = false;
         if ((dist == "Ubuntu"       && rpmvercmp(detected_version, "9.04") >= 0)  ||
             (dist == "openSUSE"     && rpmvercmp(detected_version, "11.0") >= 0)  ||
+            (dist == "Fedora"       && rpmvercmp(detected_version, "11")   >= 0)  ||
             ((dist == "CentOS" ||
               startsWith(dist, "Red Hat Enterprise Linux"))
                                     && rpmvercmp(detected_version, "5.3") >= 0) ||

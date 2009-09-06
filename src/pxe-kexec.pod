@@ -56,6 +56,14 @@ Ubuntu, starting with version 9.04
 
 =item *
 
+Red Hat Enterprise Linux and CentOS, starting with version 5.3
+
+=item *
+
+Fedora Linux, starting with version 11
+
+=item *
+
 ARCH Linux
 
 =back

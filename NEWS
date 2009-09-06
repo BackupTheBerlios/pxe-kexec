@@ -1,6 +1,7 @@
 0.2.1
 -----
   - Add RHEL/CentOS >= 5.3 to the whitelist.
+  - Add Fedora >= 11 to the whitelist.
 
 0.2.0
 -----
