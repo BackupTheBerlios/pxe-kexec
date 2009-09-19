@@ -271,7 +271,14 @@ void NetworkHelper::detectInterfaces()
 #undef MAX_IFS
 
 /* ---------------------------------------------------------------------------------------------- */
-void NetworkHelper::detectDHCPServers()
+bool NetworkHelper::detectDHCPServers()
+{
+    return detectDHCPServerDhcpd() || detectDHCPServerDhclient();
+}
+
+
+/* ---------------------------------------------------------------------------------------------- */
+bool NetworkHelper::detectDHCPServerDhcpd()
 {
     for (vector<NetworkInterface>::iterator it = m_interfaces.begin();
             it != m_interfaces.end(); ++it) {
@@ -288,11 +295,49 @@ void NetworkHelper::detectDHCPServers()
                 interface.setDHCPServerIP(getRest(line, "DHCPSIADDR="));
                 Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
                         interface.getName().c_str(), interface.getDHCPServerIP().c_str());
+                return true;
             }
         }
 
         fin.close();
     }
+
+    return false;
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+bool NetworkHelper::detectDHCPServerDhclient()
+{
+    for (vector<NetworkInterface>::iterator it = m_interfaces.begin();
+            it != m_interfaces.end(); ++it) {
+
+        NetworkInterface &interface = *it;
+
+        string configfiles[] = {
+            string("/var/lib/dhcp3/dhclient-" + interface.getName() + ".lease"),
+            string("/var/lib/dhcp3/dhclient." + interface.getName() + ".leases")
+        };
+
+        for (int i = 0; i < sizeof(configfiles)/sizeof(configfiles[0]); ++i) {
+            ifstream fin(configfiles[i].c_str());
+
+            string line;
+            while (getline(fin, line)) {
+                line = strip(line);
+                if (startsWith(line, "option dhcp-server-identifier ")) {
+                    string address = getRest(line, "option dhcp-server-identifier ");
+                    interface.setDHCPServerIP(address);
+                    Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
+                            interface.getName().c_str(), interface.getDHCPServerIP().c_str());
+                    return true;
+                }
+            }
+
+            fin.close();
+        }
+    }
+
+    return false;
 }
 
 /* }}} */

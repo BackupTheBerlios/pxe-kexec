@@ -1,3 +1,7 @@
+2009-09-19  Bernhard Walle <bernhard@bwalle.de>
+
+	* Add support for dhclient to retrieve the TFTP server.
+
 2009-09-06  Bernhard Walle <bernhard@bwalle.de>
 
 	* Add RHEL/CentOS >= 5.3 to the whitelist.

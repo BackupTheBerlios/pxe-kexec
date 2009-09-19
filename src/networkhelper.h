@@ -289,12 +289,33 @@ class NetworkHelper {
         void detectInterfaces()
             throw (ApplicationError);
 
+
         /**
-         * @brief Detects DHCP servers
+         * @brief Detects the DHCP server
+         *
+         * Uses detectDHCPServerDhcpd() and detectDHCPServerDhclient() to detect the DHCP server.
+         *
+         * @return @c true if a DHCP server could be detected, @c false otherwise
+         */
+        bool detectDHCPServers();
+
+        /**
+         * @brief Detects DHCP servers for dhcpd
          *
          * Reads <tt>/var/lib/dhcpcd/dhcpcd-*</tt> to find a DHCP server.
+         *
+         * @return @c true if a DHCP server could be detected, @c false otherwise
          */
-        void detectDHCPServers();
+        bool detectDHCPServerDhcpd();
+
+        /**
+         * @brief Detects DHCP servers for dhclient
+         *
+         * Reads <tt>/var/lib/dhcp3/dhclient-wlan0.lease-*</tt> to find a DHCP server.
+         *
+         * @return @c true if a DHCP server could be detected, @c false otherwise
+         */
+        bool detectDHCPServerDhclient();
 
     private:
         bool m_ifDiscovered;

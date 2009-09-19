@@ -1,3 +1,7 @@
+0.2.3
+-----
+  - Add support for dhclient to retrieve the TFTP server.
+
 0.2.2
 -----
   - Add Debian >= 5.0 to the whitelist.
