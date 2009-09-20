@@ -59,6 +59,12 @@ find_package(CURL REQUIRED)
 set (EXTRA_LIBS ${EXTRA_LIBS} ${CURL_LIBRARIES})
 include_directories(${CURL_INCLUDE_DIRS})
 
+# libbw
+
+ADD_SUBDIRECTORY(ext/libbw)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ext/libbw)
+SET (EXTRA_LIBS ${EXTRA_LIBS} bw)
+
 #
 # Configure file
 #
