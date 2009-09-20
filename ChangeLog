@@ -3,6 +3,7 @@
 	* Add libbw.
 	* Use Debug class from 'libbw'.
 	* Use stringutil functions from 'libbw'.
+	* Strip ';' when parsing /var/lib/dhcp3/dhclient.*.
 
 2009-09-19  Bernhard Walle <bernhard@bwalle.de>
 

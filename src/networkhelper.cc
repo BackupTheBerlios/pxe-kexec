@@ -326,6 +326,7 @@ bool NetworkHelper::detectDHCPServerDhclient()
                 line = strip(line);
                 if (startsWith(line, "option dhcp-server-identifier ")) {
                     string address = getRest(line, "option dhcp-server-identifier ");
+                    address = strip(address, ";");
                     interface.setDHCPServerIP(address);
                     Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
                             interface.getName().c_str(), interface.getDHCPServerIP().c_str());
