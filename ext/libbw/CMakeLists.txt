@@ -27,6 +27,7 @@ ADD_LIBRARY(
     bw
     STATIC
     debug.cc
+    stringutil.cc
 )
 
 # vim: set sw=4 ts=4 et:
