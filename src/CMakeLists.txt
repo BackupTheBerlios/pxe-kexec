@@ -1,5 +1,4 @@
 add_executable(pxe-kexec
-        debug.cc
         kexec.cc
         optionparser.cc
         pxeparser.cc
