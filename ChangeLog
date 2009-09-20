@@ -1,6 +1,8 @@
 2009-09-20  Bernhard Walle <bernhard@bwalle.de>
 
-	* Use Debug class from 'libbw' and add libbw.
+	* Add libbw.
+	* Use Debug class from 'libbw'.
+	* Use stringutil functions from 'libbw'.
 
 2009-09-19  Bernhard Walle <bernhard@bwalle.de>
 
