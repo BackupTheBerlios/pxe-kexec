@@ -29,7 +29,7 @@
 
 #include <string>
 
-#include "io.h"
+#include "completion.h"
 #include "global.h"
 #include "pxeparser.h"
 

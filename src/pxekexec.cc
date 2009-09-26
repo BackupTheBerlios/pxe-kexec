@@ -36,7 +36,7 @@
 #include "networkhelper.h"
 #include "downloader.h"
 #include "pxeparser.h"
-#include "io.h"
+#include "completion.h"
 #include "kexec.h"
 #include "config.h"
 #include "stringutil.h"

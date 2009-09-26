@@ -93,31 +93,6 @@ class ApplicationError : public std::runtime_error {
 };
 
 /* }}} */
-/* IOError {{{ */
-
-/**
- * @brief Input/Output error
- *
- * This exception class is thrown when an Input/Output error occurred. Use the
- * std::runtime_error::what() method to retrieve the error message in your
- * exception handler.
- *
- * @author Bernhard Walle <bernhard@bwalle.de>
- */
-class IOError : public std::runtime_error {
-    public:
-        /**
-         * @brief Constructor
-         *
-         * Creates a new IOError.
-         *
-         * @param[in] string the error string
-         */
-        IOError(const std::string& string)
-            : std::runtime_error(string) {}
-};
-
-/* }}} */
 
 #endif /* GLOBAL_H */
 

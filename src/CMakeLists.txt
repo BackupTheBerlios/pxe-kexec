@@ -5,7 +5,6 @@ add_executable(pxe-kexec
         downloader.cc
         main.cc
         process.cc
-        io.cc
         networkhelper.cc
         console.cc
         pxekexec.cc
