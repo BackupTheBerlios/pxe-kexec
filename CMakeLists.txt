@@ -96,6 +96,7 @@ configure_file(
 #
 
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(scripts)
 
 
 #

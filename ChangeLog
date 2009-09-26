@@ -2,6 +2,11 @@
 
 	* Update libbw to 0.1.2.
 	* Move completion to libbw.
+	* Add a hook script for dhclient (on Debian/Ubuntu) that remembers
+	  some variables in /var/lib/pxe-kexec/<interfacename>. This replaces
+	  parsing /var/lib/dhcp3/dhclient.* which does not work when multpile
+	  leases are specified. Since that file can become quite large, using
+	  that hook script was preferred over parsing all the lease dates.
 
 2009-09-20  Bernhard Walle <bernhard@bwalle.de>
 

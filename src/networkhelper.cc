@@ -308,34 +308,28 @@ bool NetworkHelper::detectDHCPServerDhcpd()
 /* ---------------------------------------------------------------------------------------------- */
 bool NetworkHelper::detectDHCPServerDhclient()
 {
+    // this is our
+    const string DHCLIENT_PXE_KEXEC_CONFIGDIR("/var/lib/pxe-kexec/");
+
     for (vector<NetworkInterface>::iterator it = m_interfaces.begin();
             it != m_interfaces.end(); ++it) {
 
         NetworkInterface &interface = *it;
 
-        string configfiles[] = {
-            string("/var/lib/dhcp3/dhclient-" + interface.getName() + ".lease"),
-            string("/var/lib/dhcp3/dhclient." + interface.getName() + ".leases")
-        };
+        string configfile = DHCLIENT_PXE_KEXEC_CONFIGDIR + interface.getName();
+        ifstream fin(configfile.c_str());
 
-        for (int i = 0; i < sizeof(configfiles)/sizeof(configfiles[0]); ++i) {
-            ifstream fin(configfiles[i].c_str());
-
-            string line;
-            while (getline(fin, line)) {
-                line = strip(line);
-                if (startsWith(line, "option dhcp-server-identifier ")) {
-                    string address = getRest(line, "option dhcp-server-identifier ");
-                    address = strip(address, ";");
-                    interface.setDHCPServerIP(address);
-                    Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
-                            interface.getName().c_str(), interface.getDHCPServerIP().c_str());
-                    return true;
-                }
+        string line;
+        while (getline(fin, line)) {
+            if (startsWith(line, "dhcp_server_identifier=")) {
+                interface.setDHCPServerIP(getRest(line, "dhcp_server_identifier="));
+                Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
+                        interface.getName().c_str(), interface.getDHCPServerIP().c_str());
+                return true;
             }
-
-            fin.close();
         }
+
+        fin.close();
     }
 
     return false;
