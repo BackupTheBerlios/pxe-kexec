@@ -45,6 +45,12 @@ set(MANDIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE
 
 set (CMAKE_LIBRARY_PATH /usr/lib64 ${CMAKE_LIBRARY_PATH})
 
+# libbw
+
+ADD_SUBDIRECTORY(ext/libbw)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ext/libbw)
+SET (EXTRA_LIBS ${EXTRA_LIBS} bw)
+
 # Readline
 
 find_path(READLINE_INCLUDE_DIR readline/readline.h
@@ -74,12 +80,6 @@ include_directories( ${CURSES_INCLUDE_DIR} )
 find_package(CURL REQUIRED)
 set (EXTRA_LIBS ${EXTRA_LIBS} ${CURL_LIBRARIES})
 include_directories(${CURL_INCLUDE_DIRS})
-
-# libbw
-
-ADD_SUBDIRECTORY(ext/libbw)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ext/libbw)
-SET (EXTRA_LIBS ${EXTRA_LIBS} bw)
 
 #
 # Configure file
