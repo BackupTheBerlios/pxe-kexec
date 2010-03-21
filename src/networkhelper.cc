@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,14 +31,6 @@
 #include "debug.h"
 #include "networkhelper.h"
 
-using std::string;
-using std::vector;
-using std::strerror;
-using std::find_if;
-using std::bind2nd;
-using std::ptr_fun;
-using std::ifstream;
-
 /* NetworkInterface {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -47,7 +39,7 @@ NetworkInterface::NetworkInterface()
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
-NetworkInterface::NetworkInterface(const string &name)
+NetworkInterface::NetworkInterface(const std::string &name)
     : m_isValid(true)
     , m_up(false)
     , m_name(name)
@@ -60,13 +52,13 @@ bool NetworkInterface::isValid() const
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string NetworkInterface::getName() const
+std::string NetworkInterface::getName() const
 {
     return m_name;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void NetworkInterface::setName(const string &name)
+void NetworkInterface::setName(const std::string &name)
 {
     m_name = name;
 }
@@ -101,7 +93,7 @@ std::string NetworkInterface::getMac(int format)
         throw ApplicationError("NetworkInterface::getIp(): "
                 "Invalid format specified");
 
-    return string(buffer);
+    return std::string(buffer);
 }
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -111,7 +103,7 @@ void NetworkInterface::setMac(const char *data)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string NetworkInterface::getIp(int format)
+std::string NetworkInterface::getIp(int format)
 {
     char buffer[32];
     if (format & IF_HEX) {
@@ -130,7 +122,7 @@ string NetworkInterface::getIp(int format)
         throw ApplicationError("NetworkInterface::getIp(): "
                 "Invalid format specified");
 
-    return string(buffer);
+    return std::string(buffer);
 }
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -140,13 +132,13 @@ void NetworkInterface::setIp(int addr)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void NetworkInterface::setDHCPServerIP(const string &ip)
+void NetworkInterface::setDHCPServerIP(const std::string &ip)
 {
     m_dhcpServerIP = ip;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string NetworkInterface::getDHCPServerIP() const
+std::string NetworkInterface::getDHCPServerIP() const
 {
     return m_dhcpServerIP;
 }
@@ -160,20 +152,20 @@ NetworkHelper::NetworkHelper()
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
-bool compare_network_interface_name(NetworkInterface interf, string name)
+bool compare_network_interface_name(NetworkInterface interf, std::string name)
 {
     return interf.getName() == name;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-NetworkInterface NetworkHelper::getInterface(const string &ifname)
+NetworkInterface NetworkHelper::getInterface(const std::string &ifname)
 {
     if (!m_ifDiscovered) {
         detectInterfaces();
         m_ifDiscovered = true;
     }
 
-    vector<NetworkInterface>::iterator it =
+    std::vector<NetworkInterface>::iterator it =
         find_if(m_interfaces.begin(), m_interfaces.end(),
                 bind2nd(ptr_fun(compare_network_interface_name), ifname));
 
@@ -182,7 +174,7 @@ NetworkInterface NetworkHelper::getInterface(const string &ifname)
 
 
 /* ---------------------------------------------------------------------------------------------- */
-vector<NetworkInterface> NetworkHelper::getInterfaces()
+std::vector<NetworkInterface> NetworkHelper::getInterfaces()
     throw (ApplicationError)
 {
     if (!m_ifDiscovered) {
@@ -205,8 +197,7 @@ void NetworkHelper::detectInterfaces()
 
     sockfd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
     if (!sockfd)
-        throw ApplicationError(string("socket(PF_INET) failed: ")
-                + strerror(errno));
+        throw ApplicationError(std::string("socket(PF_INET) failed: ") + std::strerror(errno));
 
     struct ifconf ifc;
     struct ifconf buffer[MAX_IFS];
@@ -217,8 +208,7 @@ void NetworkHelper::detectInterfaces()
     int error = errno;
     if (ret < 0) {
         close(sockfd);
-        throw ApplicationError(string("ioctl(sockfd) failed: ")
-                + strerror(error));
+        throw ApplicationError(std::string("ioctl(sockfd) failed: ") + std::strerror(error));
     }
 
     ifr = ifc.ifc_req;
@@ -233,8 +223,8 @@ void NetworkHelper::detectInterfaces()
         ret = ioctl(sockfd, SIOCGIFFLAGS, ifr);
         if (ret < 0) {
             close(sockfd);
-            throw ApplicationError(string("ioctl(SIOCGIFHWADDR) failed: ")
-                    + strerror(error));
+            throw ApplicationError(std::string("ioctl(SIOCGIFHWADDR) failed: ")
+                                   + std::strerror(error));
         }
         if (ifr->ifr_flags & IFF_LOOPBACK) {
             Debug::debug()->trace("Interface %s is loopback",
@@ -246,8 +236,8 @@ void NetworkHelper::detectInterfaces()
         ret = ioctl(sockfd, SIOCGIFHWADDR, ifr);
         if (ret < 0) {
             close(sockfd);
-            throw ApplicationError(string("ioctl(SIOCGIFHWADDR) failed: ")
-                    + strerror(error));
+            throw ApplicationError(std::string("ioctl(SIOCGIFHWADDR) failed: ")
+                    + std::strerror(error));
         }
         interface.setMac(ifr->ifr_hwaddr.sa_data);
 
@@ -255,8 +245,8 @@ void NetworkHelper::detectInterfaces()
         ret = ioctl(sockfd, SIOCGIFADDR, ifr);
         if (ret < 0) {
             close(sockfd);
-            throw ApplicationError(string("ioctl(SIOCGIFADDR) failed: ")
-                    + strerror(error));
+            throw ApplicationError(std::string("ioctl(SIOCGIFADDR) failed: ")
+                    + std::strerror(error));
         }
 
         interface.setIp(((struct sockaddr_in *)&ifr->ifr_addr)->sin_addr.s_addr);
@@ -280,17 +270,17 @@ bool NetworkHelper::detectDHCPServers()
 /* ---------------------------------------------------------------------------------------------- */
 bool NetworkHelper::detectDHCPServerDhcpd()
 {
-    for (vector<NetworkInterface>::iterator it = m_interfaces.begin();
+    for (std::vector<NetworkInterface>::iterator it = m_interfaces.begin();
             it != m_interfaces.end(); ++it) {
 
         NetworkInterface &interface = *it;
 
-        string configfile = "/var/lib/dhcpcd/dhcpcd-" + interface.getName()
+        std::string configfile = "/var/lib/dhcpcd/dhcpcd-" + interface.getName()
             + ".info";
-        ifstream fin(configfile.c_str());
+        std::ifstream fin(configfile.c_str());
 
-        string line;
-        while (getline(fin, line)) {
+        std::string line;
+        while (std::getline(fin, line)) {
             if (startsWith(line, "DHCPSIADDR=")) {
                 interface.setDHCPServerIP(getRest(line, "DHCPSIADDR="));
                 Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
@@ -309,18 +299,18 @@ bool NetworkHelper::detectDHCPServerDhcpd()
 bool NetworkHelper::detectDHCPServerDhclient()
 {
     // this is our
-    const string DHCLIENT_PXE_KEXEC_CONFIGDIR("/var/lib/pxe-kexec/");
+    const std::string DHCLIENT_PXE_KEXEC_CONFIGDIR("/var/lib/pxe-kexec/");
 
-    for (vector<NetworkInterface>::iterator it = m_interfaces.begin();
+    for (std::vector<NetworkInterface>::iterator it = m_interfaces.begin();
             it != m_interfaces.end(); ++it) {
 
         NetworkInterface &interface = *it;
 
-        string configfile = DHCLIENT_PXE_KEXEC_CONFIGDIR + interface.getName();
-        ifstream fin(configfile.c_str());
+        std::string configfile = DHCLIENT_PXE_KEXEC_CONFIGDIR + interface.getName();
+        std::ifstream fin(configfile.c_str());
 
-        string line;
-        while (getline(fin, line)) {
+        std::string line;
+        while (std::getline(fin, line)) {
             if (startsWith(line, "dhcp_server_identifier=")) {
                 interface.setDHCPServerIP(getRest(line, "dhcp_server_identifier="));
                 Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",

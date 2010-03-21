@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,23 +44,6 @@
 #include "linuxdb.h"
 #include "ext/rpmvercmp.h"
 
-/* Using directives {{{ */
-
-using std::strcpy;
-using std::getenv;
-using std::time;
-using std::cerr;
-using std::endl;
-using std::ios;
-using std::cout;
-using std::cin;
-using std::vector;
-using std::string;
-using std::stringstream;
-using std::ofstream;
-using std::auto_ptr;
-
-/* }}} */
 /* SimpleNotifier definition {{{ */
 
 /**
@@ -131,8 +114,8 @@ int SimpleNotifier::progressed(double total, double now)
     if (difftime_timeval(m_lastDot, current_time) < 100000)
         return true;
 
-    cout << ".";
-    cout.flush();
+    std::cout << ".";
+    std::cout.flush();
 
     m_lastDot = current_time;
 
@@ -142,7 +125,7 @@ int SimpleNotifier::progressed(double total, double now)
 /* ---------------------------------------------------------------------------------------------- */
 void SimpleNotifier::finished()
 {
-    cout << endl;
+    std::cout << std::endl;
 }
 
 /* }}} */
@@ -213,7 +196,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
 
     // evaluate options
     if (op.getValue("help").getFlag()) {
-        op.printHelp(cerr, PACKAGE_STRING " " PACKAGE_VERSION);
+        op.printHelp(std::cerr, PACKAGE_STRING " " PACKAGE_VERSION);
         return false;
     }
     if (op.getValue("version").getFlag()) {
@@ -250,7 +233,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     if (op.getValue("quiet").getType() != OT_INVALID)
         m_quiet = true;
 
-    vector<string> args = op.getArgs();
+    std::vector<std::string> args = op.getArgs();
     if (args.size() > 1)
         throw ApplicationError("Too many arguments.");
     if (args.size() == 1)
@@ -274,7 +257,7 @@ void PxeKexec::readPxeConfig()
         if (!netif.isValid())
             throw ApplicationError("Specified network interface does not exist.");
     } else {
-        vector<NetworkInterface> ifs = nh.getInterfaces();
+        std::vector<NetworkInterface> ifs = nh.getInterfaces();
         if (ifs.size() < 1)
             throw ApplicationError("No network interfaces found");
 
@@ -283,9 +266,9 @@ void PxeKexec::readPxeConfig()
     }
     Debug::debug()->trace("Using interface '%s'", netif.getName().c_str());
 
-    string pxe_mac = string("01-") + netif.getMac(NetworkInterface::MF_LOWERCASE |
+    std::string pxe_mac = std::string("01-") + netif.getMac(NetworkInterface::MF_LOWERCASE |
             NetworkInterface::MF_DASH);
-    string pxe_ip = netif.getIp(NetworkInterface::IF_HEX);
+    std::string pxe_ip = netif.getIp(NetworkInterface::IF_HEX);
 
     // get PXE host
     if (m_pxeHost.size() == 0)
@@ -301,14 +284,14 @@ void PxeKexec::readPxeConfig()
         strcpy(names[i], pxe_ip.substr(0, 8-(i-1)).c_str());
     strcpy(names[9], "default");
 
-    stringstream ss;
+    std::stringstream ss;
     SimpleNotifier notifier;
     for (int i = 0; i < 10; i++) {
-        string url = m_protocol + "://" + m_pxeHost + "/pxelinux.cfg/" + names[i];
+        std::string url = m_protocol + "://" + m_pxeHost + "/pxelinux.cfg/" + names[i];
 
         Debug::debug()->trace("Trying to retrieve %s", url.c_str());
         if (!m_quiet)
-            cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
+            std::cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
 
         try {
             Downloader dl(ss, CONNECTION_TIMEOUT);
@@ -321,16 +304,16 @@ void PxeKexec::readPxeConfig()
             Debug::debug()->trace("DownloadError: %s", err.what());
 
             if (err.getErrorcode() == DownloadError::DEC_CONNECTION_FAILED) {
-                cerr << "Connection to " << m_pxeHost << " with protocol " << m_protocol
-                     << " failed. Aborting." << endl;
+                std::cerr << "Connection to " << m_pxeHost << " with protocol " << m_protocol
+                          << " failed. Aborting." << std::endl;
                 if (m_protocol == "tftp") {
-                    cerr << endl;
-                    cerr << "HINT: This failure could be because of Firewall settings. "
-                            "Check your Firewall " << endl;
-                    cerr << "configuration. If your FTP server has the same directory layout "
-                         << "as your TFTP" << endl;
-                    cerr << "server, you may also consider the '-F' option." << endl;
-                    cerr << endl;
+                    std::cerr << std::endl;
+                    std::cerr << "HINT: This failure could be because of Firewall settings. "
+                                 "Check your Firewall " << std::endl;
+                    std::cerr << "configuration. If your FTP server has the same directory layout "
+                              << "as your TFTP" << std::endl;
+                    std::cerr << "server, you may also consider the '-F' option." << std::endl;
+                    std::cerr << std::endl;
                 }
                 break;
             }
@@ -345,8 +328,7 @@ void PxeKexec::readPxeConfig()
         parser.parseStream(ss);
         m_pxeConfig = parser.getConfig();
     } catch (const ParseError &pe) {
-        throw ApplicationError(string("Parsing PXE config file failed: ") +
-                pe.what());
+        throw ApplicationError(std::string("Parsing PXE config file failed: ") + pe.what());
     }
 }
 
@@ -354,11 +336,11 @@ void PxeKexec::readPxeConfig()
 bool PxeKexec::checkEnv()
 {
     if (!Process::isInPath("kexec")) {
-        cerr << "Error: kexec-tools are not installed." << endl;
+        std::cerr << "Error: kexec-tools are not installed." << std::endl;
         return false;
     }
     if (geteuid() != 0) {
-        cerr << "You have to be root to successfully use that program." << endl;
+        std::cerr << "You have to be root to successfully use that program." << std::endl;
         return false;
     }
 
@@ -369,15 +351,15 @@ bool PxeKexec::checkEnv()
 
         LinuxDistDetector *detector_ptr = LinuxDistDetector::getDetector();
         if (!detector_ptr) {
-            cerr << "Could not detect Linux distribution." << endl;
-            cerr << "Please read pxe-kexec(8) for more information. You "
-                 << "can overwrite the check with '--ignore-whitelist'." << endl;
+            std::cerr << "Could not detect Linux distribution." << std::endl;
+            std::cerr << "Please read pxe-kexec(8) for more information. You "
+                      << "can overwrite the check with '--ignore-whitelist'." << std::endl;
             return false;
         }
         std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
 
         LinuxDistDetector::DistType type = detector->getType();
-        string dist = detector->getDistribution();
+        std::string dist = detector->getDistribution();
         const char *detected_version = detector->getRelease().c_str();
 
         bool suitable_dist = false;
@@ -393,11 +375,11 @@ bool PxeKexec::checkEnv()
         }
 
         if (!suitable_dist) {
-            cerr << "You Linux distribution '" << dist << "' in version '" << detected_version
-                 << "'" << " doesn't have kexec" << endl;
-            cerr << "in the reboot script. Please read pxe-kexec(8) for more information. You"
-                 << endl
-                 << "can overwrite the check with '--ignore-whitelist'." << endl;
+            std::cerr << "You Linux distribution '" << dist << "' in version '" << detected_version
+                      << "'" << " doesn't have kexec" << std::endl;
+            std::cerr << "in the reboot script. Please read pxe-kexec(8) for more information. You"
+                      << std::endl
+                      << "can overwrite the check with '--ignore-whitelist'." << std::endl;
             return false;
         }
     }
@@ -409,15 +391,15 @@ bool PxeKexec::checkEnv()
 void PxeKexec::displayMessage()
 {
     if (!m_quiet) {
-        cout << "\e[2J\e[0;0H";
-        cout << m_pxeConfig.getMessage() << endl << endl << endl;
+        std::cout << "\e[2J\e[0;0H";
+        std::cout << m_pxeConfig.getMessage() << std::endl << std::endl << std::endl;
     }
 }
 
 /* ---------------------------------------------------------------------------------------------- */
 bool PxeKexec::chooseEntry()
 {
-    string choice;
+    std::string choice;
 
     if (m_preChoice.size() != 0)
         m_choice = m_pxeConfig.getEntry(m_preChoice);
@@ -431,7 +413,7 @@ bool PxeKexec::chooseEntry()
         }
         m_choice = m_pxeConfig.getEntry(choice);
         if (!m_choice.isValid())
-            cout << "Entry " << choice << " does not exist." << endl;
+            std::cout << "Entry " << choice << " does not exist." << std::endl;
     }
 
     m_lineReader->setCompletor(NULL);
@@ -439,7 +421,7 @@ bool PxeKexec::chooseEntry()
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-StringVector PxeKexec::complete(const string &text, const string &full_text,
+StringVector PxeKexec::complete(const std::string &text, const std::string &full_text,
         size_t start_idx, ssize_t end_idx)
 {
     StringVector names = m_pxeConfig.getEntryNames();
@@ -448,7 +430,7 @@ StringVector PxeKexec::complete(const string &text, const string &full_text,
     for (StringVector::const_iterator it = names.begin();
             it != names.end(); ++it)
     {
-        string name = *it;
+        std::string name = *it;
         if (strncasecmp(name.c_str(), text.c_str(), text.size()) == 0)
             result.push_back(name);
     }
@@ -461,28 +443,28 @@ bool PxeKexec::confirmBoot()
 {
 begin:
     if (!(m_noconfirm && m_quiet)) {
-        cout << "Booting following entry:" << endl;
-        cout << "Kernel   : " << m_choice.getKernel() << endl;
-        cout << "Initrd   : " << m_choice.getInitrd() << endl;
-        cout << "Append   : " << m_choice.getAppend() << endl;
-        cout << endl;
+        std::cout << "Booting following entry:" << std::endl;
+        std::cout << "Kernel   : " << m_choice.getKernel() << std::endl;
+        std::cout << "Initrd   : " << m_choice.getInitrd() << std::endl;
+        std::cout << "Append   : " << m_choice.getAppend() << std::endl;
+        std::cout << std::endl;
     }
 
     if (m_noconfirm)
         return true;
 
-    cout << "Continue? [Y/n/e] ";
+    std::cout << "Continue? [Y/n/e] ";
 again:
-    cout.flush();
+    std::cout.flush();
 
-    string ret;
-    getline(cin, ret, '\n');
+    std::string ret;
+    std::getline(std::cin, ret, '\n');
     if (ret.size() == 0 || ret[0] == '\n')
         return true;
 
     if (ret[0] == 'e' || ret[0] == 'E') {
         m_choice.setAppend(m_lineReader->editLine(m_choice.getAppend().c_str()));
-        cout << endl << endl;
+        std::cout << std::endl << std::endl;
         goto begin;
     }
 
@@ -494,7 +476,7 @@ again:
         return true;
 
     default: /* invalid */
-        cout << "Invalid input. Try again [Y/n/e] ";
+        std::cout << "Invalid input. Try again [Y/n/e] ";
         goto again;
     }
 
@@ -505,11 +487,11 @@ again:
 void PxeKexec::downloadStuff()
     throw (ApplicationError)
 {
-    string tmpdir = getenv("TMPDIR") ? getenv("TMPDIR") : "/tmp";
+    std::string tmpdir = std::getenv("TMPDIR") ? std::getenv("TMPDIR") : "/tmp";
     tmpdir += "/";
 
-    string kernel = tmpdir + "pxe-kexec-kernel";
-    string initrd = tmpdir + "pxe-kexec-initrd";
+    std::string kernel = tmpdir + "pxe-kexec-kernel";
+    std::string initrd = tmpdir + "pxe-kexec-initrd";
 
     struct stat statbuf;
     while (stat(kernel.c_str(), &statbuf) >= 0)
@@ -519,10 +501,10 @@ void PxeKexec::downloadStuff()
         initrd += "_";
 
     SimpleNotifier notifier;
-    string url;
+    std::string url;
     try {
-        cout << "Downloading kernel ";
-        ofstream os(kernel.c_str(), ios::binary);
+        std::cout << "Downloading kernel ";
+        std::ofstream os(kernel.c_str(), std::ios::binary);
         Downloader dl(os);
         url = m_protocol + "://" + m_pxeHost + "/" + m_choice.getKernel();
         dl.setUrl(url);
@@ -531,14 +513,13 @@ void PxeKexec::downloadStuff()
         os.close();
         m_downloadedKernel = kernel;
     } catch (const DownloadError &err) {
-        throw ApplicationError("Downloading kernel "+ url
-                +" failed: " + string(err.what()));
+        throw ApplicationError("Downloading kernel "+ url +" failed: " + std::string(err.what()));
     }
 
     if (m_choice.getInitrd().size() > 0) {
         try {
-            cout << "Downloading initrd ";
-            ofstream os(initrd.c_str(), ios::binary);
+            std::cout << "Downloading initrd ";
+            std::ofstream os(initrd.c_str(), std::ios::binary);
             Downloader dl(os);
             url = m_protocol + "://" + m_pxeHost + "/" + m_choice.getInitrd();
             dl.setUrl(url);
@@ -547,8 +528,7 @@ void PxeKexec::downloadStuff()
             os.close();
             m_downloadedInitrd = initrd;
         } catch (const DownloadError &err) {
-            throw ApplicationError("Downloading initrd "+url +
-                    " failed: " + string(err.what()));
+            throw ApplicationError("Downloading initrd "+url + " failed: " + std::string(err.what()));
         }
     }
 }
@@ -595,12 +575,12 @@ void PxeKexec::execute()
         throw ApplicationError("Loading kernel failed.");
 
     if (m_loadOnly) {
-        cerr << "Kernel loaded" << endl;
+        std::cerr << "Kernel loaded" << std::endl;
     } else {
         if (m_force) {
             /* try to change VT */
             if (m_dryRun) {
-                cerr << "Switching to virtual terminal 0 in real world" << endl;
+                std::cerr << "Switching to virtual terminal 0 in real world" << std::endl;
             } else {
                 ke.prepareConsole();
             }
@@ -610,7 +590,7 @@ void PxeKexec::execute()
                 throw ApplicationError("Executing kernel failed");
             }
         } else {
-            cerr << "Initiating reboot" << endl;
+            std::cerr << "Initiating reboot" << std::endl;
             ke.reboot();
         }
     }
@@ -627,29 +607,29 @@ void PxeKexec::printLinuxDistribution()
 {
     LinuxDistDetector *detector_ptr = LinuxDistDetector::getDetector();
     if (!detector_ptr) {
-        cout << "Could not detect Linux distribution" << endl;
+        std::cout << "Could not detect Linux distribution" << std::endl;
         return;
     }
     std::auto_ptr<LinuxDistDetector> detector(detector_ptr);
 
-    cout << "Type        : " << detector->getTypeAsString() << endl;
-    cout << "Name        : " << detector->getDistribution() << endl;
-    cout << "Release     : " << detector->getRelease()      << endl;
-    cout << "Codename    : " << detector->getCodename()     << endl;
-    cout << "Description : " << detector->getDescription()  << endl;
+    std::cout << "Type        : " << detector->getTypeAsString() << std::endl;
+    std::cout << "Name        : " << detector->getDistribution() << std::endl;
+    std::cout << "Release     : " << detector->getRelease()      << std::endl;
+    std::cout << "Codename    : " << detector->getCodename()     << std::endl;
+    std::cout << "Description : " << detector->getDescription()  << std::endl;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
 void PxeKexec::printVersion()
 {
-    cerr << PACKAGE_STRING << " " << PACKAGE_VERSION << endl;
-    cerr << "Compiled "
+    std::cerr << PACKAGE_STRING << " " << PACKAGE_VERSION << std::endl;
+    std::cerr << "Compiled "
 #if HAVE_LIBREADLINE
              << "with"
 #else
              << "without"
 #endif
-             << " readline support" << endl;
+             << " readline support" << std::endl;
 }
 
 /* }}} */

@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,6 @@
 #include "debug.h"
 #include "stringutil.h"
 
-using std::cerr;
-using std::endl;
-using std::string;
-using std::exit;
-using std::vector;
-using std::stringstream;
-
 /* Process {{{ */
 
 /* -------------------------------------------------------------------------- */
@@ -58,18 +51,18 @@ void Process::disableDryRunMode()
 }
 
 /* -------------------------------------------------------------------------- */
-bool Process::isInPath(const string &program)
+bool Process::isInPath(const std::string &program)
 {
     const char *path = getenv("PATH");
     if (!path) {
         return false;
     }
 
-    vector<string> paths = stringsplit(path, ":");
-    for (vector<string>::const_iterator it = paths.begin();
+    std::vector<std::string> paths = stringsplit(path, ":");
+    for (std::vector<std::string>::const_iterator it = paths.begin();
             it != paths.end(); ++it) {
-        string current_path = *it;
-        string binary = current_path + "/" + program;
+        std::string current_path = *it;
+        std::string binary = current_path + "/" + program;
 
         Debug::debug()->dbg("Checking for program '%s'\n", binary.c_str());
 
@@ -83,7 +76,7 @@ bool Process::isInPath(const string &program)
 }
 
 /* -------------------------------------------------------------------------- */
-Process::Process(const string &name)
+Process::Process(const std::string &name)
 {
     m_name = name;
 }
@@ -95,7 +88,7 @@ void Process::addArg(const std::string &arg)
 }
 
 /* -------------------------------------------------------------------------- */
-vector<string> Process::getArgs() const
+std::vector<std::string> Process::getArgs() const
 {
     return m_args;
 }
@@ -115,7 +108,7 @@ int Process::execute()
     vector[m_args.size()+1] = NULL;
 
     // debug string
-    stringstream ss;
+    std::stringstream ss;
     ss << "Executing " << m_name << " ";
     for (unsigned int i = 0; i < m_args.size(); i++) {
         ss << "'" << m_args[i] << "' ";
@@ -123,7 +116,7 @@ int Process::execute()
     Debug::debug()->dbg(ss.str().c_str());
 
     if (m_dryRunMode) {
-        cerr << "(dry run) " << ss.str() << endl;
+        std::cerr << "(dry run) " << ss.str() << std::endl;
         return 0;
     } else {
         // now fork and exec

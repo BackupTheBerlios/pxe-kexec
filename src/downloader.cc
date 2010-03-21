@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,6 @@
 
 #include "downloader.h"
 #include "debug.h"
-
-using std::string;
-using std::ostream;
 
 bool Downloader::m_firstCalled = true;
 
@@ -67,8 +64,9 @@ int Downloader::curl_progress_callback(void *clientp, double dltotal, double
 
 
 /* ---------------------------------------------------------------------------------------------- */
-Downloader::Downloader(ostream &output, long timeout) throw (DownloadError)
-    : m_notifier(NULL), m_output(output)
+Downloader::Downloader(std::ostream &output, long timeout) throw (DownloadError)
+    : m_notifier(NULL)
+    , m_output(output)
 {
     CURLcode err;
 
@@ -103,12 +101,12 @@ Downloader::Downloader(ostream &output, long timeout) throw (DownloadError)
     err = curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION,
             Downloader::curl_write_callback);
     if (err != CURLE_OK)
-        throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+        throw DownloadError(std::string("CURL error: ") + m_curl_errorstring);
 
     // write data
     err = curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, this);
     if (err != CURLE_OK)
-        throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+        throw DownloadError(std::string("CURL error: ") + m_curl_errorstring);
 }
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -119,7 +117,7 @@ Downloader::~Downloader()
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Downloader::setUrl(const string &url) throw (DownloadError)
+void Downloader::setUrl(const std::string &url) throw (DownloadError)
 {
     CURLcode err;
 
@@ -128,11 +126,11 @@ void Downloader::setUrl(const string &url) throw (DownloadError)
     Debug::debug()->dbg("Setting URL to %s", m_url.c_str());
     err = curl_easy_setopt(m_curl, CURLOPT_URL, url.c_str());
     if (err != CURLE_OK)
-        throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+        throw DownloadError(std::string("CURL error: ") + m_curl_errorstring);
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string Downloader::getUrl() const
+std::string Downloader::getUrl() const
 {
     return m_url;
 }
@@ -147,15 +145,15 @@ void Downloader::setProgress(ProgressNotifier *notifier)
         err = curl_easy_setopt(m_curl, CURLOPT_PROGRESSFUNCTION,
                 Downloader::curl_progress_callback);
         if (err != CURLE_OK)
-            throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+            throw DownloadError(std::string("CURL error: ") + m_curl_errorstring);
 
         err = curl_easy_setopt(m_curl, CURLOPT_PROGRESSDATA, this);
         if (err != CURLE_OK)
-            throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+            throw DownloadError(std::string("CURL error: ") + m_curl_errorstring);
 
         err = curl_easy_setopt(m_curl, CURLOPT_NOPROGRESS, false);
         if (err != CURLE_OK)
-            throw DownloadError(string("CURL error: ") + m_curl_errorstring);
+            throw DownloadError(std::string("CURL error: ") + m_curl_errorstring);
     } else {
         curl_easy_setopt(m_curl, CURLOPT_PROGRESSDATA, NULL);
         curl_easy_setopt(m_curl, CURLOPT_PROGRESSFUNCTION, NULL);
@@ -174,7 +172,7 @@ void Downloader::download() throw (DownloadError)
         m_notifier->finished();
 
     if (err != CURLE_OK) {
-        DownloadError error(string("CURL error: ") + m_curl_errorstring);
+        DownloadError error(std::string("CURL error: ") + m_curl_errorstring);
 
         // timeout
         if (err == CURLE_COULDNT_CONNECT)

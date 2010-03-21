@@ -1,5 +1,5 @@
 /*
- * (c) 2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2009-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

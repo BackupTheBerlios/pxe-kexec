@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,10 @@
 #include "global.h"
 #include "stringutil.h"
 
-using std::string;
-using std::strerror;
-
 /* ---------------------------------------------------------------------------------------------- */
 bool Console::isRealTerminal()
 {
-    string terminal = ttyname(STDIN_FILENO);
+    std::string terminal = ttyname(STDIN_FILENO);
 
     return startsWith(terminal, "/dev/tty");
 }

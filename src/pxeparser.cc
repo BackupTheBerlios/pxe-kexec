@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +23,6 @@
 #include "pxeparser.h"
 #include "debug.h"
 
-using std::string;
-using std::vector;
-using std::ptr_fun;
-using std::find_if;
-using std::istream;
-
 /* PxeEntry {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -51,13 +45,13 @@ bool PxeEntry::isValid() const
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string PxeEntry::getLabel() const
+std::string PxeEntry::getLabel() const
 {
     return m_label;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string PxeEntry::getKernel() const
+std::string PxeEntry::getKernel() const
 {
     return m_kernel;
 }
@@ -69,15 +63,15 @@ void PxeEntry::setKernel(const std::string &kernel)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string PxeEntry::getInitrd()
+std::string PxeEntry::getInitrd()
 {
     // try to find out the initrd from the append line
     if (!m_initrdParsed) {
-        string::size_type pos = m_append.find("initrd=");
-        if (pos != string::npos) {
-            string rest = m_append.substr(pos);
-            string::size_type space = rest.find(" ");
-            if (space != string::npos)
+        std::string::size_type pos = m_append.find("initrd=");
+        if (pos != std::string::npos) {
+            std::string rest = m_append.substr(pos);
+            std::string::size_type space = rest.find(" ");
+            if (space != std::string::npos)
                 rest = rest.substr(0, space);
 
             m_initrd = getRest(rest, "initrd=");
@@ -90,7 +84,7 @@ string PxeEntry::getInitrd()
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string PxeEntry::getAppend() const
+std::string PxeEntry::getAppend() const
 {
     return m_append;
 }
@@ -106,25 +100,25 @@ void PxeEntry::setAppend(const std::string &append)
 /* PxeConfig {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
-string PxeConfig::getMessage() const
+std::string PxeConfig::getMessage() const
 {
     return m_message;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void PxeConfig::addMessage(const string &msg)
+void PxeConfig::addMessage(const std::string &msg)
 {
     m_message += "\n" + msg;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string PxeConfig::getDefault() const
+std::string PxeConfig::getDefault() const
 {
     return m_default;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void PxeConfig::setDefault(const string &def)
+void PxeConfig::setDefault(const std::string &def)
 {
     m_default = def;
 }
@@ -136,17 +130,17 @@ void PxeConfig::addEntry(PxeEntry entry)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-vector<PxeEntry> PxeConfig::getEntries() const
+std::vector<PxeEntry> PxeConfig::getEntries() const
 {
     return m_entries;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-vector<string> PxeConfig::getEntryNames() const
+std::vector<std::string> PxeConfig::getEntryNames() const
 {
-    vector<string> names;
+    std::vector<std::string> names;
 
-    for (vector<PxeEntry>::const_iterator it = m_entries.begin();
+    for (std::vector<PxeEntry>::const_iterator it = m_entries.begin();
             it != m_entries.end(); ++it) {
         names.push_back(it->getLabel());
     }
@@ -155,17 +149,17 @@ vector<string> PxeConfig::getEntryNames() const
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-bool compare_entry_name(PxeEntry entry, string label)
+bool compare_entry_name(PxeEntry entry, std::string label)
 {
     return strcasecmp(entry.getLabel().c_str(), label.c_str()) == 0;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-PxeEntry PxeConfig::getEntry(const string &label) const
+PxeEntry PxeConfig::getEntry(const std::string &label) const
 {
-    vector<PxeEntry>::const_iterator it =
+    std::vector<PxeEntry>::const_iterator it =
         find_if(m_entries.begin(), m_entries.end(),
-                bind2nd(ptr_fun(compare_entry_name), label));
+                std::bind2nd(std::ptr_fun(compare_entry_name), label));
 
     return it != m_entries.end() ? *it : PxeEntry();
 }
@@ -179,7 +173,7 @@ PxeParser::PxeParser()
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
-void PxeParser::feedLine(string line)
+void PxeParser::feedLine(std::string line)
     throw (ParseError)
 {
     line = strip(line);
@@ -242,12 +236,12 @@ void PxeParser::feedLine(string line)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void PxeParser::parseStream(istream &stream)
+void PxeParser::parseStream(std::istream &stream)
     throw (ParseError)
 {
-    string line;
+    std::string line;
 
-    while (getline(stream, line))
+    while (std::getline(stream, line))
         feedLine(line);
 
     finishParsing();

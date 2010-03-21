@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,48 +22,44 @@
 #include "console.h"
 #include "global.h"
 
-using std::string;
-using std::cerr;
-using std::endl;
-
 /* ---------------------------------------------------------------------------------------------- */
-void Kexec::setKernel(const string &filename)
+void Kexec::setKernel(const std::string &filename)
 {
 	m_kernel = filename;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string Kexec::getKernel() const
+std::string Kexec::getKernel() const
 {
     return m_kernel;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Kexec::setInitrd(const string &filename)
+void Kexec::setInitrd(const std::string &filename)
 {
     m_initrd = filename;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string Kexec::getInitrd() const
+std::string Kexec::getInitrd() const
 {
     return m_initrd;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Kexec::setAppend(const string &append)
+void Kexec::setAppend(const std::string &append)
 {
     m_append = append;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Kexec::addAppend(const string &append)
+void Kexec::addAppend(const std::string &append)
 {
     m_append += " " + append;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string Kexec::getAppend() const
+std::string Kexec::getAppend() const
 {
     return m_append;
 }
@@ -106,7 +102,7 @@ bool Kexec::prepareConsole()
         if (!Console::isRealTerminal())
             Console::changeVirtualTerminal(1, true);
     } catch (const ApplicationError &e) {
-        cerr << "Failed to change virtual terminal: " << e.what() << endl;
+        std::cerr << "Failed to change virtual terminal: " << e.what() << std::endl;
         return false;
     }
 

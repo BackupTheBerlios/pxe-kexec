@@ -1,5 +1,5 @@
 /*
- * (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,14 +34,6 @@
 #include "process.h"
 #include "pxekexec.h"
 #include "networkhelper.h"
-
-using std::setlocale;
-using std::string;
-using std::cout;
-using std::endl;
-using std::cerr;
-using std::runtime_error;
-using std::vector;
 
 /**
  * @brief The entry point of the application.
@@ -79,10 +71,10 @@ int main(int argc, char *argv[])
         pe.execute();
 
     } catch (const ApplicationError &ae) {
-        cerr << ae.what() << endl;
+        std::cerr << ae.what() << std::endl;
         return EXIT_FAILURE;
-    } catch (const runtime_error &re) {
-        cerr << "Runtime error: " << re.what() << endl;
+    } catch (const std::runtime_error &re) {
+        std::cerr << "Runtime error: " << re.what() << std::endl;
         return EXIT_FAILURE;
     }
 

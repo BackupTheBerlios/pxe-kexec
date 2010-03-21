@@ -1,5 +1,5 @@
 /*
- * (c) 2009, Bernhard Walle <bernhard@bwalle.de>
+ * (c) 2009-2010, Bernhard Walle <bernhard@bwalle.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,17 +23,10 @@
 #include "linuxdb.h"
 #include "stringutil.h"
 
-using std::cerr;
-using std::endl;
-using std::string;
-using std::strlen;
-using std::vector;
-using std::ifstream;
-
 /* LinuxDistDetector {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
-string LinuxDistDetector::distTypeToString(DistType type)
+std::string LinuxDistDetector::distTypeToString(DistType type)
 {
     switch (type) {
         case DT_UNKNOWN:
@@ -115,35 +108,35 @@ LinuxDistDetector::DistType AbstractLinuxDistDetector::getType() const
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLinuxDistDetector::getTypeAsString() const
+std::string AbstractLinuxDistDetector::getTypeAsString() const
     throw ()
 {
     return distTypeToString(getType());
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLinuxDistDetector::getDistribution() const
+std::string AbstractLinuxDistDetector::getDistribution() const
     throw ()
 {
     return m_distribution;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLinuxDistDetector::getRelease() const
+std::string AbstractLinuxDistDetector::getRelease() const
     throw ()
 {
     return m_release;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLinuxDistDetector::getCodename() const
+std::string AbstractLinuxDistDetector::getCodename() const
     throw ()
 {
     return m_codename;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLinuxDistDetector::getDescription() const
+std::string AbstractLinuxDistDetector::getDescription() const
     throw ()
 {
     return m_description;
@@ -157,28 +150,28 @@ void AbstractLinuxDistDetector::setType(LinuxDistDetector::DistType type)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void AbstractLinuxDistDetector::setDistribution(const string &distribution)
+void AbstractLinuxDistDetector::setDistribution(const std::string &distribution)
     throw ()
 {
     m_distribution = distribution;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void AbstractLinuxDistDetector::setRelease(const string &release)
+void AbstractLinuxDistDetector::setRelease(const std::string &release)
     throw ()
 {
     m_release = release;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void AbstractLinuxDistDetector::setCodename(const string &codename)
+void AbstractLinuxDistDetector::setCodename(const std::string &codename)
     throw ()
 {
     m_codename = codename;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void AbstractLinuxDistDetector::setDescription(const string &description)
+void AbstractLinuxDistDetector::setDescription(const std::string &description)
     throw ()
 {
     m_description = description;
@@ -191,25 +184,25 @@ void AbstractLinuxDistDetector::setDescription(const string &description)
 bool LSBLinuxDistDetector::detect()
     throw ()
 {
-    const string LSB_FILENAME("/etc/lsb-release");
-    ifstream fin(LSB_FILENAME.c_str());
+    const std::string LSB_FILENAME("/etc/lsb-release");
+    std::ifstream fin(LSB_FILENAME.c_str());
     if (!fin.is_open()) {
         return false;
     }
 
-    string line;
-    while (getline(fin, line)) {
+    std::string line;
+    while (std::getline(fin, line)) {
         // ignore comment lines
         if (startsWith(line, "#")) {
             continue;
         }
 
-        vector<string> keyval = stringsplit(line, "=");
+        std::vector<std::string> keyval = stringsplit(line, "=");
         if (keyval.size() != 2) {
-            cerr << "Invalid line in '"<< LSB_FILENAME << "': " << line << endl;
+            std::cerr << "Invalid line in '"<< LSB_FILENAME << "': " << line << std::endl;
         }
-        string key = keyval[0];
-        string value = strip(keyval[1], "\"");
+        std::string key = keyval[0];
+        std::string value = strip(keyval[1], "\"");
 
         if (key == "DISTRIB_ID") {
             setDistribution(value);
@@ -237,24 +230,24 @@ bool LSBLinuxDistDetector::detect()
 bool SUSELinuxDistDetector::detect()
     throw ()
 {
-    const string SUSE_FILENAME("/etc/SuSE-release");
-    ifstream fin(SUSE_FILENAME.c_str());
+    const std::string SUSE_FILENAME("/etc/SuSE-release");
+    std::ifstream fin(SUSE_FILENAME.c_str());
     if (!fin.is_open()) {
         return false;
     }
 
-    string line;
+    std::string line;
     bool first_line = true;
-    while (getline(fin, line)) {
+    while (std::getline(fin, line)) {
         // ignore comment lines
         if (startsWith(line, "#")) {
             continue;
         }
 
         if (first_line) {
-            string::size_type first_digit = line.find_first_of("0123456789");
-            if (first_digit != string::npos && first_digit > 1) {
-                string first_part = line.substr(0, first_digit);
+            std::string::size_type first_digit = line.find_first_of("0123456789");
+            if (first_digit != std::string::npos && first_digit > 1) {
+                std::string first_part = line.substr(0, first_digit);
                 first_part = stripr(first_part);
                 setDistribution(first_part);
             } else {
@@ -265,7 +258,7 @@ bool SUSELinuxDistDetector::detect()
 
             first_line = false;
         } else  if (startsWith(line, "VERSION = ")) {
-            string version = getRest(line, "VERSION = ");
+            std::string version = getRest(line, "VERSION = ");
             setRelease(version);
         }
     }
@@ -282,28 +275,28 @@ bool SUSELinuxDistDetector::detect()
 bool RedHatDistDetector::detect()
     throw ()
 {
-    const string REDHAT_FILENAME("/etc/redhat-release");
-    ifstream fin(REDHAT_FILENAME.c_str());
+    const std::string REDHAT_FILENAME("/etc/redhat-release");
+    std::ifstream fin(REDHAT_FILENAME.c_str());
     if (!fin.is_open()) {
         return false;
     }
 
     // the file normally has only one line
-    string line;
-    if (!getline(fin, line)) {
+    std::string line;
+    if (!std::getline(fin, line)) {
         return false;
     }
 
     // search for the 'release' word
-    string::size_type release_pos = line.find("release");
-    if (release_pos == string::npos) {
+    std::string::size_type release_pos = line.find("release");
+    if (release_pos == std::string::npos) {
         return false;
     }
 
     // and search for the '(' and ')'
-    string::size_type open_bracket_pos = line.find("(");
-    string::size_type closing_bracket_pos = line.find(")");
-    if ((open_bracket_pos == string::npos) || (closing_bracket_pos == string::npos)) {
+    std::string::size_type open_bracket_pos = line.find("(");
+    std::string::size_type closing_bracket_pos = line.find(")");
+    if ((open_bracket_pos == std::string::npos) || (closing_bracket_pos == std::string::npos)) {
         return false;
     }
     if (open_bracket_pos < release_pos) {
@@ -332,8 +325,8 @@ bool RedHatDistDetector::detect()
 bool ArchDistDetector::detect()
     throw ()
 {
-    const string SUSE_FILENAME("/etc/arch-release");
-    ifstream fin(SUSE_FILENAME.c_str());
+    const std::string SUSE_FILENAME("/etc/arch-release");
+    std::ifstream fin(SUSE_FILENAME.c_str());
     if (!fin.is_open()) {
         return false;
     }
@@ -352,15 +345,15 @@ bool ArchDistDetector::detect()
 bool DebianDistDetector::detect()
     throw ()
 {
-    const string DEBIAN_FILENAME("/etc/debian_version");
-    ifstream fin(DEBIAN_FILENAME.c_str());
+    const std::string DEBIAN_FILENAME("/etc/debian_version");
+    std::ifstream fin(DEBIAN_FILENAME.c_str());
     if (!fin.is_open()) {
         return false;
     }
 
     // the file normally has only one line
-    string line;
-    if (!getline(fin, line)) {
+    std::string line;
+    if (!std::getline(fin, line)) {
         return false;
     }
 

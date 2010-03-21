@@ -1,3 +1,7 @@
+2010-03-21  Bernhard Walle <bernhard@bwalle.de>
+
+	* Remove 'using', use 'std::' explicitly.
+
 2009-09-26  Bernhard Walle <bernhard@bwalle.de>
 
 	* Update libbw to 0.1.2.
