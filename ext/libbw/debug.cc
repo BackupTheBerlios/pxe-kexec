@@ -31,16 +31,8 @@
 
 #include "debug.h"
 
-using std::strcat;
-using std::strlen;
-using std::string;
-
 /* ---------------------------------------------------------------------------------------------- */
 Debug *Debug::m_instance = NULL;
-
-using std::strlen;
-using std::memset;
-using std::strcat;
 
 /* ---------------------------------------------------------------------------------------------- */
 Debug *Debug::debug()
@@ -109,19 +101,19 @@ void Debug::trace(const char *msg, ...)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Debug::dbg(const string &string)
+void Debug::dbg(const std::string &string)
 {
     return dbg(string.c_str());
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Debug::info(const string &string)
+void Debug::info(const std::string &string)
 {
     return info(string.c_str());
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-void Debug::trace(const string &string)
+void Debug::trace(const std::string &string)
 {
     return trace(string.c_str());
 }

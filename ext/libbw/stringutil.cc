@@ -30,12 +30,8 @@
 #include <cstring>
 #include <string.h>
 
-using std::string;
-using std::vector;
-using std::malloc;
-
 /* ---------------------------------------------------------------------------------------------- */
-string strip(string a, const string &chars_to_strip)
+std::string strip(std::string a, const std::string &chars_to_strip)
 {
     if (a.length() == 0)
         return a;
@@ -47,7 +43,7 @@ string strip(string a, const string &chars_to_strip)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string stripl(string a)
+std::string stripl(std::string a)
 {
     if (a.length() == 0)
         return a;
@@ -58,7 +54,7 @@ string stripl(string a)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string stripr(string a)
+std::string stripr(std::string a)
 {
     if (a.length() == 0)
         return a;
@@ -69,7 +65,7 @@ string stripr(string a)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-bool startsWith(const string &str, const string &start, bool casesensitive)
+bool startsWith(const std::string &str, const std::string &start, bool casesensitive)
 {
     size_t len = start.size();
     if (str.size() < len) {
@@ -84,13 +80,13 @@ bool startsWith(const string &str, const string &start, bool casesensitive)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string getRest(const string &str, const string &prefix)
+std::string getRest(const std::string &str, const std::string &prefix)
 {
     return str.substr(prefix.size(), str.size() - prefix.size());
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-char **stringvector_to_array(const vector<string> &vec)
+char **stringvector_to_array(const std::vector<std::string> &vec)
 {
     if (vec.size() == 0)
         return NULL;
@@ -99,7 +95,7 @@ char **stringvector_to_array(const vector<string> &vec)
     char **ret = (char **)malloc(sizeof(char *) * (vec.size()+1) );
 
     char **cur = ret;
-    for (vector<string>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+    for (std::vector<std::string>::const_iterator it = vec.begin(); it != vec.end(); ++it)
         *cur++ = strdup((*it).c_str());
     *cur = NULL;
 
@@ -107,14 +103,14 @@ char **stringvector_to_array(const vector<string> &vec)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-vector<string> stringsplit(const string &str, const string &pattern)
+std::vector<std::string> stringsplit(const std::string &str, const std::string &pattern)
 {
-    vector<string> retval;
-    string s = str;
+    std::vector<std::string> retval;
+    std::string s = str;
 
-    string::size_type pos;
-    while ((pos = s.find(pattern)) != string::npos) {
-        string item = s.substr(0, pos);
+    std::string::size_type pos;
+    while ((pos = s.find(pattern)) != std::string::npos) {
+        std::string item = s.substr(0, pos);
         retval.push_back(item);
 
         s = s.substr(pos + pattern.length());

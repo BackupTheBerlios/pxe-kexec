@@ -42,32 +42,22 @@
 #include "completion.h"
 #include "stringutil.h"
 
-using std::string;
-using std::getline;
-using std::cin;
-using std::cout;
-using std::endl;
-using std::strerror;
-using std::free;
-using std::min;
-using std::vector;
-
 /* class definitions {{{ */
 
 #if HAVE_LIBREADLINE
 class ReadlineLineReader : public AbstractLineReader {
     public:
-        ReadlineLineReader(const string &prompt);
+        ReadlineLineReader(const std::string &prompt);
 
     public:
-        string readLine(const char *prompt = NULL);
+        std::string readLine(const char *prompt = NULL);
         void readHistory(const std::string &file)
             throw (IOError);
         void writeHistory(const std::string &file)
             throw (IOError);
         bool haveHistory() const;
         bool canEditLine() const;
-        string editLine(const char *oldLine);
+        std::string editLine(const char *oldLine);
 
         bool haveCompletion() const;
         void setCompletor(Completor *comp);
@@ -94,20 +84,20 @@ class SimpleLineReader : public AbstractLineReader {
          *
          * @param[in] prompt the prompt of the line reader
          */
-        SimpleLineReader(const string &prompt);
+        SimpleLineReader(const std::string &prompt);
 
     public:
         /**
          * @copydoc LineReader::readLine()
          */
-        string readLine(const char *prompt = NULL);
+        std::string readLine(const char *prompt = NULL);
 };
 
 /* }}} */
 /* LineReader {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
-LineReader *LineReader::defaultLineReader(const string &prompt)
+LineReader *LineReader::defaultLineReader(const std::string &prompt)
 {
 #if HAVE_LIBREADLINE
     return new ReadlineLineReader(prompt);
@@ -120,12 +110,13 @@ LineReader *LineReader::defaultLineReader(const string &prompt)
 /* AbstractLineReader {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
-AbstractLineReader::AbstractLineReader(const string &prompt)
-    : m_prompt(prompt), m_eof(false)
+AbstractLineReader::AbstractLineReader(const std::string &prompt)
+    : m_prompt(prompt)
+    , m_eof(false)
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLineReader::getPrompt() const
+std::string AbstractLineReader::getPrompt() const
 {
     return m_prompt;
 }
@@ -165,7 +156,7 @@ bool AbstractLineReader::canEditLine() const
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string AbstractLineReader::editLine(const char *line)
+std::string AbstractLineReader::editLine(const char *line)
 {
     return line;
 }
@@ -184,20 +175,20 @@ void AbstractLineReader::setCompletor(Completor *comp)
 /* SimpleLineReader {{{ */
 
 /* ---------------------------------------------------------------------------------------------- */
-SimpleLineReader::SimpleLineReader(const string &prompt)
+SimpleLineReader::SimpleLineReader(const std::string &prompt)
     : AbstractLineReader(prompt)
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
-string SimpleLineReader::readLine(const char *prompt)
+std::string SimpleLineReader::readLine(const char *prompt)
 {
-    string ret;
+    std::string ret;
     if (!prompt)
-        cout << getPrompt();
+        std::cout << getPrompt();
     else
-        cout << prompt;
-    getline(cin, ret, '\n');
-    if (cout.eof())
+        std::cout << prompt;
+    std::getline(std::cin, ret, '\n');
+    if (std::cout.eof())
         setEof(true);
     return ret;
 }
@@ -215,18 +206,18 @@ Completor *g_current_completor;
 /* ---------------------------------------------------------------------------------------------- */
 char **readline_line_reader_complete(const char *text, int start, int end)
 {
-    vector<string> completions = g_current_completor->complete(
-            text, string(rl_line_buffer), start, end);
+    std::vector<std::string> completions = g_current_completor->complete(
+            text, std::string(rl_line_buffer), start, end);
 
     if (completions.size() == 0)
         return NULL;
 
     // the first entry is the string which replaces text, so it must be
     // the largest string which is common to each entry in completions
-    string replacement = completions[0];
-    for (vector<string>::const_iterator it = completions.begin();
+    std::string replacement = completions[0];
+    for (std::vector<std::string>::const_iterator it = completions.begin();
             it != completions.end(); ++it) {
-        size_t len = min(it->size(), replacement.size());
+        size_t len = std::min(it->size(), replacement.size());
         for (unsigned int mismatch = 0; mismatch < len; ++mismatch) {
             if ((*it)[mismatch] != replacement[mismatch]) {
                 replacement = replacement.substr(0, mismatch);
@@ -241,15 +232,15 @@ char **readline_line_reader_complete(const char *text, int start, int end)
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-ReadlineLineReader::ReadlineLineReader(const string &prompt)
+ReadlineLineReader::ReadlineLineReader(const std::string &prompt)
     : AbstractLineReader(prompt)
 {}
 
 /* ---------------------------------------------------------------------------------------------- */
-string ReadlineLineReader::readLine(const char *prompt)
+std::string ReadlineLineReader::readLine(const char *prompt)
 {
     char *line_read;
-    string ret;
+    std::string ret;
 
     line_read = readline(prompt ? prompt : getPrompt().c_str());
     if (!line_read)
@@ -257,7 +248,7 @@ string ReadlineLineReader::readLine(const char *prompt)
     else if (*line_read) {
         if (!prompt)
             add_history(line_read);
-        ret = string(line_read);
+        ret = std::string(line_read);
         free(line_read);
     }
 
@@ -271,7 +262,7 @@ bool ReadlineLineReader::canEditLine() const
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-static string buffer;
+static std::string buffer;
 static int my_rl_pre_input_hook()
 {
     rl_replace_line(buffer.c_str(), 0);
@@ -280,12 +271,12 @@ static int my_rl_pre_input_hook()
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-string ReadlineLineReader::editLine(const char *line)
+std::string ReadlineLineReader::editLine(const char *line)
 {
     char *line_read;
-    string ret;
+    std::string ret;
 
-    buffer = string(line);
+    buffer = std::string(line);
     rl_pre_input_hook = my_rl_pre_input_hook;
     line_read = readline(getPrompt().c_str());
     rl_pre_input_hook = NULL;
@@ -293,8 +284,8 @@ string ReadlineLineReader::editLine(const char *line)
         setEof(true);
     else if (*line_read) {
             add_history(line_read);
-        ret = string(line_read);
-        free(line_read);
+        ret = std::string(line_read);
+        std::free(line_read);
     }
 
     return ret;
@@ -306,8 +297,8 @@ void ReadlineLineReader::readHistory(const std::string &file)
 {
     int ret = read_history(file.c_str());
     if (ret < 0)
-        throw IOError(string("Reading readline history failed: ")
-                + strerror(errno));
+        throw IOError(std::string("Reading readline history failed: ")
+                + std::strerror(errno));
 }
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -316,8 +307,8 @@ void ReadlineLineReader::writeHistory(const std::string &file)
 {
     int ret = write_history(file.c_str());
     if (ret < 0)
-        throw IOError(string("Writing readline history failed: ")
-                + strerror(errno));
+        throw IOError(std::string("Writing readline history failed: ")
+                + std::strerror(errno));
 }
 
 /* ---------------------------------------------------------------------------------------------- */
