@@ -20,8 +20,9 @@
 #include <vector>
 #include <cstring>
 
+#include <libbw/stringutil.h>
+
 #include "linuxdb.h"
-#include "stringutil.h"
 
 /* LinuxDistDetector {{{ */
 
@@ -193,26 +194,23 @@ bool LSBLinuxDistDetector::detect()
     std::string line;
     while (std::getline(fin, line)) {
         // ignore comment lines
-        if (startsWith(line, "#")) {
+        if (bw::startsWith(line, "#"))
             continue;
-        }
 
-        std::vector<std::string> keyval = stringsplit(line, "=");
-        if (keyval.size() != 2) {
+        std::vector<std::string> keyval = bw::stringsplit(line, "=");
+        if (keyval.size() != 2)
             std::cerr << "Invalid line in '"<< LSB_FILENAME << "': " << line << std::endl;
-        }
         std::string key = keyval[0];
-        std::string value = strip(keyval[1], "\"");
+        std::string value = bw::strip(keyval[1], "\"");
 
-        if (key == "DISTRIB_ID") {
+        if (key == "DISTRIB_ID")
             setDistribution(value);
-        } else if (key == "DISTRIB_RELEASE") {
+        else if (key == "DISTRIB_RELEASE")
             setRelease(value);
-        } else if (key == "DISTRIB_CODENAME") {
+        else if (key == "DISTRIB_CODENAME")
             setCodename(value);
-        } else if (key == "DISTRIB_DESCRIPTION") {
+        else if (key == "DISTRIB_DESCRIPTION")
             setDescription(value);
-        }
     }
 
     // set the type
@@ -240,15 +238,14 @@ bool SUSELinuxDistDetector::detect()
     bool first_line = true;
     while (std::getline(fin, line)) {
         // ignore comment lines
-        if (startsWith(line, "#")) {
+        if (bw::startsWith(line, "#"))
             continue;
-        }
 
         if (first_line) {
             std::string::size_type first_digit = line.find_first_of("0123456789");
             if (first_digit != std::string::npos && first_digit > 1) {
                 std::string first_part = line.substr(0, first_digit);
-                first_part = stripr(first_part);
+                first_part = bw::stripr(first_part);
                 setDistribution(first_part);
             } else {
                 // that's an error
@@ -257,8 +254,8 @@ bool SUSELinuxDistDetector::detect()
             setDescription(line);
 
             first_line = false;
-        } else  if (startsWith(line, "VERSION = ")) {
-            std::string version = getRest(line, "VERSION = ");
+        } else  if (bw::startsWith(line, "VERSION = ")) {
+            std::string version = bw::getRest(line, "VERSION = ");
             setRelease(version);
         }
     }

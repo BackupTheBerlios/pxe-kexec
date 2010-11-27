@@ -27,8 +27,9 @@
 #include <sys/ioctl.h>
 #include <netinet/in.h>
 
-#include "stringutil.h"
-#include "debug.h"
+#include <libbw/stringutil.h>
+#include <libbw/debug.h>
+
 #include "networkhelper.h"
 
 /* NetworkInterface {{{ */
@@ -193,7 +194,7 @@ void NetworkHelper::detectInterfaces()
     int sockfd;
     struct ifreq *ifr;
 
-    Debug::debug()->trace("Detecting network interfaces");
+    BW_DEBUG_TRACE("Detecting network interfaces");
 
     sockfd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
     if (!sockfd)
@@ -216,8 +217,7 @@ void NetworkHelper::detectInterfaces()
         NetworkInterface interface(ifr->ifr_name);
         interface.setUp(true);
 
-        Debug::debug()->info("Found network interface %s",
-                interface.getName().c_str());
+        BW_DEBUG_INFO("Found network interface %s", interface.getName().c_str());
 
         // get flags to see if it's a loopback interface
         ret = ioctl(sockfd, SIOCGIFFLAGS, ifr);
@@ -227,8 +227,7 @@ void NetworkHelper::detectInterfaces()
                                    + std::strerror(error));
         }
         if (ifr->ifr_flags & IFF_LOOPBACK) {
-            Debug::debug()->trace("Interface %s is loopback",
-                    interface.getName().c_str());
+            BW_DEBUG_TRACE("Interface %s is loopback", interface.getName().c_str());
             continue;
         }
 
@@ -281,10 +280,11 @@ bool NetworkHelper::detectDHCPServerDhcpd()
 
         std::string line;
         while (std::getline(fin, line)) {
-            if (startsWith(line, "DHCPSIADDR=")) {
-                interface.setDHCPServerIP(getRest(line, "DHCPSIADDR="));
-                Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
-                        interface.getName().c_str(), interface.getDHCPServerIP().c_str());
+            if (bw::startsWith(line, "DHCPSIADDR=")) {
+                interface.setDHCPServerIP(bw::getRest(line, "DHCPSIADDR="));
+                BW_DEBUG_DBG("Set DHCP IP address of interface %s to %s",
+                             interface.getName().c_str(),
+                             interface.getDHCPServerIP().c_str());
                 return true;
             }
         }
@@ -311,10 +311,11 @@ bool NetworkHelper::detectDHCPServerDhclient()
 
         std::string line;
         while (std::getline(fin, line)) {
-            if (startsWith(line, "dhcp_server_identifier=")) {
-                interface.setDHCPServerIP(getRest(line, "dhcp_server_identifier="));
-                Debug::debug()->dbg("Set DHCP IP address of interface %s to %s",
-                        interface.getName().c_str(), interface.getDHCPServerIP().c_str());
+            if (bw::startsWith(line, "dhcp_server_identifier=")) {
+                interface.setDHCPServerIP(bw::getRest(line, "dhcp_server_identifier="));
+                BW_DEBUG_DBG("Set DHCP IP address of interface %s to %s",
+                            interface.getName().c_str(),
+                            interface.getDHCPServerIP().c_str());
                 return true;
             }
         }

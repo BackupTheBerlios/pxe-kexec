@@ -25,16 +25,17 @@
 #include <errno.h>
 #include <cstring>
 
+#include <libbw/stringutil.h>
+
 #include "console.h"
 #include "global.h"
-#include "stringutil.h"
 
 /* ---------------------------------------------------------------------------------------------- */
 bool Console::isRealTerminal()
 {
     std::string terminal = ttyname(STDIN_FILENO);
 
-    return startsWith(terminal, "/dev/tty");
+    return bw::startsWith(terminal, "/dev/tty");
 }
 
 /* ---------------------------------------------------------------------------------------------- */

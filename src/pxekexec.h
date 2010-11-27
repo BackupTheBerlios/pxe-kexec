@@ -29,7 +29,7 @@
 
 #include <string>
 
-#include "completion.h"
+#include <libbw/completion.h>
 #include "global.h"
 #include "pxeparser.h"
 
@@ -43,7 +43,7 @@
  *
  * @author Bernhard Walle <bernhard@bwalle.de>
  */
-class PxeKexec : public Completor {
+class PxeKexec : public bw::Completor {
 
     public:
         /**
@@ -189,23 +189,23 @@ class PxeKexec : public Completor {
         void printVersion();
 
     private:
-        std::string m_pxeHost;
-        std::string m_networkInterface;
-        PxeConfig   m_pxeConfig;
-        PxeEntry    m_choice;
-        std::string m_downloadedKernel;
-        std::string m_downloadedInitrd;
-        bool        m_noconfirm;
-        bool        m_nodelete;
-        bool        m_quiet;
-        std::string m_preChoice;
-        std::string m_protocol;
-        LineReader  *m_lineReader;
-        bool        m_dryRun;
-        bool        m_force;
-        bool        m_ignoreWhitelist;
-        bool        m_detectDistOnly;
-        bool        m_loadOnly;
+        std::string    m_pxeHost;
+        std::string    m_networkInterface;
+        PxeConfig      m_pxeConfig;
+        PxeEntry       m_choice;
+        std::string    m_downloadedKernel;
+        std::string    m_downloadedInitrd;
+        bool           m_noconfirm;
+        bool           m_nodelete;
+        bool           m_quiet;
+        std::string    m_preChoice;
+        std::string    m_protocol;
+        bw::LineReader *m_lineReader;
+        bool           m_dryRun;
+        bool           m_force;
+        bool           m_ignoreWhitelist;
+        bool           m_detectDistOnly;
+        bool           m_loadOnly;
 };
 
 /* }}} */

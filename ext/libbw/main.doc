@@ -88,8 +88,14 @@ into the to-level <i>CMakeLists.txt</i> build file:
 # libbw
 
 ADD_SUBDIRECTORY(ext/libbw)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ext/libbw)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ext)
 SET (EXTRA_LIBS ${EXTRA_LIBS} bw)
+@endcode
+
+Then you can include the header files for example with
+
+@code
+#include <libbw/error.h>
 @endcode
 
 */

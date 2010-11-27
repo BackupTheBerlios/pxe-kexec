@@ -26,7 +26,7 @@
  */
 
 /**
- * @file io.h
+ * @file completion.h
  * @brief Shell-like command line reader with completion
  *
  * This file contains a shell-like command reader with completion.
@@ -40,9 +40,12 @@
 #include "bwerror.h"
 #include <vector>
 
+namespace bw {
+
 /* Interface for completors {{{ */
 
 /**
+ * @class Completor completion.h libbw/completion.h
  * @brief Interface for auto-completion
  *
  * This class represents an interface that one must implement to get
@@ -79,6 +82,7 @@ class Completor {
 /* Interface for a linereader {{{ */
 
 /**
+ * @class LineReader completion.h libbw/complection.h
  * @brief Interface for a line reader
  *
  * This class represents an interface for a line reader. A line reader is a
@@ -228,6 +232,7 @@ class LineReader {
 /* Abstract base class for line readers {{{ */
 
 /**
+ * @class AbstractLineReader completion.h libbw/completion.h
  * @brief Abstract base class for LineReader implementations
  *
  * This is a abstract base class for line reader implementations.
@@ -328,6 +333,8 @@ class AbstractLineReader : public LineReader {
 };
 
 /* }}} */
+
+} // end namespace bw
 
 #endif /* COMPLETION_H */
 

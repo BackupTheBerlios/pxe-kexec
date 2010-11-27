@@ -19,9 +19,10 @@
 
 #include <strings.h>
 
-#include "stringutil.h"
+#include <libbw/debug.h>
+#include <libbw/stringutil.h>
+
 #include "pxeparser.h"
-#include "debug.h"
 
 /* PxeEntry {{{ */
 
@@ -74,7 +75,7 @@ std::string PxeEntry::getInitrd()
             if (space != std::string::npos)
                 rest = rest.substr(0, space);
 
-            m_initrd = getRest(rest, "initrd=");
+            m_initrd = bw::getRest(rest, "initrd=");
         }
 
         m_initrdParsed = true;
@@ -176,27 +177,27 @@ PxeParser::PxeParser()
 void PxeParser::feedLine(std::string line)
     throw (ParseError)
 {
-    line = strip(line);
+    line = bw::strip(line);
 
     // skip comments and empty lines
     if (line.size() == 0 || line[0] == '#')
         return;
 
-    Debug::debug()->dbg("Line: %s (label:%d)\n", line.c_str(), startsWith(line, "label ", false) );
+    BW_DEBUG_DBG("Line: %s (label:%d)\n", line.c_str(), bw::startsWith(line, "label ", false) );
 
     switch (m_state) {
         case PS_GLOBAL:
             // parse "say"
-            if (startsWith(line, "say ", false) ||
-                    startsWith(line, "say\t", false)) {
-                m_config.addMessage(stripr(getRest(line, "say")));
+            if (bw::startsWith(line, "say ", false) ||
+                    bw::startsWith(line, "say\t", false)) {
+                m_config.addMessage(bw::stripr(bw::getRest(line, "say")));
                 return;
             }
 
             // parse "label"
-            if (startsWith(line, "label ", false) ||
-                    startsWith(line, "label\t", false)) {
-                m_currentEntry = PxeEntry(strip(getRest(line, "label")));
+            if (bw::startsWith(line, "label ", false) ||
+                    bw::startsWith(line, "label\t", false)) {
+                m_currentEntry = PxeEntry(bw::strip(bw::getRest(line, "label")));
                 m_state = PS_ENTRY;
                 return;
             }
@@ -205,9 +206,8 @@ void PxeParser::feedLine(std::string line)
 
         case PS_ENTRY:
             // parse "label"
-            if (startsWith(line, "label ", false)) {
-                Debug::debug()->trace("Adding entry with label=%s, "
-                        "kernel=%s, initrd=%s, append=%s",
+            if (bw::startsWith(line, "label ", false)) {
+                BW_DEBUG_TRACE("Adding entry with label=%s, kernel=%s, initrd=%s, append=%s",
                         m_currentEntry.getLabel().c_str(),
                         m_currentEntry.getKernel().c_str(),
                         m_currentEntry.getInitrd().c_str(),
@@ -220,14 +220,14 @@ void PxeParser::feedLine(std::string line)
             }
 
             // parse "kernel"
-            if (startsWith(line, "kernel ", false)) {
-                m_currentEntry.setKernel(strip(getRest(line, "kernel")));
+            if (bw::startsWith(line, "kernel ", false)) {
+                m_currentEntry.setKernel(bw::strip(bw::getRest(line, "kernel")));
                 return;
             }
 
             // parse "append"
-            if (startsWith(line, "append ", false)) {
-                m_currentEntry.setAppend(strip(getRest(line, "append")));
+            if (bw::startsWith(line, "append ", false)) {
+                m_currentEntry.setAppend(bw::strip(bw::getRest(line, "append")));
                 return;
             }
 

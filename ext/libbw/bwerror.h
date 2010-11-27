@@ -27,11 +27,23 @@
 #ifndef BWERROR_H
 #define BWERROR_H
 
+/**
+ * @file bwerror.h
+ * @brief Exception classes
+ *
+ * This file contains classes for error/exception handling.
+ *
+ * @author Bernhard Walle <bernhard@bwalle.de>
+ */
+
 #include <stdexcept>
+
+namespace bw {
 
 /* IOError {{{ */
 
 /**
+ * @class IOError bwerror.h libbw/error.h
  * @brief Input/Output error
  *
  * This exception class is thrown when an Input/Output error occurred. Use the
@@ -54,5 +66,7 @@ class IOError : public std::runtime_error {
 };
 
 /* }}} */
+
+} // end namespace usb
 
 #endif // BWERROR_H

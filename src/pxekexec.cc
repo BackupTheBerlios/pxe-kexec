@@ -30,16 +30,17 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <libbw/debug.h>
+#include <libbw/completion.h>
+#include <libbw/stringutil.h>
+
 #include "pxekexec.h"
 #include "optionparser.h"
-#include "debug.h"
 #include "networkhelper.h"
 #include "downloader.h"
 #include "pxeparser.h"
-#include "completion.h"
 #include "kexec.h"
 #include "config.h"
-#include "stringutil.h"
 #include "process.h"
 #include "linuxdb.h"
 #include "ext/rpmvercmp.h"
@@ -143,7 +144,7 @@ PxeKexec::PxeKexec()
     , m_detectDistOnly(false)
     , m_loadOnly(false)
 {
-    m_lineReader = LineReader::defaultLineReader("> ");
+    m_lineReader = bw::LineReader::defaultLineReader("> ");
 }
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -207,7 +208,7 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     if (op.getValue("print-distribution").getFlag())
         m_detectDistOnly = true;
     if (op.getValue("debug").getFlag())
-        Debug::debug()->setLevel(Debug::DL_TRACE);
+        bw::Debug::debug()->setLevel(bw::Debug::DL_TRACE);
     if (op.getValue("noconfirm").getFlag())
         m_noconfirm = true;
     if (op.getValue("nodelete").getFlag())
@@ -239,8 +240,8 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     if (args.size() == 1)
         m_pxeHost = args[0];
 
-    Debug::debug()->dbg("load_only=%d, force=%d, nodelete=%d",
-                        int(m_loadOnly), int(m_force), int(m_nodelete));
+    BW_DEBUG_DBG("load_only=%d, force=%d, nodelete=%d",
+                 int(m_loadOnly), int(m_force), int(m_nodelete));
 
     return true;
 }
@@ -264,7 +265,7 @@ void PxeKexec::readPxeConfig()
         // use the first interface that is up
         netif = ifs[0];
     }
-    Debug::debug()->trace("Using interface '%s'", netif.getName().c_str());
+    BW_DEBUG_TRACE("Using interface '%s'", netif.getName().c_str());
 
     std::string pxe_mac = std::string("01-") + netif.getMac(NetworkInterface::MF_LOWERCASE |
             NetworkInterface::MF_DASH);
@@ -289,7 +290,7 @@ void PxeKexec::readPxeConfig()
     for (int i = 0; i < 10; i++) {
         std::string url = m_protocol + "://" + m_pxeHost + "/pxelinux.cfg/" + names[i];
 
-        Debug::debug()->trace("Trying to retrieve %s", url.c_str());
+        BW_DEBUG_TRACE("Trying to retrieve %s", url.c_str());
         if (!m_quiet)
             std::cout << "Trying " << "pxelinux.cfg/" << names[i] << " ";
 
@@ -301,7 +302,7 @@ void PxeKexec::readPxeConfig()
             dl.download();
             break;
         } catch (const DownloadError &err) {
-            Debug::debug()->trace("DownloadError: %s", err.what());
+            BW_DEBUG_TRACE("DownloadError: %s", err.what());
 
             if (err.getErrorcode() == DownloadError::DEC_CONNECTION_FAILED) {
                 std::cerr << "Connection to " << m_pxeHost << " with protocol " << m_protocol
@@ -368,7 +369,7 @@ bool PxeKexec::checkEnv()
             (dist == "Debian"       && rpmvercmp(detected_version, "5.0")  >= 0)  ||
             (dist == "Fedora"       && rpmvercmp(detected_version, "11")   >= 0)  ||
             ((dist == "CentOS" ||
-              startsWith(dist, "Red Hat Enterprise Linux"))
+              bw::startsWith(dist, "Red Hat Enterprise Linux"))
                                     && rpmvercmp(detected_version, "5.3") >= 0) ||
             (type == LinuxDistDetector::DT_ARCH)) {
             suitable_dist = true;
@@ -406,7 +407,7 @@ bool PxeKexec::chooseEntry()
 
     m_lineReader->setCompletor(this);
     while (!m_lineReader->eof() && !m_choice.isValid()) {
-        choice = strip(m_lineReader->readLine());
+        choice = bw::strip(m_lineReader->readLine());
         if (choice.size() == 0 || choice == "quit" || choice == "exit") {
             m_lineReader->setCompletor(NULL);
             return false;
@@ -542,14 +543,12 @@ void PxeKexec::deleteKernels()
     // delete kernel and initrd since they have been loaded
     if (m_downloadedInitrd.size() > 0) {
         if (remove(m_downloadedKernel.c_str()) != 0)
-            Debug::debug()->info("Removal of %s failed.",
-                    m_downloadedKernel.c_str());
+            BW_DEBUG_INFO("Removal of %s failed.", m_downloadedKernel.c_str());
     }
 
     if (m_downloadedInitrd.size() > 0) {
         if (remove(m_downloadedInitrd.c_str()) != 0)
-            Debug::debug()->info("Removal of %s failed.",
-                    m_downloadedInitrd.c_str());
+            BW_DEBUG_INFO("Removal of %s failed.", m_downloadedInitrd.c_str());
     }
 
 }

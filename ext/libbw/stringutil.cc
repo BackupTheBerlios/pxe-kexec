@@ -30,6 +30,8 @@
 #include <cstring>
 #include <string.h>
 
+namespace bw {
+
 /* ---------------------------------------------------------------------------------------------- */
 std::string strip(std::string a, const std::string &chars_to_strip)
 {
@@ -122,5 +124,7 @@ std::vector<std::string> stringsplit(const std::string &str, const std::string &
 
     return retval;
 }
+
+} // end namespace bw
 
 // :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

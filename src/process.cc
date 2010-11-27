@@ -25,9 +25,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <libbw/debug.h>
+#include <libbw/stringutil.h>
+
 #include "process.h"
-#include "debug.h"
-#include "stringutil.h"
 
 /* Process {{{ */
 
@@ -38,7 +39,7 @@ bool Process::m_dryRunMode = false;
 void Process::enableDryRunMode()
     throw ()
 {
-    Debug::debug()->dbg("enableDryRunMode");
+    BW_DEBUG_DBG("enableDryRunMode");
     m_dryRunMode = true;
 }
 
@@ -46,7 +47,7 @@ void Process::enableDryRunMode()
 void Process::disableDryRunMode()
     throw ()
 {
-    Debug::debug()->dbg("disableDryRunMode");
+    BW_DEBUG_DBG("disableDryRunMode");
     m_dryRunMode = false;
 }
 
@@ -58,13 +59,13 @@ bool Process::isInPath(const std::string &program)
         return false;
     }
 
-    std::vector<std::string> paths = stringsplit(path, ":");
+    std::vector<std::string> paths = bw::stringsplit(path, ":");
     for (std::vector<std::string>::const_iterator it = paths.begin();
             it != paths.end(); ++it) {
         std::string current_path = *it;
         std::string binary = current_path + "/" + program;
 
-        Debug::debug()->dbg("Checking for program '%s'\n", binary.c_str());
+        BW_DEBUG_DBG("Checking for program '%s'\n", binary.c_str());
 
         // check if executable
         if (access(binary.c_str(), X_OK)) {
@@ -113,7 +114,7 @@ int Process::execute()
     for (unsigned int i = 0; i < m_args.size(); i++) {
         ss << "'" << m_args[i] << "' ";
     }
-    Debug::debug()->dbg(ss.str().c_str());
+    BW_DEBUG_DBG(ss.str().c_str());
 
     if (m_dryRunMode) {
         std::cerr << "(dry run) " << ss.str() << std::endl;

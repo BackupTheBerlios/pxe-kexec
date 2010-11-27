@@ -31,6 +31,8 @@
 
 #include "debug.h"
 
+namespace bw {
+
 /* ---------------------------------------------------------------------------------------------- */
 Debug *Debug::m_instance = NULL;
 
@@ -184,5 +186,7 @@ bool Debug::isDebugEnabled() const
 {
     return m_debuglevel < DL_NONE;
 }
+
+} // end namespace bw
 
 // :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

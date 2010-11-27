@@ -39,6 +39,8 @@
 #include <string>
 #include <vector>
 
+namespace bw {
+
 /**
  * @brief Removes spaces from a string
  *
@@ -127,5 +129,7 @@ char **stringvector_to_array(const std::vector<std::string> &vec);
 std::vector<std::string> stringsplit(const std::string &str, const std::string &pattern);
 
 #endif /* STRINGUTIL_H */
+
+} // end namespace bw
 
 // :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

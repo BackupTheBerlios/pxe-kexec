@@ -42,6 +42,8 @@
 #include "completion.h"
 #include "stringutil.h"
 
+namespace bw {
+
 /* class definitions {{{ */
 
 #if HAVE_LIBREADLINE
@@ -338,5 +340,7 @@ void ReadlineLineReader::setCompletor(Completor *comp)
 /* }}} */
 
 #endif
+
+} // end namespace bw
 
 // :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:

@@ -39,9 +39,82 @@
 #include <cstdio>
 #include <cstdarg>
 
+/* Macros {{{ */
+
+/**
+ * @brief Writes a debug message with a specified level
+ *
+ * Example:
+ *
+ * @code
+ * BW_DEBUG(bw::Debug::DL_INFO, "Message: %d", 5);
+ * @endcode
+ *
+ * @param[in] level the debugging level
+ * @param[in] ... the format string and an arbitrary number of arguments.
+ * @ingroup core
+ * @see BW_DEBUG_DBG(), BW_DEBUG_INFO(), BW_DEBUG_TRACE()
+ */
+#define BW_DEBUG(level, ...) \
+    bw::Debug::debug()->msg(level, __VA_ARGS__)
+
+/**
+ * @brief Writes a debug message (debug level)
+ *
+ * Example:
+ *
+ * @code
+ * BW_DEBUG_DBG("Message: %d", 5);
+ * @endcode
+ *
+ * @param[in] ... the format string and an arbitrary number of arguments.
+ * @ingroup core
+ * @see BW_DEBUG_INFO(), BW_DEBUG_TRACE()
+ */
+#define BW_DEBUG_DBG(...) \
+    bw::Debug::debug()->dbg(__VA_ARGS__)
+
+/**
+ * @brief Writes a debug message (info level)
+ *
+ * Example:
+ *
+ * @code
+ * BW_DEBUG_INFO("Message: %d", 5);
+ * @endcode
+ *
+ * @param[in] ... the format string and an arbitrary number of arguments.
+ * @ingroup core
+ * @see BW_DEBUG_DBG(), BW_DEBUG_TRACE()
+ */
+#define BW_DEBUG_INFO(...) \
+    bw::Debug::debug()->info(__VA_ARGS__)
+
+/**
+ * @brief Writes a debug message (trace level)
+ *
+ * Example:
+ *
+ * @code
+ * BW_DEBUG_DBG("Message: %d", 5);
+ * @endcode
+ *
+ * @param[in] ... the format string and an arbitrary number of arguments.
+ * @ingroup core
+ * @see BW_DEBUG_INFO(), BW_DEBUG_DBG()
+ */
+#define BW_DEBUG_TRACE(...) \
+    bw::Debug::debug()->trace(__VA_ARGS__)
+
+/* }}} */
+
+
+namespace bw {
+
 /* Debugging {{{ */
 
 /**
+ * @class Debug debug.h libbw/debug.h
  * @brief Debugging singleton class
  *
  * This is the class used for debugging in the program. The class is a
@@ -251,6 +324,8 @@ class Debug {
 };
 
 /* }}} */
+
+} // end namespace bw
 
 #endif /* DEBUG_H */
 
