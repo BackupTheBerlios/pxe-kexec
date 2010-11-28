@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+/* {{{
+ * Copyright (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,7 +22,7 @@
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. }}}
  */
 #ifndef DEBUG_H
 #define DEBUG_H
@@ -165,6 +165,8 @@ class Debug {
          * @brief Singleton getter
          *
          * This function returns the only instance of Debug.
+         *
+         * @return a pointer to the only debug instance.
          */
         static Debug *debug();
 

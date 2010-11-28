@@ -1,28 +1,41 @@
-/*
- * (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
+/* {{{
+ * Copyright (c) 2007-2010, Bernhard Walle <bernhard@bwalle.de>
+ * All rights reserved.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * THIS SOFTWARE IS PROVIDED BY <copyright holder> ''AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL <copyright holder> BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. }}}
  */
 #ifndef OPTIONPARSER_H
 #define OPTIONPARSER_H
 
 /**
- * @file optionparser.h
+ * @file
  * @brief Generic option parser implementation
  *
- * This file contains a generic implementation of a command line parser. The
- * parser only works on Unix since it users getopt_long() internally.
+ * This file contains a generic implementation of a command line parser.
+ *
+ * The parser itself only works on Unix since it users getopt_long()
+ * internally.  However, libbw provides an own copy of getopt_long() which is
+ * linked into libbw, so you don't notice that.
  *
  * See the documentation of the main class OptionParser in that file for an
  * example how to use the OptionParser. The API is influenced a bit by the
@@ -36,6 +49,8 @@
 #include <map>
 #include <string>
 #include <vector>
+
+namespace bw {
 
 /* OptionType {{{ */
 
@@ -55,6 +70,7 @@ enum OptionType {
 /* OptionValue {{{ */
 
 /**
+ * @class OptionValue optionparser.h libbw/optionparser.h
  * @brief Value of a option
  *
  * This is a union-type that represents the value of a option. It's used as
@@ -63,6 +79,7 @@ enum OptionType {
  * @author Bernhard Walle <bernhard@bwalle.de>
  */
 class OptionValue {
+
     public:
         /**
          * @brief Constructor
@@ -160,6 +177,7 @@ class OptionValue {
 /* Option {{{ */
 
 /**
+ * @class Option optionparser.h libbw/optionparser.h
  * @brief Option in an option parser
  *
  * This class represents a single option. A option has:
@@ -340,6 +358,7 @@ class Option {
 /* OptionParser {{{ */
 
 /**
+ * @class OptionParser optionparser.h libbw/optionparser.h
  * @brief Command line argument parser
  *
  * Class to parse command line arguments. The API is inspired by Python (@c
@@ -348,16 +367,15 @@ class Option {
  * Example:
  *
  * @code
- * OptionParser op;
- * op.addOption(Option("debug", 'D', OT_FLAG, "Enable debugging output"));
- * op.addOption(Option("help", 'h', OT_FLAG, "Shows this help output"));
- * op.addOption(Option("label", 'l', OT_STRING, "Boot the specified label without prompting"));
+ * bw::OptionParser op;
+ * op.addOption(Option("debug", 'D', bw::OT_FLAG, "Enable debugging output"));
+ * op.addOption(Option("help", 'h', bw::OT_FLAG, "Shows this help output"));
+ * op.addOption(Option("label", 'l', bw::OT_STRING, "Boot the specified label without prompting"));
  *
  * // do the parsing
  * bool ret = op.parse(argc, argv);
- * if (!ret) {
+ * if (!ret)
  *     return false;
- *  }
  *
  * // evaluate options
  * if (op.getValue("help").getFlag()) {
@@ -365,20 +383,16 @@ class Option {
  *     return false;
  * }
  *
- * if (op.getValue("debug").getFlag()) {
+ * if (op.getValue("debug").getFlag())
  *     m_debug = true;
- * }
- * if (op.getValue("label").getType() != OT_INVALID) {
+ * if (op.getValue("label").getType() != bw::OT_INVALID)
  *     m_label = op.getValue("label").getString();
- * }
-
- * vector<string> args = op.getArgs();
- * if (args.size() > 1) {
+ *
+ * std::vector<std::string> args = op.getArgs();
+ * if (args.size() > 1)
  *     return false;
- * }
- * if (args.size() == 1) {
+ * if (args.size() == 1)
  *      m_argument = args[0];
- * }
  * @endcode
  *
  * @author Bernhard Walle <bernhard@bwalle.de>
@@ -451,6 +465,8 @@ class OptionParser {
          * line parsed with parse(), the option value with OptionType::OT_INVALID
          * is returned.
          *
+         * @param[in] name the name of the parameter for which the value
+         *            should be returned.
          * @return the option value
          */
         OptionValue getValue(const std::string &name);
@@ -488,6 +504,8 @@ class OptionParser {
 
 /* }}} */
 
+} // end namespace bw
+
 #endif /* OPTIONPARSER_H */
 
-// :tabSize=4:indentSize=4:noTabs=true:mode=c++:folding=explicit:collapseFolds=1:maxLineLen=100:
+// vim: set sw=4 ts=4 et fdm=marker:

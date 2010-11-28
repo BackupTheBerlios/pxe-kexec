@@ -33,9 +33,9 @@
 #include <libbw/debug.h>
 #include <libbw/completion.h>
 #include <libbw/stringutil.h>
+#include <libbw/optionparser.h>
 
 #include "pxekexec.h"
-#include "optionparser.h"
 #include "networkhelper.h"
 #include "downloader.h"
 #include "pxeparser.h"
@@ -159,36 +159,36 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
     throw (ApplicationError)
 {
     // repare the parser
-    OptionParser op;
-    op.addOption(Option("help",             'h', OT_FLAG,
-                        "Shows this help output"));
-    op.addOption(Option("version",          'v', OT_FLAG,
-                        "Shows the version and exits"));
-    op.addOption(Option("label",            'l', OT_STRING,
-                        "Boot the specified label without prompting"));
-    op.addOption(Option("interface",        'i', OT_STRING,
-    	                "Use the specified network interface"));
-    op.addOption(Option("noconfirm",        'n', OT_FLAG,
-    	                "Don't confirm the execution"));
-    op.addOption(Option("quiet",            'q', OT_FLAG,
-    	                "Don't display PXE messages"));
-    op.addOption(Option("nodelete",         'd', OT_FLAG,
-    	                "Dont't delete the downloaded files"));
-    op.addOption(Option("load-only",        'L', OT_FLAG,
-                        "Only load the kernel, don't reboot or 'kexec -e'"));
-    op.addOption(Option("force",            'f', OT_FLAG,
-    	                "Immediately reboot without shutdown(8)"));
-    op.addOption(Option("ftp",              'F', OT_FLAG,
-    	                "Use FTP instead of TFTP"));
-    op.addOption(Option("dry-run",          'Y', OT_FLAG,
-    	                "Don't run the final kexec -e"));
-    op.addOption(Option("debug",
-                        'D', OT_FLAG,   "Enable debugging output"));
-    op.addOption(Option("ignore-whitelist", 'w', OT_FLAG,
-    	                "Ignore whitelist of Linux distributions that support "
-    	                "kexec in their reboot scripts"));
-    op.addOption(Option("print-distribution", 'p', OT_FLAG,
-                        "Only print the detected Linux distribution and exit"));
+    bw::OptionParser op;
+    op.addOption(bw::Option("help",                'h', bw::OT_FLAG,
+                            "Shows this help output"));
+    op.addOption(bw::Option("version",             'v', bw::OT_FLAG,
+                            "Shows the version and exits"));
+    op.addOption(bw::Option("label",               'l', bw::OT_STRING,
+                            "Boot the specified label without prompting"));
+    op.addOption(bw::Option("interface",           'i', bw::OT_STRING,
+                            "Use the specified network interface"));
+    op.addOption(bw::Option("noconfirm",           'n', bw::OT_FLAG,
+                            "Don't confirm the execution"));
+    op.addOption(bw::Option("quiet",               'q', bw::OT_FLAG,
+                            "Don't display PXE messages"));
+    op.addOption(bw::Option("nodelete",            'd', bw::OT_FLAG,
+                            "Dont't delete the downloaded files"));
+    op.addOption(bw::Option("load-only",           'L', bw::OT_FLAG,
+                            "Only load the kernel, don't reboot or 'kexec -e'"));
+    op.addOption(bw::Option("force",               'f', bw::OT_FLAG,
+                            "Immediately reboot without shutdown(8)"));
+    op.addOption(bw::Option("ftp",                 'F', bw::OT_FLAG,
+                            "Use FTP instead of TFTP"));
+    op.addOption(bw::Option("dry-run",             'Y', bw::OT_FLAG,
+                            "Don't run the final kexec -e"));
+    op.addOption(bw::Option("debug",               'D', bw::OT_FLAG,
+                            "Enable debugging output"));
+    op.addOption(bw::Option("ignore-whitelist",    'w', bw::OT_FLAG,
+                            "Ignore whitelist of Linux distributions that support "
+                            "kexec in their reboot scripts"));
+    op.addOption(bw::Option("print-distribution",  'p', bw::OT_FLAG,
+                            "Only print the detected Linux distribution and exit"));
 
     // do the parsing
     bool ret = op.parse(argc, argv);
@@ -219,19 +219,19 @@ bool PxeKexec::parseCmdLine(int argc, char *argv[])
         m_loadOnly = true;
     if (op.getValue("ignore-whitelist").getFlag())
     	m_ignoreWhitelist = true;
-    if (op.getValue("label").getType() != OT_INVALID) {
+    if (op.getValue("label").getType() != bw::OT_INVALID) {
         m_preChoice = op.getValue("label").getString();
         m_quiet = true;
     }
-    if (op.getValue("interface").getType() != OT_INVALID)
+    if (op.getValue("interface").getType() != bw::OT_INVALID)
         m_networkInterface = op.getValue("interface").getString();
-    if (op.getValue("ftp").getType() != OT_INVALID)
+    if (op.getValue("ftp").getType() != bw::OT_INVALID)
         m_protocol = "ftp";
-    if (op.getValue("dry-run").getType() != OT_INVALID) {
+    if (op.getValue("dry-run").getType() != bw::OT_INVALID) {
         Process::enableDryRunMode();
         m_dryRun = true;
     }
-    if (op.getValue("quiet").getType() != OT_INVALID)
+    if (op.getValue("quiet").getType() != bw::OT_INVALID)
         m_quiet = true;
 
     std::vector<std::string> args = op.getArgs();

@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2008-2009, Bernhard Walle <bernhard@bwalle.de>
+/* {{{
+ * Copyright (c) 2008-2010, Bernhard Walle <bernhard@bwalle.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,7 +22,7 @@
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. }}}
  */
 #ifndef STRINGUTIL_H
 #define STRINGUTIL_H
@@ -127,6 +127,21 @@ char **stringvector_to_array(const std::vector<std::string> &vec);
  *         pattern, the result is just @p str.
  */
 std::vector<std::string> stringsplit(const std::string &str, const std::string &pattern);
+
+/**
+ * @brief Replaces a character with a character or a string
+ *
+ * This original string is not modified.
+ *
+ * @param[in] input the input string
+ * @param[in] old_char the old character
+ * @param[in] new_string the new string
+ * @return the replaced string
+ */
+std::string replace_char(const std::string  &input,
+                         char               old_char,
+                         const std::string  &new_string);
+
 
 #endif /* STRINGUTIL_H */
 

@@ -17,7 +17,6 @@
 
 add_executable(pxe-kexec
         kexec.cc
-        optionparser.cc
         pxeparser.cc
         downloader.cc
         main.cc
