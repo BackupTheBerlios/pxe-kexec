@@ -110,6 +110,9 @@ int SimpleNotifier::progressed(double total, double now)
 {
     struct timeval current_time;
 
+    (void)total;
+    (void)now;
+
     gettimeofday(&current_time, NULL);
 
     if (difftime_timeval(m_lastDot, current_time) < 100000)
@@ -422,15 +425,19 @@ bool PxeKexec::chooseEntry()
 }
 
 /* ---------------------------------------------------------------------------------------------- */
-StringVector PxeKexec::complete(const std::string &text, const std::string &full_text,
-        size_t start_idx, ssize_t end_idx)
+StringVector PxeKexec::complete(const std::string   &text,
+                                const std::string   &full_text,
+                                size_t              start_idx,
+                                ssize_t             end_idx)
 {
     StringVector names = m_pxeConfig.getEntryNames();
     StringVector result;
 
-    for (StringVector::const_iterator it = names.begin();
-            it != names.end(); ++it)
-    {
+    (void)full_text;
+    (void)start_idx;
+    (void)end_idx;
+
+    for (StringVector::const_iterator it = names.begin(); it != names.end(); ++it) {
         std::string name = *it;
         if (strncasecmp(name.c_str(), text.c_str(), text.size()) == 0)
             result.push_back(name);
