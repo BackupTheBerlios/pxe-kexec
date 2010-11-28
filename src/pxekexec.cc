@@ -141,14 +141,13 @@ PxeKexec::PxeKexec()
     , m_nodelete(false)
     , m_quiet(false)
     , m_protocol("tftp")
+    , m_lineReader(bw::LineReader::defaultLineReader("> "))
     , m_dryRun(false)
     , m_force(false)
     , m_ignoreWhitelist(false)
     , m_detectDistOnly(false)
     , m_loadOnly(false)
-{
-    m_lineReader = bw::LineReader::defaultLineReader("> ");
-}
+{}
 
 /* ---------------------------------------------------------------------------------------------- */
 PxeKexec::~PxeKexec()
@@ -628,14 +627,14 @@ void PxeKexec::printLinuxDistribution()
 /* ---------------------------------------------------------------------------------------------- */
 void PxeKexec::printVersion()
 {
+    std::string withOrWithout;
+    if (m_lineReader->haveHistory())
+        withOrWithout = "with";
+    else
+        withOrWithout = "without";
+
     std::cerr << PACKAGE_STRING << " " << PACKAGE_VERSION << std::endl;
-    std::cerr << "Compiled "
-#if HAVE_LIBREADLINE
-             << "with"
-#else
-             << "without"
-#endif
-             << " readline support" << std::endl;
+    std::cerr << "Compiled " << withOrWithout << " readline support" << std::endl;
 }
 
 /* }}} */

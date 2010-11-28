@@ -51,30 +51,6 @@ ADD_SUBDIRECTORY(ext/libbw)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ext)
 SET (EXTRA_LIBS ${EXTRA_LIBS} bw)
 
-# Readline
-
-find_path(READLINE_INCLUDE_DIR readline/readline.h
-    /usr/local/include /usr/include)
-mark_as_advanced(READLINE_INCLUDE_DIR)
-
-find_library(READLINE_LIBRARY readline
-    /usr/lib64 /usr/lib)
-mark_as_advanced(READLINE_LIBRARY)
-
-if (READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
-    include_directories( ${READLINE_INCLUDE_DIR} )
-    set (EXTRA_LIBS ${EXTRA_LIBS} ${READLINE_LIBRARY})
-    set (HAVE_LIBREADLINE 1)
-endif (READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
-
-if (NOT CURSES_LIBRARIES)
-    find_package(Curses REQUIRED)
-endif (NOT CURSES_LIBRARIES)
-
-set (EXTRA_LIBS ${EXTRA_LIBS} ${CURSES_LIBRARIES})
-include_directories( ${CURSES_INCLUDE_DIR} )
-
-
 # CURL
 
 find_package(CURL REQUIRED)
