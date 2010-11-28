@@ -323,7 +323,11 @@ bool SerialFile::reconfigure(int            baudrate,
     options.c_cc[VEOF]     = 4;     // Ctrl-d
     options.c_cc[VTIME]    = 0;     // inter-character timer unused
     options.c_cc[VMIN]     = 1;     // blocking read until 1 character arrives
+#if defined(VSWTC)
     options.c_cc[VSWTC]    = 0;     // '\0'
+#elif defined(VSWTCH)
+    options.c_cc[VSWTCH]   = 0;     // '\0'
+#endif
     options.c_cc[VSTART]   = 0;     // Ctrl-q
     options.c_cc[VSTOP]    = 0;     // Ctrl-s
     options.c_cc[VSUSP]    = 0;     // Ctrl-z

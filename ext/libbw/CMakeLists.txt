@@ -29,11 +29,12 @@ set (HAVE_LIBREADLINE 0)
 # Readline
 
 find_path(READLINE_INCLUDE_DIR readline/readline.h
-    /usr/local/include /usr/include)
+    NO_DEFAULT_PATH
+    PATHS /opt/local/include /usr/local/include /usr/include)
 mark_as_advanced(READLINE_INCLUDE_DIR)
 
 find_library(READLINE_LIBRARY readline
-    /usr/lib64 /usr/lib)
+    /opt/local/lib /usr/lib64 /usr/lib)
 mark_as_advanced(READLINE_LIBRARY)
 
 if (READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
@@ -98,6 +99,11 @@ add_library(
     bw
     STATIC
     ${LIBBW_SRCS}
+)
+
+target_link_libraries(
+    bw
+    ${EXTRA_LIBS}
 )
 
 configure_file(
