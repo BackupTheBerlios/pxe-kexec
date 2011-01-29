@@ -513,7 +513,10 @@ void PxeKexec::downloadStuff()
         std::cout << "Downloading kernel ";
         std::ofstream os(kernel.c_str(), std::ios::binary);
         Downloader dl(os);
-        url = m_protocol + "://" + m_pxeHost + "/" + m_choice.getKernel();
+        url = m_choice.getKernel();
+        // If the configuration file contains a url preserve it
+        if (url.find( "://") == string::npos)
+            url = m_protocol + "://" + m_pxeHost + "/" + url;
         dl.setUrl(url);
         dl.setProgress(&notifier);
         dl.download();
@@ -528,7 +531,10 @@ void PxeKexec::downloadStuff()
             std::cout << "Downloading initrd ";
             std::ofstream os(initrd.c_str(), std::ios::binary);
             Downloader dl(os);
-            url = m_protocol + "://" + m_pxeHost + "/" + m_choice.getInitrd();
+            url = m_choice.getInitrd();
+            // If the configuration file contains a url preserve it
+            if (url.find( "://") == string::npos)
+                url = m_protocol + "://" + m_pxeHost + "/" + url;
             dl.setUrl(url);
             dl.setProgress(&notifier);
             dl.download();

@@ -1,3 +1,7 @@
+2011-01-29  Eric Biderman <ebiederm@aristanetworks.com>
+
+	* Support urls in pxelinux config files.
+
 2010-11-28  Bernhard Walle <bernhard@bwalle.de>
 
 	* Update libbw to 0.2.1.
