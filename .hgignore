@@ -1,6 +1,0 @@
-syntax: glob
-build
-tags
-doc/api_html
-*.marks
-pxe-kexec-*.tar.bz2
