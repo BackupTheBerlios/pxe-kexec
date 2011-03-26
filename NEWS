@@ -1,5 +1,6 @@
 0.2.3
 -----
+  - Support URLs in pxelinux config files.
   - Add support for dhclient to retrieve the TFTP server.
 
 0.2.2
