@@ -515,7 +515,7 @@ void PxeKexec::downloadStuff()
         Downloader dl(os);
         url = m_choice.getKernel();
         // If the configuration file contains a url preserve it
-        if (url.find( "://") == string::npos)
+        if (url.find( "://") == std::string::npos)
             url = m_protocol + "://" + m_pxeHost + "/" + url;
         dl.setUrl(url);
         dl.setProgress(&notifier);
@@ -533,7 +533,7 @@ void PxeKexec::downloadStuff()
             Downloader dl(os);
             url = m_choice.getInitrd();
             // If the configuration file contains a url preserve it
-            if (url.find( "://") == string::npos)
+            if (url.find( "://") == std::string::npos)
                 url = m_protocol + "://" + m_pxeHost + "/" + url;
             dl.setUrl(url);
             dl.setProgress(&notifier);
