@@ -50,6 +50,7 @@ ADD_CUSTOM_COMMAND(
         ${POD2MAN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/pxe-kexec.pod
         --center="PXE-Kexec"
         --release=${PACKAGE_VERSION}
+        --section=8
         ${CMAKE_CURRENT_BINARY_DIR}/pxe-kexec.8 &&
         rm -f ${CMAKE_CURRENT_SOURCE_DIR}/pxe-kexec.8.xml &&
         gzip -f ${CMAKE_CURRENT_BINARY_DIR}/pxe-kexec.8

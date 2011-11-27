@@ -1,3 +1,7 @@
+2011-11-27  Dave Walker <DaveWalker@ubuntu.com>
+
+	* Fix section number of the manpage.
+
 2011-03-26  Bernhard Walle <bernhard@bwalle.de>
 
 	* Fix build.
