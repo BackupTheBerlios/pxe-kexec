@@ -26,6 +26,7 @@
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <netinet/in.h>
+#include <unistd.h>
 
 #include <libbw/stringutil.h>
 #include <libbw/debug.h>
