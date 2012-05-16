@@ -1,3 +1,7 @@
+2012-05-16  Dave Walker <DaveWalker@ubuntu.com>
+
+	* Fix build with gcc 4.7.
+
 2011-11-27  Dave Walker <DaveWalker@ubuntu.com>
 
 	* Fix section number of the manpage.
