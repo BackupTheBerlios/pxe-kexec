@@ -311,7 +311,7 @@ class NetworkHelper {
         /**
          * @brief Detects DHCP servers for dhclient
          *
-         * Reads <tt>/var/lib/dhcp3/dhclient-wlan0.lease-*</tt> to find a DHCP server.
+         * Reads <tt>/var/lib/dhcp{3,}/dhclient-wlan0.lease-*</tt> to find a DHCP server.
          *
          * @return @c true if a DHCP server could be detected, @c false otherwise
          */

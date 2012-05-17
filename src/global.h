@@ -43,6 +43,15 @@ typedef std::vector<unsigned char> ByteVector;
 typedef std::vector<std::string> StringVector;
 
 /* }}} */
+/* Macros {{{ */
+
+/**
+ * @brief Returns the size of a static array
+ */
+#define ARRAY_SIZE(a) \
+    sizeof(a)/sizeof((a)[0])
+
+/* }}} */
 /* ParseError {{{ */
 
 /**

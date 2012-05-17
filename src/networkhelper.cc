@@ -25,6 +25,7 @@
 #include <sys/socket.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <unistd.h>
 
@@ -296,24 +297,63 @@ bool NetworkHelper::detectDHCPServerDhcpd()
     return false;
 }
 
+namespace {
+
+    bool isDirectory(const std::string &dir)
+    {
+        struct stat mystat;
+
+        int ret = stat(dir.c_str(), &mystat);
+        if (ret < 0)
+            return false;
+
+        return S_ISDIR(mystat.st_mode);
+    }
+}
+
 /* ---------------------------------------------------------------------------------------------- */
 bool NetworkHelper::detectDHCPServerDhclient()
 {
-    // this is our
-    const std::string DHCLIENT_PXE_KEXEC_CONFIGDIR("/var/lib/pxe-kexec/");
+    const char *dhclient_pxe_kexec_configdirs[] = {
+         "/var/lib/dhcp3",
+         "/var/lib/dhcp"
+    };
+
+    std::string configdir;
+    for (size_t i = 0; i < ARRAY_SIZE(dhclient_pxe_kexec_configdirs); i++) {
+        if (isDirectory(dhclient_pxe_kexec_configdirs[i])) {
+            configdir = dhclient_pxe_kexec_configdirs[i];
+            break;
+        }
+    }
+
+    if (configdir.empty())
+        return false;
 
     for (std::vector<NetworkInterface>::iterator it = m_interfaces.begin();
             it != m_interfaces.end(); ++it) {
 
         NetworkInterface &interface = *it;
 
-        std::string configfile = DHCLIENT_PXE_KEXEC_CONFIGDIR + interface.getName();
+        std::string configfile = configdir + "/dhclient." + interface.getName() + ".leases";
         std::ifstream fin(configfile.c_str());
 
         std::string line;
         while (std::getline(fin, line)) {
+            line = bw::strip(line);
+            bool serverIpSet = false;
             if (bw::startsWith(line, "dhcp_server_identifier=")) {
                 interface.setDHCPServerIP(bw::getRest(line, "dhcp_server_identifier="));
+                serverIpSet = true;
+            } else if (bw::startsWith(line, "option dhcp-server-identifier ")) {
+                // strip trailing ';'
+                if (line[line.size()-1] == ';')
+                    line = line.substr(0, line.size()-1);
+                interface.setDHCPServerIP(bw::getRest(line, "option dhcp-server-identifier "));
+                serverIpSet = true;
+            }
+
+            if (serverIpSet) {
                 BW_DEBUG_DBG("Set DHCP IP address of interface %s to %s",
                             interface.getName().c_str(),
                             interface.getDHCPServerIP().c_str());
